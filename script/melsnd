@@ -1,0 +1,71 @@
+#!/bin/bash
+#
+
+############################################
+# mail sender for cloudSX
+# 
+# dan.y.roche@gmail.com  
+#
+# 1st version 20140818
+#             20160123  fetch config from php
+############################################
+
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/opt/miscbin:/opt/java/bin:.
+export PATH
+
+##########################################################
+# fetch config
+##########################################################
+
+# fetch global application config (php !)
+#
+MYSELF=$0
+MYDIR=$(dirname ${MYSELF})
+APPCONF=${MYDIR}/../app/Config.php
+
+if [ -s ${APPCONF} ]
+then
+  # get the config from php conf
+  TMP1=$(cat ${APPCONF} | grep '^ *$this->MailFrom')
+  FROM=$(expr "${TMP1}" : ' *$this->MailFrom *= *\"\(.*\)\"')
+else
+  echo "Can't find application config file - aborting !"
+  exit 3
+fi
+
+if [ "${FROM}" = "" ]
+then
+  echo "undefined from mail - aborting !"
+  exit 4
+fi
+
+##########################################################
+# PARSE ARGS  ( should use getopt !! )
+##########################################################
+
+MTO=$1
+SUBJ=$2
+MFIL=$3
+
+##########################################################
+# DO IT
+##########################################################
+
+# uncomment this if your smtp server isn't localhost or require authentication
+# 
+#SMTPS=some.smtp.server
+#SMTPP=25
+#SMTUZ=user
+#SMTPZ=passwd
+#
+#mailsend -t ${MTO} -sub "${SUBJ}" -f ${FROM} -attach "${MFIL},text/html; charset=utf-8,i" -smtp ${SMTPS} -port ${SMTPP} -auth-plain -user ${SMTUZ} -pass ${SMTPZ} 
+
+# simple case , localhost smtp without auth
+#
+mailsend -t ${MTO} -sub "${SUBJ}" -f ${FROM} -attach "${MFIL},text/html; charset=utf-8,i" -smtp localhost 
+
+# debug mail sending  !
+#
+#echo "TO=${MTO} FROM=${FROM} SUB="${SUBJ}" >> /tmp/melsnd.log
+#echo "-----------attached file------------ >> /tmp/melsnd.log
+#cat ${MFIL} >> /tmp/melsnd.log

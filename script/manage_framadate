@@ -1,0 +1,199 @@
+#!/bin/bash
+#
+
+##########################################################
+# Framadate manage ( create/delete)
+# 
+# d.roche@dan.y.roche@gmail.com
+#
+# 1st version 20150612
+#             20160123  fetch config from php
+#
+##########################################################
+
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/opt/miscbin:/opt/java/bin:.
+export PATH
+
+##########################################################
+# config
+##########################################################
+
+#------------------
+# FRAMADATE setup
+DBHOST=localhost
+DBUSER=root
+DBPASS=root007
+DBBASE=framadate
+
+##########################################################
+# fetch cloudSX config
+##########################################################
+
+# fetch global application config (php !)
+#
+MYSELF=$0
+MYDIR=$(dirname ${MYSELF})
+APPCONF=${MYDIR}/../app/Config.php
+
+if [ -s ${APPCONF} ]
+then
+  # get the config from php conf
+  TMP1=$(cat ${APPCONF} | grep '^ *$this->TopAppDir')
+  CDIR1=$(expr "${TMP1}" : ' *$this->TopAppDir *= *\"\(.*\)\"')
+  TMP2=$(cat ${APPCONF} | grep '^ *$this->DataDir')
+  CDIR2=$(expr "${TMP2}" : ' *$this->DataDir *= *\"\(.*\)\"')
+else
+  echo "Can't find application config file - aborting !"
+  exit 3
+fi
+
+CSXDDIR=${CDIR1}${CDIR2}
+
+# verify 
+if [ ! -d ${CSXDDIR} ]
+then
+  echo "application data dir ${CSXDDIR} not found - aborting !"
+  exit 4
+fi
+
+##########################################################
+# functions
+##########################################################
+
+usage () {
+  echo "manage_framadate -c -t title [-j cloudsx_id] | -d -i uuid "
+  echo "where:"
+  echo "  -c : create framadate"
+  echo "   -t : framadate title "
+  echo "   -j : matching cloudSX ID"
+  echo "  -d : delete framadate"
+  echo "   -i uuid: framadate UUID"
+  exit 1
+}
+
+
+##########################################################
+# PARSE ARGS
+##########################################################
+
+ACTION="none"
+VERBOZ=0
+TITLE=""
+CSXID=""
+UUID=""
+
+while [ $OPTIND -le $# ] 
+do
+    getopts "cdt:j:i:v" OPT
+    case $OPT in 
+    "c" )
+       ACTION="create"
+       ;;
+    "d" )
+       ACTION="delete"
+       ;;
+    "i" )
+       UUID=${OPTARG}
+       ;;
+    "t" )
+       TITLE=${OPTARG}
+       ;;
+    "j" )
+       CSXID=${OPTARG}
+       ;;
+    "v" )
+       VERBOZ=1
+       ;;
+    "?" ) 
+       usage
+       ;;
+    esac
+done
+
+if [ "${ACTION}" = "none" ]
+then 
+  usage
+fi
+
+if  [ "${ACTION}" = "delete" ]
+then 
+ if [ "${UUID}" = "" ]
+ then
+  usage
+ fi
+fi
+
+if  [ "${ACTION}" = "create" ]
+then 
+ if [ "${TITLE}" = "" ]
+ then
+  usage
+ fi
+fi
+
+##########################################################
+# DO IT
+##########################################################
+
+case ${ACTION} in
+
+############ create #############
+#
+"create" )
+
+  #------------------------
+  # INIT
+
+  NOW=$(date "+%s")
+  END0=$((NOW + 315360000))
+  END1=$(date "+%Y-%m-%d %H:%M:%S" -d @${END0})
+
+  # dev/urandom bloque ????
+  #UUIDADM=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 24 | head -n 1)
+  UUIDADM=$(date +"${TITLE} %s" | md5sum | fold -w 24 | head -n 1)
+  UUIDSND=${UUIDADM:0:16}
+
+  DAT0=$((NOW + 604800))
+  DAT1=$((NOW + 777600))
+
+  STUD="${DAT0}@14h00,${DAT1}@15h00"
+
+  #----------------------
+  # LOAD 
+
+  echo "insert into sondage set id_sondage='${UUIDSND}', nom_admin='cloudsx', commentaires='', titre='${TITLE}', id_sondage_admin='${UUIDADM}', date_fin='${END1}', format='D+';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
+
+  echo "insert sujet_studs set id_sondage='${UUIDSND}', sujet='${STUD}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
+  #----------------------
+  # if CSXID provided, create the cloudsx struct
+  if [ "${CSXID}" != "" ]
+  then
+    JDIR0=${CSXDDIR}/${CSXID:0:1}/${CSXID:1:1}/${CSXID:2:1}/${CSXID:3:1}/${CSXID:4}
+    echo ${UUIDADM} > ${JDIR0}/.struct/framadate
+  fi
+
+  #----------------------
+  # dislay the created framadate ID
+  echo ${UUIDADM}  
+  ;;
+
+############ delete #############
+#
+"delete" )
+
+  #-------------------------
+  # DOIT 
+
+  # on ne prend que UID simple
+  UUIDSND=${UUID:0:16}
+  
+  echo "delete from sondage where id_sondage='${UUIDSND}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
+  echo "delete from sujet_studs where id_sondage='${UUIDSND}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
+  echo "delete from user_studs where id_sondage='${UUIDSND}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
+  echo "delete from comments where id_sondage='${UUIDSND}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
+  ;;
+
+############ esac #############
+
+esac
+

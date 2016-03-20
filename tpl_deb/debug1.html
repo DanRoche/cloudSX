@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>debug</title>
+</head>
+<body bgcolor='#ffffff'>
+<h1><?php echo $this->MSG; ?></h1>
+
+GET variables :
+<ul>
+<?php
+while ( list( $key, $val ) = each( $_GET ) ) {
+ if ( is_array($val) ) {
+  echo "$key => ARRAY<br>\n";
+  echo "<ul>\n";
+  while ( list( $subkey, $subval ) = each( $val ) ) {
+   echo "$subkey => $subval <br>\n";
+  }
+  echo "</ul>\n";
+ } else {
+  echo "$key => $val <br>\n";
+ }
+}
+?>
+</ul>
+<hr>
+
+POST variables :
+<ul>
+<?php
+while ( list( $key, $val ) = each( $_POST ) ) {
+ if ( is_array($val) ) {
+  echo "$key => ARRAY<br>\n";
+  echo "<ul>\n";
+  while ( list( $subkey, $subval ) = each( $val ) ) {
+   echo "  $subkey => $subval <br>\n";
+  }
+  echo "</ul>\n";
+ } else {
+   echo "$key => $val<br> \n";
+ }
+}
+?>
+</ul>
+<hr>
+
+COOKIE variables :
+<ul>
+<?php
+while ( list( $key, $val ) = each( $_COOKIE ) ) {
+ if ( is_array($val) ) {
+  echo "$key => ARRAY<br>\n";
+  echo "<ul>\n";
+  while ( list( $subkey, $subval ) = each( $val ) ) {
+   echo "  $subkey => $subval <br>\n";
+  }
+  echo "</ul>\n";
+ } else {
+  echo "$key => $val <br>\n";
+ }
+}
+?>
+</ul>
+<hr>
+
+SESSION variables :
+<ul>
+<?php
+@session_start();
+while ( list( $key, $val ) = each( $_SESSION ) ) {
+ if ( is_array($val) ) {
+  echo "$key => ARRAY<br>\n";
+  echo "<ul>\n";
+  while ( list( $subkey, $subval ) = each( $val ) ) {
+   echo "  $subkey => $subval <br>\n";
+  }
+  echo "</ul>\n";
+ } else {
+  echo "$key => $val <br>\n";
+ }
+}
+?>
+</ul>
+<hr>
+
+ENV variables :
+<ul>
+<?php
+while ( list( $key, $val ) = each( $_ENV ) ) {
+ echo "$key => $val <br>";
+}
+?>
+</ul>
+<hr>
+
+SERVER variables :
+<ul>
+<?php
+while ( list( $key, $val ) = each( $_SERVER ) ) {
+ echo "$key => $val <br>";
+}
+?>
+</ul>
+<hr>
+
+</body>
+</html>

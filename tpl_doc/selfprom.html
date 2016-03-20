@@ -1,0 +1,24 @@
+<script language="javascript">
+function HideProm() {
+ $('#selfprom').css("display", "none")
+}
+function GoAttach() {
+ HideProm();
+ changeContent("<?php echo $this->URL->GetDosMethod('DispAttach'); ?>")
+}
+</script>
+
+<div id="selfprom" class="well well-lg">
+ <a href="javascript:HideProm()"<span id="clozprom" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+
+<?php if ( $this->SELFPROMO == "all" ): ?>
+<p>
+ <?php $this->M('1stvisit1'); ?> <a href="<?php echo $this->URL->GetMgmtMethod("Index"); ?>"><strong><?php $this->M('1stvisit2'); ?></strong></a> <?php $this->M('1stvisit3'); ?>
+</p>
+<?php endif; ?>
+
+<p>
+ <?php $this->M('1stdos1'); ?> <a href="javascript:GoAttach()"><strong><?php $this->M('1stdos2'); ?></strong></a>.
+</p>
+
+</div>

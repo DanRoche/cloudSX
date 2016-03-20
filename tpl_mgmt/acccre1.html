@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- tpl: acccre1.html -->
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <title><?php echo $this->APPNAM; ?></title>
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery_validate_fr.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script> 
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link href="<?php echo $this->URL->GetMedia('/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/csxmgmt.css'); ?>" rel="stylesheet">
+</head>
+<body id="page001">
+
+<div class="container">
+
+<div class="well c0head">
+ <div class="row">
+  <div class="col-md-4"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></div>
+  <div class="col-md-8">
+   <h3 class="title"><?php $this->M('acc_title'); ?></h3>
+   <h3 class="title"><?php $this->M('acc_step1'); ?></h3>
+ </div>
+ </div>
+</div>
+
+<form novalidate="novalidate" id="creaccount1" class="form-horizontal" method="post" action="<?php echo $this->URL->GetMgmtMethod('CreAcc2'); ?>">
+
+<div class="cont1 well">
+
+<div class="form-group">
+<label class="control-label col-md-3" ><em><?php $this->M('act_mail'); ?></em></label>
+<div class="col-md-7"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
+  <input class="form-control" value="" name="ACCMAIL" id="ACCMAIL" placeholder="<?php $this->M('acc_hmail'); ?>" type="text">
+</div></div>
+</div>
+
+<div class="form-group">
+<label class="control-label col-md-3" ><em><?php $this->M('act_nam'); ?></em></label>
+<div class="col-md-7"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-tag"></span> 
+  <input class="form-control" value="" name="ACCNAME" id="ACCNAME" type="text">
+</div></div>
+</div>
+
+<div class="form-group">
+<label class="control-label col-md-3" ><em><?php $this->M('act_gvnam'); ?></em></label>
+<div class="col-md-7"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-tag"></span> 
+  <input class="form-control" value="" name="ACCGVN" id="ACCGVN" type="text">
+</div></div>
+</div>
+
+<div class="form-group">
+<label class="control-label col-md-3" ><em><?php $this->M('acc_pass'); ?></em></label>
+<div class="col-md-7"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-lock"></span> 
+  <input class="form-control" value="" name="ACCPASS" id="ACCPASS" placeholder="<?php $this->M('acc_hpass'); ?>" type="password">
+</div></div>
+</div>
+
+<div class="form-group">
+<label class="control-label col-md-3" ><em><?php $this->M('act_psw2'); ?></em></label>
+<div class="col-md-7"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-lock"></span> 
+  <input class="form-control" value="" name="ACCPAS2" id="ACCPAS2" placeholder="<?php $this->M('acc_hpass'); ?>" type="password">
+</div></div>
+</div>
+
+</div>
+
+
+<div class="well c0foot">
+ <button type="button" class="btn btn-default btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('Index'); ?>'"> <?php $this->M('gen_cancel'); ?> </button>
+ <button type="submit" class="btn btn-primary btn-sm"> <?php $this->M('gen_valid'); ?> </button>
+</div>
+
+</form>
+
+
+<!-- ------ form control ----------- -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#creaccount1").validate({
+      rules:{
+        ACCMAIL:{
+          required:true
+        },
+        ACCNAME:{
+          required:true
+        },
+        ACCGVN:{
+          required:true
+        },
+        ACCPASS:{
+          required:true
+        },
+        ACCPAS2:{
+          required:true
+        },
+      },
+      errorClass: "help-inline"
+    });
+  });
+</script>
+
+
+<!-- ------ end form control ----------- -->
+
+
+</body></html>

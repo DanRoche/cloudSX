@@ -1,0 +1,292 @@
+#!/bin/bash
+#
+
+##########################################################
+# CLOUDSX manage ( list/delete/autodelete)
+# 
+# dan.y.roche@gmail.com Jan 2016
+#
+# 1st version 20131215
+#             20160123  fetch config from php
+##########################################################
+
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/opt/miscbin:/opt/java/bin:.
+export PATH
+
+##########################################################
+# fetch config
+##########################################################
+
+# fetch global application config (php !)
+#
+MYSELF=$0
+MYDIR=$(dirname ${MYSELF})
+APPCONF=${MYDIR}/../app/Config.php
+
+if [ -s ${APPCONF} ]
+then
+  # get the config from php conf
+  TMP1=$(cat ${APPCONF} | grep '^ *$this->TopAppDir')
+  CDIR1=$(expr "${TMP1}" : ' *$this->TopAppDir *= *\"\(.*\)\"')
+  TMP2=$(cat ${APPCONF} | grep '^ *$this->DataDir')
+  CDIR2=$(expr "${TMP2}" : ' *$this->DataDir *= *\"\(.*\)\"')
+  # fetch database connection
+  TMP3=$(cat ${APPCONF} | grep '^ *$this->dbserv')
+  BZH=$(expr "${TMP3}" : ' *$this->dbserv *= *\"\(.*\)\"')
+  TMP4=$(cat ${APPCONF} | grep '^ *$this->dbbase')
+  BZB=$(expr "${TMP4}" : ' *$this->dbbase *= *\"\(.*\)\"')
+  TMP5=$(cat ${APPCONF} | grep '^ *$this->dbuser')
+  BZU=$(expr "${TMP5}" : ' *$this->dbuser *= *\"\(.*\)\"')
+  TMP6=$(cat ${APPCONF} | grep '^ *$this->dbpass')
+  BZP=$(expr "${TMP6}" : ' *$this->dbpass *= *\"\(.*\)\"')
+
+else
+  echo "Can't find application config file - aborting !"
+  exit 3
+fi
+
+CSXDDIR=${CDIR1}${CDIR2}
+
+type mysql_config_editor > /dev/null 2>&1
+if [ $? -eq 0 ]
+then
+ # new mysql (5.6.6) connection
+ # use mysql_config_editor on the server to initialize the login-path
+ # use dbuser as login-path entry
+ MYCMD="mysql --login-path=${BZU} -D${BZB}"
+else
+ # old school mysql connection
+ MYCMD="mysql -h${BZH} -u${BZU} -p${BZP} -D${BZB}"
+fi
+
+# verify 
+if [ ! -d ${CSXDDIR} ]
+then
+  echo "application data dir ${CSXDDIR} not found - aborting !"
+  exit 4
+fi
+
+# default end of life,  shoud not be necessary !
+DEFEOL="31-12-2099"
+
+##########################################################
+# functions
+##########################################################
+
+usage () {
+  echo "manage_cloudsx -l [-t -p -x] [-i csx_id] | -d -i csx_id | -D "
+  echo "where:"
+  echo "  -l : list cloudsx briefcase"
+  echo "   -t : list modification and end-of-life dates"
+  echo "   -p : list password"
+  echo "   -x : list files in briefcases"
+  echo "  -d : delete specified briefcase"
+  echo "   -i csx_id: cloudsx briefcase ID"
+  echo "  -D : automatically delete outdated briefcases"
+  exit 1
+}
+
+DisplayCSX() {
+    # argument = the cloudSX ID
+    DID=$1
+    CDIR=${CSXDDIR}/${DID:0:1}/${DID:1:1}/${DID:2:1}/${DID:3:1}/${DID:4}
+
+    if [ ! -d ${CDIR} ]
+    then
+      echo "ID not found "	  
+      return
+    fi
+
+    OUT=${DID}
+
+    if [ ${SHOWDAT} -eq 1 ]
+    then
+      if [ -s ${CDIR}/.struct/title ]
+      then
+        TM1=$(stat -c "%Y" ${CDIR}/.struct/title)
+      else
+        TM1=$(stat -c "%Y" ${CDIR}/.struct)
+      fi
+      LASTMOD=$(date +"%Y-%m-%d" -d @${TM1})
+      if [ -s ${CDIR}/.struct/endoflife ]
+      then
+        ENDLIF=$(cat ${CDIR}/.struct/endoflife)
+      else
+        ENDLIF=${DEFEOL}
+      fi
+      OUT="${OUT} ${LASTMOD} ${ENDLIF}"
+    fi 
+
+    if [ ${SHOWPSW} -eq 1 ]
+    then
+      PASSWD=$(cat ${CDIR}/.struct/passwd)
+      if [ "${PASSWD}" = "" ]
+      then
+	PASSWD="_none_"
+      fi
+      if [ -s ${CDIR}/.struct/passadm ]
+      then
+	PASSADM=$(cat ${CDIR}/.struct/passadm)
+      else
+	PASSADM="_none_"
+      fi
+      OUT="${OUT} ${PASSWD}/${PASSADM}"
+    fi 
+
+    if [ -s ${CDIR}/.struct/title ]
+    then
+      TITLE=$(cat ${CDIR}/.struct/title)
+    else
+      TITLE="Pas de titre"
+    fi
+
+    echo "${OUT} \"${TITLE}\""  
+
+    if [ ${SHOWFIL} -eq 1 ]
+    then
+      ls -1 ${CDIR} | fgrep -v index.html | sed -e "s|^|- |"
+    fi 
+}
+
+DeleteCSX() {
+    # argument = the cloudSX ID
+    DID=$1
+    CDIR=${CSXDDIR}/${DID:0:1}/${DID:1:1}/${DID:2:1}/${DID:3:1}/${DID:4}
+
+    if [ ! -d ${CDIR} ]
+    then
+      echo "ID not found "	  
+      return
+    fi
+
+    rm -rf ${CDIR}
+
+    ${MYCMD} -e "delete from owner where dos_id='${DID}';"
+}
+
+##########################################################
+# PARSE ARGS
+##########################################################
+
+ACTION="none"
+VERBOZ=0
+DID=""
+SHOWDAT=0
+SHOWPSW=0
+SHOWFIL=0
+
+while [ $OPTIND -le $# ] 
+do
+    getopts "ltpxdi:Dv" OPT
+    case $OPT in 
+    "l" )
+       ACTION="list"
+       ;;
+    "d" )
+       ACTION="delete"
+       ;;
+    "D" )
+       ACTION="autodelete"
+       ;;
+    "i" )
+       DID=$OPTARG
+       ;;
+    "t" )
+       SHOWDAT=1
+       ;;
+    "p" )
+       SHOWPSW=1
+       ;;
+    "x" )
+       SHOWFIL=1
+       ;;
+    "v" )
+       VERBOZ=1
+       ;;
+    "?" ) 
+       usage
+       ;;
+    esac
+done
+
+if [ "${ACTION}" = "none" ]
+then 
+  usage
+fi
+
+if  [ "${ACTION}" = "delete" ]
+then 
+ if [ "${DID}" = "" ]
+ then
+  usage
+ fi
+fi
+
+##########################################################
+# DO IT
+##########################################################
+
+case ${ACTION} in
+
+############ list #############
+#
+"list" )
+	 
+  if [ "${DID}" != "" ]
+  then
+    DisplayCSX ${DID}
+  else
+    for CDIR in ${CSXDDIR}/?/?/?/?/*
+    do
+      DID=$(expr ${CDIR} : '.*/\(././././.*\)$' | tr -d '/')
+      DisplayCSX ${DID}
+    done
+  fi   
+  ;;
+
+############ delete #############
+#
+"delete" )
+
+  DeleteCSX ${DID}
+
+  ;;
+
+############ autodelete #############
+#
+"autodelete" )
+
+  NOW=$(date +"%s")
+
+  for CDIR in ${CSXDDIR}/?/?/?/?/*
+  do
+    DID=$(expr ${CDIR} : '.*/\(././././.*\)$' | tr -d '/')
+
+    if [ -s ${CDIR}/.struct/endoflife ]
+    then
+      ENDLIF=$(cat ${CDIR}/.struct/endoflife)
+    else
+      ENDLIF=${DEFEOL}
+    fi
+
+    # no longer necessary since ENDLIF id already correct
+    # EOL1="${ENDLIF:6:4}-${ENDLIF:3:2}-${ENDLIF:0:2} 23:59:59"
+    EOL1="${ENDLIF} 23:59:59"
+    EOL2=$(date +"%s" -d "${EOL1}")
+
+    if [ ${NOW} -gt ${EOL2} ]
+    then
+      if [ ${VERBOZ} -eq 1 ]
+      then	
+        echo "erasing briefcase ${DID}"
+      fi
+      DeleteCSX ${DID}
+    fi
+
+  done
+
+  ;;
+
+
+esac
+

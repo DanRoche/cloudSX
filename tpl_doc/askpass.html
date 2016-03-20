@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!-- tpl: askpass.html -->
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <title><?php echo $this->APPNAM; ?></title>
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery_validate_fr.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script> 
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link href="<?php echo $this->URL->GetMedia('/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/csxdoc.css'); ?>" rel="stylesheet">
+<script language="javascript">
+function AutoPop() {
+ $('#myModalAskPass').modal('toggle')
+}
+</script>
+</head>
+<body id="page003" onload="AutoPop()">
+
+<div class="container">
+
+<p>&nbsp;</p>
+
+<div class="well">
+ <div class="row">
+  <div class="col-md-4"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>" ></div>
+  <div class="col-md-8">
+<p>
+<?php $this->M('akp_m1p1'); ?> <a href="" onclick="AutoPop()" data-toggle="modal"><?php $this->M('akp_m1p2'); ?></a> <?php $this->M('akp_m1p3'); ?><br>
+<?php $this->M('akp_m2'); ?><br>
+<button class="btn btn-default btn-sm" type="button" onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('Index'); ?>'"><?php $this->M('akp_ret'); ?></button>
+</p>
+  </div>
+ </div>
+</div>
+
+<!--   modal ask pass -->
+
+<div id="myModalAskPass" class="modal fade" style="top: 20%;">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <form novalidate="novalidate" id="figpd1" class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('SetAuth'); ?>" target="_top">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;<?php $this->M('akp1_title'); ?></h3>
+   </div>
+   <div class="modal-body" style="max-height: 600px;">
+    <p class="text-info">
+    <em><?php $this->M('akp1_m3'); ?></em><br> 
+    </p>
+   <input name="DID" value="<?php echo $this->DID; ?>" type="hidden">
+    <input id="PASSWD" name="PASSWD" type="passwd" size="40">
+   </div>
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+    <button type="submit" class="btn btn-primary btn-sm"><?php $this->M('gen_ok'); ?></button>
+   </div>
+  </div><!-- /.modal-content -->
+  </form>
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--   end ask pass -->
+
+</body></html>

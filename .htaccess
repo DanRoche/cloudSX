@@ -1,0 +1,8 @@
+Options +FollowSymLinks
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^doc/(.*) /wbx.php/Doc/$1 [QSA,L]
+RewriteRule ^mgt/(.*) /wbx.php/Mgmt/$1 [QSA,L]
+RewriteRule ^adm/(.*) /wbx.php/Admin/$1 [QSA,L]
+RewriteRule ^([0-9a-z]+)$ /wbx.php/Doc/Display/$1 [QSA,L]

@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+
+############################################
+# process uploaded files in cloudSX
+# called by inotify -> call thumbnizedir
+# 
+# dan.y.roche@gmail.com  
+#
+# 1st version 20150405
+#             20160123  fetch config from php
+############################################
+
+#############################################
+# inotify seems not to initialize ENV fine
+# so be sure ENV is here
+
+SHELL=/bin/bash
+LANG=fr_FR.UTF-8
+HOME=/home/login/apache
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/opt/miscbin:/opt/java/bin:.
+export PATH SHELL LANG HOME
+
+# do we need those ? hope not
+#USER=apache
+#LOGNAME=apache
+#export USER LOGNAME
+
+##########################################################
+# fetch config
+##########################################################
+
+# fetch global application config (php !)
+#
+MYSELF=$0
+MYDIR=$(dirname ${MYSELF})
+APPCONF=${MYDIR}/../app/Config.php
+
+if [ -s ${APPCONF} ]
+then
+  # get the config from php conf
+  TMP1=$(cat ${APPCONF} | grep '^ *$this->TopAppDir')
+  CDIR1=$(expr "${TMP1}" : ' *$this->TopAppDir *= *\"\(.*\)\"')
+else
+  echo "Can't find application config file - aborting !"
+  exit 3
+fi
+
+CSXDIR=${CDIR1}
+
+# verify 
+if [ ! -d ${CSXDIR} ]
+then
+  echo "application dir ${CSXDIR} not found - aborting !"
+  exit 4
+fi
+
+THUMBNZ=${CSXDIR}/script/thumbnizedir
+
+######################
+# let's go !
+
+# get the uploaded file from incrontab parameters
+SPOOF=$1
+
+DIR=$(cat ${SPOOF})
+rm ${SPOOF}
+
+${THUMBNZ} ${DIR}
+

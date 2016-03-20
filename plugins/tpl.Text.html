@@ -1,0 +1,37 @@
+<style type="text/css">
+#txt_content  {
+  width: 100%; 
+  height: 100%;
+  margin-top: 20px;
+}
+#conthead {
+  background: #4e5a60;
+  color: #ffffff;
+  position: fixed; 
+  top: 100px;
+  left: 270px;
+  right: 5px;
+}
+#conthead a {
+ color: #ffffff;
+}
+#conthead p {
+ margin-bottom: 0px;
+}
+</style>
+<div id="conthead" class="container-fluid">
+<div class="col-xs-6">
+ <strong><span class="glyphicon glyphicon-folder-open" aria-hidden="true">&nbsp;<?php echo $this->FILENAM; ?></span></strong>
+</div>
+<div class="col-xs-6">
+ <p class="text-right"> 
+ <a href="<?php echo $this->TXTURL; ?>" class="btn btn-link btn-xs" role="button"><span class="glyphicon glyphicon-eye-open"> <?php $this->M('cont_orig'); ?></a>&nbsp;
+ <a href="<?php echo $this->DLURL; ?>" class="btn btn-link btn-xs" role="button"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"> <?php $this->M('cont_dl'); ?></a>&nbsp;
+</p>
+</div></div>
+<object type="text/plain" data="<?php echo $this->TXTURL; ?>" id="txt_content">
+  <p>this TEXT cannot be displayed !</p>
+</object>
+<script language="javascript">
+  adjustContentLeft();
+</script>

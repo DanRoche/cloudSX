@@ -1,0 +1,14 @@
+<div class="row">
+
+<?php 
+  while (list($ind, $value) = each($this->DOSINFO['filelist']) ):
+   $furl = $this->URL->GetInnerData($value);
+   $turl = $this->URL->GetDosThumb($value);
+?>
+ <div class="col-sm-6 col-md-3"><div class="thumbnail">
+  <a href="<?php echo $furl; ?>"><img src="<?php echo $turl; ?>"></a>
+  <div class="caption"><h6 class="text-center"><a href="<?php echo $furl; ?>"><?php echo $value; ?></a></h6></div>
+ </div></div>
+<?php endwhile; ?>
+
+</div>

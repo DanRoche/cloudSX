@@ -1,0 +1,55 @@
+<div class="row" id="pgtop">
+
+<!--    <LOGO>  ------------------------------------ -->
+<div class="col-xs-2">
+<?php if (isset($this->DOSINFO['ownlogo'])): ?>
+<a href="<?php echo $this->URL->GetMgmtMethod('Index'); ?>" target="_top"><img id="plogod" src="<?php echo $this->URL->GetRawDosData('.logo'); ?>" ></a>
+<?php else: ?>
+<a href="<?php echo $this->URL->GetMgmtMethod('Index'); ?>" target="_top"><img id="slogod" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
+<?php endif; ?>
+<!-- &nbsp;<span id="debug1">debug</span> -->
+<form><input type="hidden" id="did" value="<?php echo $this->DOSINFO['did']; ?>"></form>
+</div>
+<!--    </LOGO>  ------------------------------------ -->
+
+<div class="col-xs-10">
+
+<!--    <TITLELNG>  ------------------------------------ -->
+<div class="row">
+
+<div class="col-xs-10">
+<p class="dostit"><?php echo $this->DOSINFO['title']; ?></p>
+</div>
+
+<div class="col-xs-2">
+<form method="post" action="<?php echo $this->URL->GetDosMethod('SetLng'); ?>" target=_top>
+<div class="input-group">
+ <span class="input-group-addon"><span class="glyphicon glyphicon-flag"></span></span>
+ <select name="LNG" class="form-control" onchange="this.form.submit()">
+  <?php foreach( $this->LANGSET as $lid => $lval) { ?>
+  <option value="<?php echo $lid; ?>" <?php echo ($this->LNG == $lid)?"selected":""; ?>><?php echo $lval; ?></option>
+  <?php } ?>
+  </select>
+</div>
+</form>
+</div>
+
+</div>
+<!--    </TITLELNG>  ------------------------------------ -->
+
+<!--    <SCROLLER>  ------------------------------------ -->
+<div id="topscroller">
+<a href="javascript:scroll2top()"><span class="glyphicon glyphicon-menu-up text-right" aria-hidden="true"></span></a>
+</div>
+<!--    </SCROLLER>  ------------------------------------ -->
+
+
+<!--    <MBAR>  ------------------------------------ -->
+<div id="mbar" class="row" >
+<?php include "part_mbar.html"; ?>
+</div>
+<!--    </MBAR>  ------------------------------------ -->
+
+</div>
+
+</div>

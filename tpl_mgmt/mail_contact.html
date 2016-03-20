@@ -1,0 +1,49 @@
+<html>
+  <head>
+<title><?php echo $this->APPNAM; ?></title>
+<meta charset="UTF-8">
+<style>
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #333;
+}
+.d1 {
+ min-height: 20px;
+ padding: 19px;
+ margin-right: 20px;
+ margin-left: 20px;
+ margin-bottom: 20px;
+ background-color: #F5F5F5;
+ border: 1px solid #E3E3E3;
+ border-radius: 4px;
+ box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
+}
+dt {
+   margin-top: 20px;
+  font-weight: bold;
+  font-style: italic;
+}
+h3 {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="d1">
+<h3><?php $this->M('melktk_tit'); ?></h3>
+<dl>
+<dt><?php $this->M('melktk_mel'); ?></dt>
+<dd><?php echo $this->KTKMEL; ?></dd>
+<dt><?php $this->M('melktk_sub'); ?></dt>
+<dd><?php echo $this->KTKSUB; ?></dd>
+<dt><?php $this->M('melktk_msg'); ?></dt>
+<dd><pre>
+<?php echo $this->KTKMSG; ?>
+</pre></dd>
+</dl>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title><?php $this->M('mgt_title'); ?></title>
+
+ <!-- Bootstrap -->
+ <link href="<?php echo $this->URL->GetMedia('/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/csxmgmt.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/datepicker.css'); ?>" rel="stylesheet">
+</head>
+<body>
+
+<div class="container-fluid">
+
+<div class="row tophead">
+
+<!--    <LOGO>  ------------------------------------ -->
+<div class="col-xs-2">
+<?php if ( isset($this->UINFO['llogo']) ): ?>
+<a href="<?php echo $this->URL->GetMgmtMethod('Index'); ?>" target="_top"><img id="plogol" src="<?php echo $this->URL->GetMgmtMethod('DispLogo', "UID=".$this->RUSERI); ?>" ></a>
+<?php else: ?>
+<a href="<?php echo $this->URL->GetMgmtMethod('Index'); ?>" target="_top"><img id="slogol" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
+<?php endif; ?>
+</div>
+<!--    </LOGO>  ------------------------------------ -->
+
+
+<div class="col-xs-10">
+
+<!--    <TITLE+USER>  ------------------------------------ -->
+<div class="row">
+
+<div class="col-xs-6">
+ <h2><?php $this->M('mgt_title'); ?></h2>
+</div>
+
+<div class="col-xs-6">
+ <h2 class="pull-right"><?php echo $this->MYSELF; ?></h2>
+</div>
+
+</div>
+<!--    </TITLE+USER>  ------------------------------------ -->
+
+<!--    <MBAR>  ------------------------------------ -->
+<div id="mgmbar" class="row" >
+<?php include "menubar.html"; ?>
+</div>
+<!--    </MBAR>  ------------------------------------ -->
+
+</div>
+</div>
+
+<br>
+
+<div class="row">
+<div class="col-xs-3 well well-sm">
+<span class="glyphicon glyphicon-briefcase"></span>&nbsp;<?php $this->M1('mgt_dcnt', count($this->DLIST)); ?></span>
+</div>
+<div class="col-xs-9">
+<div class="panel-group" id="acd_f1">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+     <!--  <h4 class="panel-title"> -->
+        <a data-toggle="collapse" data-parent="#acd_f1" href="#collapseOne">
+          <span class="glyphicon glyphicon-filter"> <?php $this->M('mgt_filters'); ?></span>
+        </a>
+      <!-- </h4> -->
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div class="row">
+	 <div class="col-xs-4"> 
+    	  <div class="input-group">
+           <span class="input-group-addon glyphicon glyphicon-search"></span>
+           <input type="text" id="searchDoc" class="form-control" placeholder="<?php $this->M('mgt_sr1'); ?>" onkeyup="GlobalFilter()">
+          </div>
+         </div>
+	 <div class="col-xs-4"> 
+    	  <div class="input-group">
+           <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+           <input type="text" id="searchMod" class="form-control" placeholder="<?php $this->M('mgt_sr2'); ?>" onkeyup="GlobalFilter()">
+          </div>
+         </div>
+	 <div class="col-xs-4"> 
+    	  <div class="input-group">
+           <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+           <input type="text" id="searchEOL" class="form-control" placeholder="<?php $this->M('mgt_sr3'); ?>" onkeyup="GlobalFilter()">
+          </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+</div> 
+</div>
+<table id="dostable" class="table table-striped table-condensed table-hover tablesorter">
+<thead>
+<tr class='thead'>
+ <th>&nbsp;<?php $this->M('mgt_th1'); ?></th>
+ <th>&nbsp;<?php $this->M('mgt_th2'); ?></th>
+ <th>&nbsp;<?php $this->M('mgt_th3'); ?></th>
+ <th>&nbsp;<?php $this->M('mgt_th4'); ?></th>
+ <th>&nbsp;<?php $this->M('mgt_th5'); ?></th>
+ <th>&nbsp;<?php $this->M('mgt_th6'); ?></th>
+</tr>
+</thead>
+<tbody>
+<?php 
+foreach ($this->DLIST as $did => $pdata ) { 
+ $mode = $pdata['mode'];
+ $elem = $pdata['data'];
+?>
+<tr class="datarow">
+ <td><span class="dnam"><a href="<?php echo $this->URL->GetMgmtMethodWithDID('View',$did); ?>" ><?php echo $elem['title']; ?></a></span></td>
+ <td><?php echo $elem['passwd']; ?></td>
+ <td><?php echo (isset($elem['passadm']))? $elem['passadm'] : "&nbsp;"; ?></td>
+ <td><span class="dmod"><?php echo $elem['modified']; ?></span></td>
+ <td><span class="deol"><?php echo $elem['endoflife']; ?></span></td>
+ <td>
+  <div>
+  <a href="<?php echo $this->URL->GetMgmtMethodWithDID('View',$did); ?>" role="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="top" title="<?php $this->M('mgt_tip1'); ?>" target="doc">&nbsp;<span class="glyphicon glyphicon-eye-open"></span>&nbsp;</a> 
+  <button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="top" title="<?php $this->M('mgt_tip2'); ?>" onclick="DetachModal('<?php echo $did; ?>','<?php echo $elem['title']; ?>')">&nbsp;<span class="glyphicon glyphicon-log-out"></span>&nbsp;</button>
+  <?php if ( $mode == 'writer' ) { ?>
+  <button type="button" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="<?php $this->M('mgt_tip3'); ?>" onclick="DeleteModal('<?php echo $did; ?>','<?php echo $elem['title']; ?>')">&nbsp;<span class="glyphicon glyphicon-trash"></span>&nbsp;</button>
+  <?php } ?>
+  </div>
+</td>
+</tr>
+<?php
+}
+?>
+
+</tbody>
+</table>
+
+<!-- --------- closing nav-tabs (header)  ----------- -->
+</div>
+
+<!-- -----------------modal create---------------------- -->
+
+<div class="modal fade" id="ModalCreate" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+    <form novalidate="novalidate" id="mgtcredoc" class="form-horizontal" method="post" action="<?php echo $this->URL->GetMgmtMethod('Create2'); ?>">
+      <input type="hidden" name="RUSERI" value="<?php echo $this->RUSERI; ?>">
+      <input type="hidden" name="RUSERM" value="<?php echo $this->RUSERM; ?>">
+
+     <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-briefcase"></span> <?php $this->M('mgt_cretit'); ?><span class="label label-default" id="mm_tit_vnam"></span></h4>
+     </div>
+
+     <div class="modal-body">
+
+     <div class="well">
+
+      <div class="form-group">
+      <label class="control-label col-md-2" ><em><?php $this->M('prm_nam1'); ?></em></label>
+      <div class="col-md-10"><div class="input-group">
+	<span class="input-group-addon glyphicon glyphicon-briefcase"></span> 
+	<input class="form-control" value="" name="DOSNAM" id="DOSNAM" placeholder="<?php $this->M('cre_nam2'); ?>"  type="text">
+      </div></div>
+      </div>
+
+      <div class="form-group">
+      <label class="control-label col-md-2" ><em><?php $this->M('prm_comm'); ?></em></label>
+      <div class="col-md-10"><div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-comment"></span>
+        <textarea name="DOSCOM" id="DOSCOM" class="form-control pull-left">
+        </textarea>
+      </div></div>
+      </div>
+
+     <div class="form-group">
+     <label class="control-label col-md-2" ><em><?php $this->M('prm_pass1'); ?></em></label>
+     <div class="col-md-10"><div class="input-group">
+       <span class="input-group-addon glyphicon glyphicon-exclamation-sign"></span> 
+       <input class="form-control" value="" name="DOSPSW" id="DOSPSW" placeholder="<?php $this->M('cre_pass2'); ?>" type="text">
+     </div></div>
+     </div>
+
+     <div class="form-group">
+     <label class="control-label col-md-2" ><em><?php $this->M('prm_eol'); ?></em></label>
+     <div class="col-md-10"><div class="input-group">
+       <span class="input-group-addon glyphicon glyphicon-calendar"></span> 
+       <input class="form-control" value="<?php echo $this->EOL; ?>" name="DOSLIM" id="DOSLIM" type="text" <?php echo ($this->DATESEL=='no')?"readonly":""; ?>>
+     </div></div>
+     </div>
+
+     <hr>
+
+     <div class="form-group">
+     <label class="control-label col-md-2" ><em><?php $this->M('prm_blog'); ?></em></label>
+     <div class="col-md-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" checked="checked" name="DOSBLG" id="DOSBLG" > 
+        </label>
+      </div>
+    </div>
+    </div>
+
+    <?php if ( $this->FRMDAT == 1 ): ?>
+     <div class="form-group">
+     <label class="control-label col-md-2" ><em><?php $this->M('prm_csxdate'); ?></em></label>
+     <div class="col-md-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="DOSDAT" id="DOSDAT" > 
+        </label>
+      </div>
+    </div>
+    </div>
+    <?php endif; ?>
+
+    </div></div>
+
+     <div class="modal-footer">
+       <button type="button" class="btn btn-default" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+       <button type="submit" class="btn btn-primary" ><?php $this->M('gen_valid'); ?></button>
+     </div>
+
+     </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- end  modal create -->
+
+
+<!--   modal confirm del -->
+
+<div id="ModalConfDel" class="modal fade" style="top: 20%;">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <form class="form-horizontal" method="post" action="<?php echo $this->URL->GetMgmtMethod('Delete'); ?>" target="_top">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title"><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('mgt_del1'); ?></h3>
+   </div>
+   <div class="modal-body">
+    <input id="md_imp_did" type="hidden" name="DID" value="">
+    <input type="hidden" name="RUSERI" value="<?php echo $this->RUSERI; ?>">
+    <input type="hidden" name="RUSERM" value="<?php echo $this->RUSERM; ?>">
+    <p class="text-error">
+    <em><?php $this->M('mgt_del2'); ?></em><br> 
+    </p>
+   </div>   
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+    <button type="submit" class="btn btn-danger btn-sm"><?php $this->M('gen_ok'); ?></button>
+   </div>
+  </div><!-- /.modal-content -->
+  </form>
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- end  modal confirm del -->
+
+<!--   modal confirm detach -->
+
+<div id="ModalConfDetach" class="modal fade" style="top: 20%;">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <form class="form-horizontal" method="post" action="<?php echo $this->URL->GetMgmtMethod('Detach'); ?>" target="_top">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title"><span class="glyphicon glyphicon-log-out"></span>&nbsp;<?php $this->M('mgt_det1'); ?></h3>
+   </div>
+   <div class="modal-body">
+    <input id="mdt_imp_did" type="hidden" name="DID" value="">
+    <input type="hidden" name="RUSERI" value="<?php echo $this->RUSERI; ?>">
+    <input type="hidden" name="RUSERM" value="<?php echo $this->RUSERM; ?>">
+   <p class="text-error">
+    <em><?php $this->M('mgt_det2'); ?></em><br> 
+    </p>
+   </div>   
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+    <button type="submit" class="btn btn-danger btn-sm"><?php $this->M('gen_ok'); ?></button>
+   </div>
+  </div><!-- /.modal-content -->
+  </form>
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- end  modal confirm detach -->
+
+<!-- -----------------modal account---------------------- -->
+
+<div class="modal fade" id="ModalAccount" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+    <form novalidate="novalidate" id="mgtaccount" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->URL->GetMgmtMethod('Account'); ?>">
+      <input type="hidden" name="RUSERI" value="<?php echo $this->RUSERI; ?>">
+
+     <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-user"></span> <?php $this->M('act_title'); ?><span class="label label-default" id="mm_tit_vnam"></span></h4>
+     </div>
+
+     <div class="modal-body">
+
+     <div class="well">
+
+      <div class="form-group">
+      <label class="control-label col-md-3" ><em><?php $this->M('act_mail'); ?></em></label>
+      <div class="col-md-9"><div class="input-group">
+	<span class="input-group-addon glyphicon glyphicon-envelope"></span> 
+	<input class="form-control" value="<?php echo $this->UINFO['mail']; ?>" name="ACTMAIL" id="ACTMAIL"  type="text">
+      </div></div>
+      </div>
+
+      <div class="form-group">
+      <label class="control-label col-md-3" ><em><?php $this->M('act_gvnam'); ?></em></label>
+      <div class="col-md-9"><div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-tag"></span>
+	<input class="form-control" value="<?php echo $this->UINFO['gvname']; ?>" name="ACTGVN" id="ACTGVN"  type="text">
+      </div></div>
+      </div>
+
+     <div class="form-group">
+     <label class="control-label col-md-3" ><em><?php $this->M('act_nam'); ?></em></label>
+     <div class="col-md-9"><div class="input-group">
+       <span class="input-group-addon glyphicon glyphicon-tag"></span> 
+       <input class="form-control" value="<?php echo $this->UINFO['name']; ?>" name="ACTNAM" id="ACTNAM" type="text">
+     </div></div>
+     </div>
+
+     <div class="alert alert-danger" role="alert"><?php $this->M('act_chpsw'); ?></div>
+
+     <div class="form-group">
+     <label class="control-label col-md-3" ><em><?php $this->M('act_psw'); ?></em></label>
+     <div class="col-md-9"><div class="input-group">
+       <span class="input-group-addon glyphicon glyphicon-lock"></span> 
+       <input class="form-control" value="" name="ACTPSW1" id="ACTPSW1" type="password">
+     </div></div>
+     </div>
+
+     <div class="form-group">
+     <label class="control-label col-md-3" ><em><?php $this->M('act_psw2'); ?></em></label>
+     <div class="col-md-9"><div class="input-group">
+       <span class="input-group-addon glyphicon glyphicon-lock"></span> 
+       <input class="form-control" value="" name="ACTPSW2" id="ACTPSW2" type="password">
+     </div></div>
+     </div>
+
+    </div>
+
+     <?php if ( $this->UINFO['status'] == "premium" || $this->UINFO['status'] == "admin" ): ?>
+     <div class="well">
+
+     <div class="row">
+      <div class="col-xs-4">
+       <?php if ( isset($this->UINFO['llogo']) ): ?>
+        <img id="plogol" src="<?php echo $this->URL->GetMgmtMethod('DispLogo', "UID=".$this->RUSERI); ?>" >
+       <?php else: ?>
+        <img id="slogol" src="<?php echo $this->URL->GetDefLogo('small'); ?>" >
+       <?php endif; ?>
+      </div>
+      <div class="col-xs-8">
+       <p>
+        <strong><em><?php $this->M('act_logo'); ?></em></strong>
+       </p>
+       <input name="ACTLOGO" id="ACTLOGO"  type="file" >
+       <div class="checkbox"><label>
+          <input name="DELLOGO" id="DELLOGO" type="checkbox"> <?php $this->M('act_logo2'); ?>
+        </label></div>
+      </div>
+      </div>
+    </div>
+    <?php endif; ?>
+
+    </div>
+
+     <div class="modal-footer">
+       <?php if ( $this->UINFO['status'] == "std" ): ?>
+       <button type="button" class="btn btn-warning" ><?php $this->M('act_pay'); ?></button>
+       <?php endif; ?>
+       <button type="button" class="btn btn-default" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+       <button type="submit" class="btn btn-primary" ><?php $this->M('gen_valid'); ?></button>
+     </div>
+
+     </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- end  modal account -->
+
+<!-- -----------------modal attach---------------------- -->
+
+<div class="modal fade" id="ModalAttach" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+    <form novalidate="novalidate" id="mgtattach" class="form-horizontal" method="post" action="<?php echo $this->URL->GetMgmtMethod('AttachURL'); ?>">
+      <input type="hidden" name="RUSERI" value="<?php echo $this->RUSERI; ?>">
+
+     <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-paperclip"></span> <?php $this->M('matt_title'); ?><span class="label label-default" id="mm_tit_vnam"></span></h4>
+     </div>
+
+     <div class="modal-body">
+
+     <div class="well">
+
+     <div class="alert alert-info" role="alert"><?php $this->M('matt_explain'); ?></div>
+
+      <div class="form-group">
+      <label class="control-label col-md-1" ><em><?php $this->M('matt_url'); ?></em></label>
+      <div class="col-md-11"><div class="input-group">
+	<span class="input-group-addon glyphicon glyphicon-briefcase"></span> 
+	<input class="form-control" value="" name="DOSURL" id="DOSURL"  type="text">
+      </div></div>
+      </div>
+
+    </div>
+
+    </div>
+
+     <div class="modal-footer">
+       <?php if ( $this->UINFO['status'] == "std" ): ?>
+       <button type="button" class="btn btn-warning" ><?php $this->M('act_pay'); ?></button>
+       <?php endif; ?>
+       <button type="button" class="btn btn-default" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+       <button type="submit" class="btn btn-primary" ><?php $this->M('gen_valid'); ?></button>
+     </div>
+
+     </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- end  modal attach -->
+
+
+<!-- -------------------------------------------------------------------- -->
+
+<script src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/jquery/jquery_validate_fr.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/jquery/jquery.tablesorter.min.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/js/togglemodal.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/js/filter.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/js/bootstrap-datepicker-'.$this->LNG.'.js'); ?>">
+
+<script language="javascript">
+$('[data-toggle="tooltip"]').tooltip();
+</script>
+
+<script language="javascript">
+$(document).ready(function() { 
+  $("#dostable").tablesorter({headers:{5:{sorter:false}}} ); 
+} 
+); 
+</script>
+
+<!-- ------ form control ----------- -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#mgtcredoc").validate({
+      rules:{
+        DOSNAM:{
+          required:true
+        },
+      },
+      errorClass: "help-inline"
+    });
+    $("#mgtattach").validate({
+      rules:{
+        DOSURL:{
+          required:true
+        },
+      },
+      errorClass: "help-inline"
+    });
+  });
+</script>
+
+
+<!-- ------ end form control ----------- -->
+
+<?php if ( $this->DATESEL == 'yes' ) : ?>
+<!-- ------ init datepicker ----------- -->
+<script type="text/javascript">
+  $('#DOSLIM').datepicker({
+   format: 'yyyy-mm-dd',
+   weekStart: 1
+  });
+</script>
+<!-- ------ end init datepicker ----------- -->
+<?php endif; ?>
+
+</body>
+</html>
+
+

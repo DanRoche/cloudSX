@@ -1,0 +1,19 @@
+<div class="container">
+
+<h1><span class="glyphicon glyphicon-paperclip"></span>&nbsp;<?php $this->M('att_title'); ?></h1>
+
+<div class="well">
+<form class="form-horizontal" role="form" method="post" action="<?php echo $this->URL->GetMgmtMethod("Attach"); ?>" target="_top">
+<p class="text-info"><?php $this->M('att_explain'); ?></p>
+<input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
+<input name="MODE" value="<?php echo $this->MODE; ?>" type="hidden">
+<hr>
+
+<div>
+<button class="btn btn-success btn-sm" type="submit" ><span class="glyphicon glyphicon-paperclip"></span>&nbsp;<?php $this->M('att_attach'); ?></button>
+<a class="btn btn-default btn-sm" role="button" href="<?php echo $this->URL->GetMgmtMethod('CreAcc1'); ?>" ><span class="glyphicon glyphicon-user"></span>&nbsp;<?php $this->M('att_creacct'); ?></a>
+</div>
+
+</form>
+
+</div>

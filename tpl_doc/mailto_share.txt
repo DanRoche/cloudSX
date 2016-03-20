@@ -1,0 +1,13 @@
+<?php $this->M('ml2_hello'); ?>
+
+
+<?php $this->M('ml2_share'); ?>
+ 
+
+<?php $this->M('ml2_access'); ?>
+
+- <?php $this->M('ml2_link'); ?> <?php echo $this->URL->GetMinimumURL(); ?>
+
+<?php if ($this->DOSINFO['passwd'] != ""): ?>
+- <?php $this->M('ml2_passwd'); ?> <?php echo $this->DOSINFO['passwd']; ?>
+<?php endif; ?>

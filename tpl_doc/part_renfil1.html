@@ -1,0 +1,28 @@
+<div class="container">
+
+<h1><span class="glyphicon glyphicon-edit"></span>&nbsp;<?php $this->M('ren_title'); ?></h1>
+
+<div class="well">
+<em><?php $this->M('ren_m1'); ?></em>
+<form method="post" class="form-horizontal" action="<?php echo $this->URL->GetDosMethod('RenFile2'); ?>" target="_top">
+  <input name="DID" value="<?php echo $this->DID; ?>" type="hidden">
+<p>
+<?php 
+while (list($ind, $value) = each($this->RLIST) ): 
+?>
+ <input type="hidden" name="ORN[]" value="<?php echo $value; ?>" >
+ <div class="form-group">
+  <label for="renelt<?php echo $ind; ?>" class="col-sm-5 control-label"><?php echo $value; ?> :</label>
+   <div class="col-sm-7">
+    <input type="text" class="form-control" id="renelt<?php echo $ind; ?>" name="NRN[]" >
+   </div>
+ </div>
+<?php 
+endwhile;
+?>
+</p>
+ <button type="submit" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('ren_confirm'); ?></button>
+</form>
+</div>
+
+</div>

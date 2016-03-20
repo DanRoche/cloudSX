@@ -1,0 +1,245 @@
+/* ========== global structure ============== */
+
+html, body {
+ /*
+  * all the dom tree must be at 100%  
+  * for the height to work  on the  <object> !!
+  */
+ height:100%;
+}
+
+#pgtop {
+ background: #e3e9ec;
+ position: fixed;
+ z-index: 400;
+ top: 0px;
+ left: 0px;
+ width: 100%;
+ height: 100px;
+ margin-top: 0px;
+ margin-right: 0px;
+ margin-bottom: 0px;
+ margin-left: 0px;
+ padding-top: 10px;
+ padding-right: 10px;
+ padding-bottom: 10px;
+ padding-left: 10px;
+}
+
+#slogod {
+ margin-top: 4px;
+}
+#plogod {
+ margin-top: 4px;
+ max-height: 80px;
+}
+
+#mbar {
+ /* 
+  * otherwise it override  pgcont
+  * and prevent clicking on the links !
+  */
+ height: 50px;
+}
+
+#topscroller {
+ position: fixed;
+ z-index: 420;
+ top: 0px;
+ right: 0px;
+ margin-top: 0px;
+ margin-right: 0px;
+ margin-bottom: 0px;
+ margin-left: 0px;
+}
+
+#pgmenu {
+ background: #ffffff;
+ position: fixed;
+ top: 0px;
+ left: 0px;
+ width: 260px;
+ height: 100%;
+ overflow: auto;
+ z-index: 200;
+ margin-top: 0px;
+ margin-right: 0px;
+ margin-bottom: 0px;
+ margin-left: 0px;
+ padding-top: 180px;
+ padding-right: 10px;
+ padding-bottom: 10px;
+ padding-left: 10px;
+}
+
+#menu_docs {
+ z-index: 250;
+ position: fixed;
+ top: 100px;
+ left: 0px;
+ height: 80px;
+ width: 246px;
+ overflow: hidden;
+ white-space: nowrap;
+ background:  #ffffff;
+}
+
+#menu_files {
+}
+
+.mbullet {
+ position: absolute;
+ margin-left: -20px;
+}
+
+#pgresizer {
+ background:  #e3e9ec;
+ position: fixed;
+ top: 100px;
+ left: 260px;
+ width: 4px;
+ height: 100%;
+ z-index: 350;
+ cursor: col-resize;
+ margin-top: 0px;
+ margin-right: 0px;
+ margin-bottom: 0px;
+ margin-left: 0px;
+ padding-top: 0px;
+ padding-right: 0px;
+ padding-bottom: 0px;
+ padding-left: 0px;
+}
+
+#pgcont {
+ background: #ffffff;
+ /*
+  * position: absolute;
+  * top: 100px;
+  * left: 265px;
+  * width: 100%;
+  */
+ z-index: 300;
+ height: 100%;
+ margin-top: 100px;
+ margin-right: 0px;
+ margin-bottom: 0px;
+ margin-left: 265px;
+ padding-top: 5px;
+ padding-right: 5px;
+ padding-bottom: 5px;
+ padding-left: 5px;
+}
+
+#pdf_content {
+ height: 100%;
+ width: 100%;
+ min-height: 100%;
+}
+
+.dostit {
+ font-weight: bolder;
+ margin-bottom: 5px;
+ font-size: 32px;
+ line-height: 30px;
+}
+
+.no-selection {
+  -ms-user-select: none; /* IE 10+ */
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ok-selection {
+  -ms-user-select: auto;
+  -moz-user-select: auto;
+  -khtml-user-select: auto;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
+/* ========== some tuning  ============== */
+
+#page000 {
+ margin-top: 20px;
+}
+
+#page001 {
+ margin-top: 20px;
+ /* background: #e3e9ec; */
+}
+
+#page002 {
+ background: #e3e9ec;
+}
+
+#conthead {
+ background: #4e5a60;
+ color: #ffffff;
+}
+#conthead a {
+ color: #ffffff;
+}
+
+#page003 {
+ margin-top: 20px;
+}
+
+#DOSCOM {
+ width: 100%;
+ height: 100px;
+}
+#DOSCOMRO {
+ width: 100%;
+ height: 100px;
+ background-color: #EEE;
+}
+
+#BLOGCOMM {
+ width: 100%;
+ height: 100px;
+}
+
+#DOSADR {
+ /* width: 450px; */
+ height: 100px;
+}
+
+.myblok1 {
+ padding: 20px;
+}
+
+.myblok2 {
+ padding-top: 5px;
+ padding-bottom: 5px;
+}
+
+.blogpre {
+ background-color: #FFFFFF;
+ border: 0px none #FFF;
+ border-radius: 0px;
+}
+
+.mynoro {
+ background-color: #FFFFFF;
+ cursor: text;
+}
+
+/* ========== self promote popup  ============== */
+
+#selfprom {
+ z-index: 10000;
+ position: fixed;
+ top: 40px;
+ left: 80px;
+ width: 50%;
+ overflow: hidden;
+ background:  #ffffd0;
+}
+#clozprom {
+ position: absolute;
+ top: 10px;
+ right: 10px;
+}

@@ -1,0 +1,34 @@
+<style type="text/css">
+#pdf_content  {
+  margin-top: 20px;
+}
+#conthead {
+  background: #4e5a60;
+  color: #ffffff;
+  position: fixed; 
+  top: 100px;
+  left: 270px;
+  right: 5px;
+}
+#conthead a {
+ color: #ffffff;
+}
+#conthead p {
+ margin-bottom: 0px;
+}
+</style>
+<div id="conthead" class="container-fluid"><div class="row">
+<div class="col-xs-6">
+ <strong><span class="glyphicon glyphicon-folder-open" aria-hidden="true">&nbsp;<?php echo $this->FILENAM; ?></span></strong>
+</div>
+<div class="col-xs-6">
+ <p class="text-right" > 
+ <a href="<?php echo $this->DLURL; ?>" class="btn btn-link btn-xs" role="button" ><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"> <?php $this->M('cont_dl'); ?></a>&nbsp;
+</p>
+</div></div></div>
+<object type="application/pdf" data="<?php echo $this->CONVURL; ?>" id="pdf_content">
+  <p>this PDF cannot be displayed !</p>
+</object>
+<script language="javascript">
+  adjustContentLeft();
+</script>

@@ -1,0 +1,8 @@
+{ "files":[{
+ "name":"<?php echo $this->NAME; ?>",
+ "size":<?php echo $this->SIZE; ?>,
+ "type":"<?php echo $this->TYPE; ?>",
+ "url":"none",
+ "deleteUrl":"none",
+ "deleteType":"DELETE"
+}]}

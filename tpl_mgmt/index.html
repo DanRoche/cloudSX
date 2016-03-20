@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- tpl: index.html -->
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <title><?php echo $this->APPNAM; ?></title>
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery_validate_fr.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script> 
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link href="<?php echo $this->URL->GetMedia('/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/csxmgmt.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/datepicker.css'); ?>" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+
+<div class="row p0head">
+ <div class="row">
+  <div class="col-md-3">
+   <img id="logo" src="<?php echo $this->URL->GetDefLogo('large'); ?>">
+  </div>
+  <div class="col-md-7">
+   <div class="row"><div class="col-md-12"><h1 class="title"><?php $this->M('idx_title'); ?></h1></div></div>
+   <div class="row"><div class="col-md-12"><h3 class="title"><?php $this->M('idx_intro'); ?></h3></div></div>
+  </div>
+  <div class="col-md-2">
+    <form id="lang" method="post" action="<?php echo $this->URL->GetMgmtMethod('SetLng'); ?>" target=_top>
+     <div class="input-group">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-flag"></span></span>
+      <select name="LNG" class="form-control" onchange="this.form.submit()">
+      <?php foreach( $this->LANGSET as $lid => $lval) { ?>
+      <option value="<?php echo $lid; ?>" <?php echo ($this->LNG == $lid)?"selected":""; ?>><?php echo $lval; ?></option>
+      <?php } ?>
+      </select>
+     </div>
+    </form>
+  </div>
+ </div>
+</div>
+
+<div class="row p0ch1">
+<p class="lead text-center">
+<?php $this->M('idx_exp1'); ?>
+</p>
+<p class="text-center">
+<img id="demo" src="<?php echo $this->URL->GetMedia('/img/samplepres_small.png'); ?>">
+</p>
+<p class="text-center"><?php $this->M('idx_m1p1'); ?></p>
+<p class="text-center"><button class="btn btn-success btn-sm" type="button" onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('Create1'); ?>'" ><?php $this->M('idx_m1p2'); ?></button></p>
+<p class="text-center"><?php $this->M('idx_m1p3'); ?></p>
+</p>
+</div>
+
+<div class="row p0ch2">
+<p>
+<?php $this->M('idx_pre1'); ?>
+<p>
+<hr>
+<div class="row">
+<div class="col-md-6">
+<p class="text-center">
+<?php $this->M('idx_pre2'); ?>
+</p>
+<p class="text-center">
+<button class="btn btn-default" type="button" onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('DosList'); ?>'" ><?php $this->M('idx_but2'); ?></button>
+</p>
+</div>
+<div class="col-md-6">
+<p class="text-center">
+<?php $this->M('idx_pre3'); ?>
+</p>
+<p class="text-center">
+<button class="btn btn-default" type="button" onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('CreAcc1'); ?>'" ><?php $this->M('idx_but3'); ?></button>
+</p>
+</div>
+
+</div>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<html>
+  <head>
+<title><?php echo $this->APPNAM; ?></title>
+<meta charset="UTF-8">
+<style>
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #333;
+}
+.d1 {
+ min-height: 20px;
+ padding: 19px;
+ margin-right: 20px;
+ margin-left: 20px;
+ margin-bottom: 20px;
+ background-color: #F5F5F5;
+ border: 1px solid #E3E3E3;
+ border-radius: 4px;
+ box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
+}
+.pre1 {
+ margin: 0px 0px 10px;
+ display: block;
+ padding: 6px 12px;
+ font-size: 14px;
+ line-height: 1.42857;
+ color: #555;
+ background-color: #FFF;
+ border: 1px solid #CCC;
+ border-radius: 4px;
+ box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+ transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+.lab {
+ padding: 6px 12px;
+ font-weight: 700;
+ font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+ font-size: 14px;
+ line-height: 1.42857;
+ color: #333;
+}
+.val {
+ width: 100%;
+ margin: 0px 0px 10px;
+ padding: 6px 12px;
+ font-size: 14px;
+ line-height: 1.42857;
+ color: #555;
+ background-color: #FFF;
+ border: 1px solid #CCC;
+ border-radius: 4px;
+ box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+ transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+.tab td {
+ padding: 10px;
+}
+.lab0 {
+ text-align: right;
+}
+</style>
+</head>
+<body>
+<div class="d1">
+<p><?php $this->M('mel_hello'); ?></p>
+<p><?php printf($this->K('mel_share'),$this->FROM); ?></p>
+<pre class="pre1">
+<?php echo $this->MESSG; ?>
+</pre>
+<p class="p1"><?php $this->M('mel_access'); ?></p>
+<table class="tab"><tr>
+<td class="lab0"><span class="lab"><?php $this->M('mel_link'); ?></span></td><td><span class="val"><a href="<?php echo $this->URL->GetAbsDosStruct(); ?>"><?php echo $this->URL->GetMinimumURL(); ?></a></span></td>
+</tr>
+<?php if ($this->DOSINFO['passwd'] != ""): ?>
+<tr><td class="lab0"><span class="lab"><?php $this->M('mel_passwd'); ?></span></td><td><span class="val"><?php echo $this->DOSINFO['passwd']; ?></span></td></tr>
+<?php endif; ?>
+</table>
+
+</div>
+</body>
+</html>

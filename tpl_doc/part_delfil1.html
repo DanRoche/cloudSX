@@ -1,0 +1,21 @@
+<div class="container">
+
+<h1><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('del_title'); ?></h1>
+
+<div class="well">
+<em><?php $this->M('del_m1'); ?></em>
+<form method="post" action="<?php echo $this->URL->GetDosMethod('DelFile2'); ?>" target="_top">
+  <input name="DID" value="<?php echo $this->DID; ?>" type="hidden">
+<p>
+<ul>
+<?php while (list($ind, $value) = each($this->DLIST) ) { ?>
+ <li><?php echo $value; ?></li>
+ <input type="hidden" name="LDL[]" value="<?php echo $value; ?>" >
+<?php } ?>
+ </ul>
+</p>
+  <button type="submit" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('del_confirm'); ?></button>
+</form>
+</div>
+
+</div>

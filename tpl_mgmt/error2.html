@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!-- tpl: unauth.html -->
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <title><?php echo $this->APPNAM; ?></title>
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery_validate_fr.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script> 
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link href="<?php echo $this->URL->GetMedia('/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/csxmgmt.css'); ?>" rel="stylesheet">
+</head>
+<body id="page001">
+
+<div class="container">
+
+<div class="well c0head">
+ <div class="row">
+  <div class="col-md-4"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></div>
+  <div class="col-md-8">
+   <h3 class="title"><?php $this->M('err_tit'); ?></h3>
+ </div>
+ </div>
+</div>
+
+<div class=" cont1 alert alert-danger" role="alert"> <p> <?php echo $this->MSG; ?></p> </div>
+
+<div class="well c0foot">
+<button class="btn btn-primary btn-sm" type="button" onclick="window.location.href='<?php echo $this->RURL; ?>'"><?php $this->M('err_back'); ?></button>
+</div>
+
+</body></html>

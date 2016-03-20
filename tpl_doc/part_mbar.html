@@ -1,0 +1,36 @@
+<div class=bs-example> 
+ <nav id=navbar-example class="navbar navbar-default navbar-static"> 
+  <div class=container-fluid> 
+   <div class="collapse navbar-collapse bs-example-js-navbar-collapse"> 
+    <ul class="nav navbar-nav"> 
+     <!-- <li><a href="<?php echo $this->URL->GetDosMethod('Display'); ?>"><span class="glyphicon glyphicon-home"></span></a></li> -->
+     <li><a href="<?php echo $this->URL->GetInnerMethod('DispShare'); ?>"><span class="glyphicon glyphicon-hand-right"></span>&nbsp;<?php $this->M('menu_share'); ?></a></li>
+     <li<?php echo ($this->MODACC=='RO')? ' class="disabled"':''; ?>><a href="<?php echo $this->URL->GetInnerMethod('AddFile1'); ?>"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;<?php $this->M('menu_add'); ?></a></li>
+     <li<?php echo ($this->DOSINFO['hasblog']==1)? '':' class="disabled"'; ?>><a href="<?php echo $this->URL->GetInnerMethod('DispBlog'); ?>"><span class="glyphicon glyphicon-comment"></span>&nbsp;<?php $this->M('menu_messg'); ?></a></li>
+
+     <li class="dropdown"> <a id="drop2" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span>&nbsp;<?php $this->M('menu_doc'); ?> <span class="caret"></span> </a> 
+      <ul class="dropdown-menu" aria-labelledby="drop2"> 
+       <li><a href="<?php echo $this->URL->GetInnerMethod('DispParam'); ?>"><span class="glyphicon glyphicon-briefcase"></span>&nbsp;<?php $this->M('menu_param'); ?></a></li> 
+       <li role="separator" class="divider"></li> 
+       <li<?php echo ($this->MODACC=='RO')? ' class="disabled"':''; ?>><a href="javascript:contentDelete()"><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('menu_del'); ?></a></li> 
+       <li<?php echo ($this->MODACC=='RO')? ' class="disabled"':''; ?>><a href="javascript:contentRename()"><span class="glyphicon glyphicon-edit"></span>&nbsp;<?php $this->M('menu_ren'); ?></a></li> 
+       <li role="separator" class="divider"></li> 
+       <li><a href="<?php echo $this->URL->GetInnerMethod('DispAttach'); ?>"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;<?php $this->M('menu_attach'); ?></a></li> 
+       <li role="separator" class="divider"></li> 
+       <?php if ( $this->MJITSI == 1 ): ?>
+       <li><a href="<?php echo $this->URL->GetMeetJitsi(); ?>" target="jitsi"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;<?php $this->M('menu_vidconf'); ?></a></li> 
+       <?php endif; ?>
+       <?php if ( $this->FRMDAT == 1 ): ?>
+       <li<?php echo (isset($this->DOSINFO['framadate']))? '':' class="disabled"'; ?>><a href="<?php echo $this->URL->GetInnerDate(); ?>"><span class="glyphicon glyphicon-time"></span>&nbsp;<?php $this->M('menu_date'); ?></a></li> 
+       <?php endif; ?>
+      </ul>
+      </ul>
+     </li> 
+
+    <ul class="nav navbar-nav navbar-right"> 
+     <li><a href="<?php echo $this->URL->GetMgmtMethod('DosList'); ?>"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php $this->M('menu_account'); ?></a></li>
+    </ul>
+   </div> 
+  </div> 
+ </nav>  
+</div>  

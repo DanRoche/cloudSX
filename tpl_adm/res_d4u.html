@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<?php include "head_top.html"; ?>
+
+<?php include "part_tabs.html"; ?>
+
+<div class="alert alert-warning" role="alert">
+<div class="row">
+<div class="col-md-11"><h4><?php $this->M('adm_srh_d4u'); ?> <strong><?php echo $this->SEARCHINFO['gvname']." ".$this->SEARCHINFO['name']."  ( ".$this->SEARCHINFO['mail']." )"; ?> </strong></h4></div><div class="col-md-1"><p class="text-right"><a href="<?php echo $this->URL->GetAdmMethod1Arg('CloseRes',$this->CURTAB); ?>" ><span class="glyphicon glyphicon-remove"></span></a></p></div>
+</div></div>
+
+<table id="dostbres" class="table table-striped table-condensed table-hover tablesorter">
+<thead>
+<tr class='thead'>
+ <th>&nbsp;<?php $this->M('adm_th1'); ?></th>
+ <th>&nbsp;<?php $this->M('adm_th2'); ?></th>
+ <th>&nbsp;<?php $this->M('adm_th4'); ?></th>
+ <th>&nbsp;<?php $this->M('adm_th5'); ?></th>
+</tr>
+</thead>
+<tbody>
+<?php 
+foreach ($this->DPLIST as $did => $ddata ) { 
+ $mode = $ddata['mode'];
+ $elem = $ddata['data'];
+?>
+<tr class="datarow">
+ <td><span class="dnam"><a href="<?php echo $this->URL->GetAdmMethodWithDID('View',$did); ?>" ><?php echo $elem['title']; ?></a></span></td>
+ <td><?php echo $elem['passwd']; echo (isset($elem['passadm']))?" / ".$elem['passadm']:""; ?></td>
+ <td><span class="dmod"><?php echo $elem['modified']; ?></span></td>
+ <td><span class="deol"><?php echo $elem['endoflife']; ?></span></td>
+</tr>
+<?php
+}
+?>
+
+</tbody>
+</table>
+
+<!-- --------- closing doslist ----------- -->
+</div>
+
+
+<!-- -------------------------------------------------------------------- -->
+
+<script src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/jquery/jquery.tablesorter.min.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script>
+
+<script language="javascript">
+$(document).ready(function() { 
+  $("#dostbres").tablesorter({headers:{1:{sorter:false},5:{sorter:false}}} ); 
+} 
+); 
+</script>
+
+</body>
+</html>
+
+

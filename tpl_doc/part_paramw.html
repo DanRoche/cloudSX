@@ -1,0 +1,209 @@
+<link href="<?php echo $this->URL->GetMedia('/css/datepicker.css" rel="stylesheet'); ?>">
+<script language="javascript" src="<?php echo $this->URL->GetMedia('/js/bootstrap-datepicker-'.$this->LNG.'.js'); ?>"></script> 
+<script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery_validate_fr.js'); ?>"></script> 
+
+<div class="container">
+
+<h1><span class="glyphicon glyphicon-briefcase"></span>&nbsp;<?php $this->M('prm_title'); ?></h1>
+
+<div class="well">
+
+<form novalidate="novalidate" id="upddoc1" class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('Update'); ?>" target="_top">
+<input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
+
+<div class="form-group">
+<label class="control-label col-md-2" ><em><?php $this->M('prm_nam1'); ?></em></label>
+<div class="col-md-10"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-briefcase"></span> 
+  <input class="form-control" value="<?php echo $this->DOSINFO['title']; ?>" name="DOSNAM" id="DOSNAM" placeholder="<?php $this->M('prm_nam2'); ?>"  type="text">
+</div></div>
+
+</div>
+
+<div class="form-group">
+<label class="control-label col-md-2" ><em><?php $this->M('prm_comm'); ?></em></label>
+<div class="col-md-10"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-comment"></span>
+  <textarea name="DOSCOM" id="DOSCOM" class="form-control pull-left">
+<?php echo $this->DOSINFO['comment']; ?>
+  </textarea>
+</div></div>
+</div>
+
+<div class="form-group">
+<label class="control-label col-md-2" ><em><?php $this->M('prm_pass1'); ?></em></label>
+<div class="col-md-10"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-exclamation-sign"></span> 
+  <input class="form-control" value="<?php echo $this->DOSINFO['passwd']; ?>" name="DOSPSW" id="DOSPSW" placeholder="<?php $this->M('prm_pass2'); ?>" type="text">
+</div></div>
+</div>
+
+<div class="form-group">
+<label class="control-label col-md-2" ><em><?php $this->M('prm_eol'); ?></em></label>
+<div class="col-md-10"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-calendar"></span> 
+  <input class="form-control" value="<?php echo $this->DOSINFO["endoflife"]; ?>" name="DOSLIM" id="DOSLIM" type="text" <?php echo ($this->DATESEL=='no')?"readonly":""; ?>>
+</div></div>
+</div>
+
+<hr>
+
+<div class="form-group">
+<label class="control-label col-md-2" ><em><?php $this->M('prm_blog'); ?></em></label>
+<div class="col-md-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" <?php echo $this->DOSINFO['hasblog']?"checked":""; ?> name="DOSBLG" id="DOSBLG" > 
+        </label>
+      </div>
+</div>
+</div>
+
+<hr>
+
+<div>
+<button class="btn btn-primary btn-sm" type="submit"><span class="glyphicon glyphicon-ok"></span>&nbsp;<?php $this->M('prm_confirm'); ?></button>
+</div>
+
+</form>
+</div>
+
+<div class="well">
+<div>
+<?php if ( $this->FIGACTION == "fige" ) : ?> 
+<button class="btn btn-warning btn-sm" type="button" href="#myModalConfFige" data-toggle="modal"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;<?php $this->M('prm_fige'); ?></button>
+<?php endif; ?>
+<?php if ( $this->FIGACTION == "defige" ) : ?> 
+<button class="btn btn-warning btn-sm" type="button" href="#myModalConfDefige" data-toggle="modal"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;<?php $this->M('prm_defige'); ?></button>
+<?php endif; ?>
+<button class="btn btn-danger btn-sm" type="button" href="#myModalConfDel" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('prm_delete'); ?></button>
+</div>
+
+
+
+</div>
+
+<!--   modal confirm del -->
+<div id="myModalConfDel" class="modal fade" style="top: 20%;">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <form class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('Delete'); ?>" target="_top">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title"><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('prm1_del1'); ?></h3>
+   </div>
+   <div class="modal-body">
+    <input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
+    <p class="text-error">
+    <em><?php $this->M('prm1_del2'); ?></em><br> 
+    </p>
+   </div>   
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+    <button type="submit" class="btn btn-danger btn-sm"><?php $this->M('gen_ok'); ?></button>
+   </div>
+  </div><!-- /.modal-content -->
+  </form>
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- end  modal confirm del -->
+
+<?php if ( $this->FIGACTION == "fige" ) : ?>
+<!--   modal confirm fige -->
+<div id="myModalConfFige" class="modal fade" style="top: 20%;">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <form novalidate="novalidate" id="figpd1" class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('Fige'); ?>" target="_top">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;<?php $this->M('prm2_fig1'); ?></h3>
+   </div>
+   <div class="modal-body" style="max-height: 600px;">
+    <input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
+    <p class="text-info">
+    <em><?php $this->M('prm2_fig2'); ?></em><br> 
+    </p>
+    <input id="PASSADM" name="PASSADM" placeholder="<?php $this->M('prm2_fig3'); ?>" type="text" size="40">
+   </div>
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+    <button type="submit" class="btn btn-primary btn-sm"><?php $this->M('gen_ok'); ?></button>
+   </div>
+  </div><!-- /.modal-content -->
+  </form>
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- end  modal confirm fige -->
+<?php endif; ?>
+
+<?php if ( $this->FIGACTION == "defige" ) : ?>
+<!--   modal confirm defige -->
+<div id="myModalConfDefige" class="modal fade" style="top: 20%;">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <form novalidate="novalidate" id="figpd1" class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('Defige'); ?>" target="_top">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;<?php $this->M('prm2_defig1'); ?></h3>
+   </div>
+   <div class="modal-body" style="max-height: 600px;">
+    <input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
+    <p class="text-info">
+    <em><?php $this->M('prm2_defig2'); ?></em><br> 
+    </p>
+   </div>
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+    <button type="submit" class="btn btn-primary btn-sm"><?php $this->M('gen_ok'); ?></button>
+   </div>
+  </div><!-- /.modal-content -->
+  </form>
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- end  modal confirm defige -->
+<?php endif; ?>
+
+<!-- ------ form control ----------- -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#upddoc1").validate({
+      rules:{
+        DOSNAM:{
+          required:true
+        },
+      },
+      errorClass: "help-inline"
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#figpd1").validate({
+      rules:{
+        PASSADM:{
+          required:true,
+          minlength: 3
+        },
+      },
+      errorClass: "help-inline"
+    });
+  });
+</script>
+
+
+<!-- ------ end form control ----------- -->
+
+<?php if ( $this->DATESEL == 'yes' ) : ?>
+<!-- ------ init datepicker ----------- -->
+<script type="text/javascript">
+  $('#DOSLIM').datepicker({
+   format: 'yyyy-mm-dd',
+   weekStart: 1
+  });
+</script>
+<!-- ------ end init datepicker ----------- -->
+<?php endif; ?>
+
+

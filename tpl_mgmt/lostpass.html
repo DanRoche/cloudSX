@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- tpl: lostpass.html -->
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <title><?php echo $this->APPNAM; ?></title>
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery_validate_fr.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script> 
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link href="<?php echo $this->URL->GetMedia('/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/csxmgmt.css'); ?>" rel="stylesheet">
+</head>
+<body id="page001">
+
+<div class="container">
+
+<div class="well c0head">
+ <div class="row">
+  <div class="col-md-4"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></div>
+  <div class="col-md-8">
+   <h3 class="title"><?php $this->M('lostp_title'); ?></h3>
+ </div>
+ </div>
+</div>
+
+<form novalidate="novalidate" id="lostaccount1" class="form-horizontal" method="post" action="<?php echo $this->URL->GetMgmtMethod('ResetPassword'); ?>">
+
+<div class="cont1 well">
+
+<p> <?php $this->M('lostp_message'); ?></p><p>&nbsp;</p>
+
+<div class="form-group">
+<label class="control-label col-md-3" ><em><?php $this->M('act_mail'); ?></em></label>
+<div class="col-md-7"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
+  <input class="form-control" value="" name="ACCMAIL" id="ACCMAIL" placeholder="<?php $this->M('acc_hmail'); ?>" type="text">
+</div></div>
+</div>
+
+</div>
+
+
+<div class="well c0foot">
+ <button type="button" class="btn btn-default btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('Index'); ?>'"> <?php $this->M('gen_cancel'); ?> </button>
+ <button type="submit" class="btn btn-primary btn-sm"> <?php $this->M('gen_valid'); ?> </button>
+</div>
+
+</form>
+
+
+<!-- ------ form control ----------- -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#lostaccount1").validate({
+      rules:{
+        ACCMAIL:{
+          required:true
+        },
+      },
+      errorClass: "help-inline"
+    });
+  });
+</script>
+
+
+<!-- ------ end form control ----------- -->
+
+
+</body></html>

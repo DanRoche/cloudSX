@@ -1,0 +1,60 @@
+#!/bin/bash
+#
+
+############################################
+# init incrontab for cloudSX
+# to be run by apache/www-data at cloudSX install
+# 
+# dan.y.roche@gmail.com  
+#
+# first version 20150419
+############################################
+
+
+##########################################################
+# fetch config
+##########################################################
+
+# fetch global application config (php !)
+#
+MYSELF=$0
+MYDIR=$(dirname ${MYSELF})
+APPCONF=${MYDIR}/../app/Config.php
+
+if [ -s ${APPCONF} ]
+then
+  # get the config from php conf
+  TMP1=$(cat ${APPCONF} | grep '^ *$this->TopAppDir')
+  CDIR1=$(expr "${TMP1}" : ' *$this->TopAppDir *= *\"\(.*\)\"')
+  TMP2=$(cat ${APPCONF} | grep '^ *$this->upspool')
+  CDIR2=$(expr "${TMP2}" : '.*TopAppDir."\(.*\)\"')
+else
+  echo "Can't find application config file - aborting !"
+  exit 3
+fi
+
+CSXDIR=${CDIR1}
+SPOOLDIR=${CSXDIR}${CDIR2}
+
+# verify 
+if [ ! -d ${CSXDIR} ]
+then
+  echo "application data dir ${CSXDIR} not found - aborting !"
+  exit 4
+fi
+if [ ! -d ${SPOOLDIR} ]
+then
+  echo "application spool dir ${SPOOLDIR} not found - aborting !"
+  exit 5
+fi
+
+ISCRIPT=${CSXDIR}/script/processuploaded
+
+######################
+# let's go !
+
+echo "${SPOOLDIR} IN_CREATE ${ISCRIPT} \$@/\$# \$%" > /tmp/iict_$$.txt
+
+incrontab /tmp/iict_$$.txt
+
+rm -f /tmp/iict_$$.txt

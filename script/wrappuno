@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+
+#############################################
+# unoconv wrapper 
+#############################################
+
+#############################################
+# be sure ENV is here
+#############################################
+
+SHELL=/bin/bash
+USER=apache
+MAIL=/var/spool/mail/apache
+PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/bin:.
+PWD=/home/login/apache
+EDITOR=emacs
+LANG=fr_FR.UTF-8
+HOME=/home/login/apache
+LOGNAME=apache
+VISUAL=emacs
+
+export SHELL USER MAIL PATH PWD EDITOR LANG HOME LOGNAME VISUAL
+
+#############################################
+# GO
+#############################################
+
+FILE=$1
+
+if [ ! -s ${FILE} ]
+then
+  echo "file not found"
+  exit 1
+fi
+
+/usr/bin/unoconv --stdout -f pdf "${FILE}"
+

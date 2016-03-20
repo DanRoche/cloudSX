@@ -1,0 +1,72 @@
+<div class="container">
+
+<h1><span class="glyphicon glyphicon-cloud-upload"></span>&nbsp;<?php $this->M('add_title'); ?></h1>
+
+<div class="row">
+<p class="text-muted text-right"><small><a href="<?php echo $this->URL->GetInnerMethod('AddFile1','mode=classic'); ?>"><span class="glyphicon glyphicon-paperclip"></a></small></p>
+</div>
+
+<div class="row">
+ <div class="well">
+  <p>
+   <span class="btn btn-success fileinput-button">
+    <i class="glyphicon glyphicon-plus"></i> <span><?php $this->M('add_select'); ?></span>
+     <!-- The file input field used as target for the file upload widget -->
+    <input id="fileupload" type="file" name="files[]" multiple>
+   </span>&nbsp;&nbsp;
+   <em><?php $this->M('add_drop'); ?></em>&nbsp;<img src="<?php echo $this->URL->GetMedia('/img/dragdrop.png'); ?>"</p>
+ </div>
+</div>
+
+<div class="row">
+ <!-- The global progress bar -->
+ <div id="progress" class="progress">
+  <div class="progress-bar progress-bar-success"></div>
+ </div>
+</div>
+
+<div class="row">
+ <!-- The container for the uploaded files -->
+ <div id="files" class="files"></div>
+ <br>
+</div>
+
+<div class="row">
+<a href="<?php echo $this->URL->GetDosMethod('Display'); ?>" target="_top" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-ok"></span>&nbsp;OK</a>
+<!-- <button class="btn btn-primary btn-sm" type="button" href="<?php echo $this->URL->GetDosMethod('Display'); ?>" ><span class="glyphicon glyphicon-ok"></span>&nbsp;<?php $this->M('add_ok'); ?></button> -->
+</div>
+
+</div>
+
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="/jqfu/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/jqfu/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/jqfu/js/jquery.fileupload.js"></script>
+<script>
+/*jslint unparam: true */
+/*global window, $ */
+$(function () {
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    var url = '<?php echo $this->URL->GetDosMethod('AddFileJQFU'); ?>';
+    $('#fileupload').fileupload({
+        url: url,
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo('#files');
+            });
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>

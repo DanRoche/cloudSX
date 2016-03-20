@@ -1,0 +1,132 @@
+<div class="container">
+
+<h1><span class="glyphicon glyphicon-comment"></span>&nbsp;<?php $this->M('blg_title'); ?></h1>
+
+<div class="well">
+<button class="btn btn-default btn-sm" type="button" href="#myModalNewComm" data-toggle="modal"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;<?php $this->M('blg_add'); ?></button>&nbsp;&nbsp;
+<button class="btn btn-danger btn-sm" type="button" href="#myModalConfSupprAll" data-toggle="modal"><span class="glyphicon glyphicon-trash icon-white"></span>&nbsp;<?php $this->M('blg_del'); ?></button>
+</div>
+
+<?php if  ($this->DOSINFO['blogcnt'] == 0 ) { ?>
+<p class="text-warning"><?php $this->M('blg_none'); ?></p>
+<?php } ?>
+
+<?php while (list($key, $elem) = each($this->BLOGDATA)) { ?>
+
+<div class="panel panel-default">
+ <div class="panel-heading"><div class="row">
+  <div class="col-md-11"><p class="text-success"><?php echo $this->K('blg_le').date($this->K('blg_dfmt'),$key).$this->K('blg_par'); ?><?php echo $elem['signature'];?></p></div>
+  <div class="col-md-1"><p class="text-right"><button class="btn btn-link btn-sm" type="button" onclick="ConfSupprOne(<?php echo $key; ?>)"><span class="glyphicon glyphicon-trash"></span></button></p></div>
+  </div></div>
+  <div class="panel-body">
+   <pre class="blogpre">
+<?php echo $elem['comment'];?>
+   </pre>
+  </div>
+</div>
+
+<?php } ?>
+
+<!--   modal confirm suppress all -->
+
+<div id="myModalConfSupprAll" class="modal fade" style="top: 20%;">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <form class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('DelBlogAll'); ?>">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('blg1_del1'); ?></h3>
+   </div>
+   <div class="modal-body" style="max-height: 600px;">
+    <input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
+    <p class="text-error">
+    <em><?php $this->M('blg1_del2'); ?></em><br> 
+    </p>
+   </div> 
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+    <button type="submit" class="btn btn-danger btn-sm"><?php $this->M('gen_ok'); ?></button>
+   </div>
+  </div><!-- /.modal-content -->
+  </form>
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- end  modal suppress all -->
+
+
+<!--   modal confirm suppress one -->
+
+<div id="myModalConfSupprOne" class="modal fade" style="top: 20%;">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <form class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('DelBlogOne'); ?>">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('blg2_del1'); ?></h3>
+   </div>
+   <div class="modal-body" style="max-height: 600px;">
+    <input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
+    <input id="blgdel1id" name="COMMID" value="" type="hidden">
+    &nbsp;
+   </div>
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+    <button type="submit" class="btn btn-danger btn-sm"><?php $this->M('gen_ok'); ?></button>
+   </div>
+  </div><!-- /.modal-content -->
+  </form>
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script language="javascript">
+ function ConfSupprOne(cid) {
+   $('#blgdel1id').val(cid);
+   $('#myModalConfSupprOne').modal();
+ }
+</script> 
+
+<!-- end  modal suppress one -->
+
+<!--   modal new comment -->
+
+<div id="myModalNewComm" class="modal fade" style="top: 20%;">
+ <div class="modal-dialog">
+  <div class="modal-content">
+   <form class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('AddBlog'); ?>">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3><span class="glyphicon glyphicon-comment"></span>&nbsp;Ajouter un message</h3>
+   </div>
+   <div class="modal-body" style="max-height: 600px;">
+    <input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
+
+     <div class="form-group">
+      <label class="control-label col-md-3" ><em>votre nom<br>(facultatif) :</em></label>
+      <div class="col-md-9"><div class="input-group">
+      <span class="input-group-addon glyphicon glyphicon-user"></span> 
+      <input class="form-control" name="BLOGSIGN" id="BLOGSIGN" type="text">
+      </div></div>
+     </div>
+
+    <div class="form-group">
+     <label class="control-label col-md-3" ><em>message :</em></label>
+     <div class="col-md-9"><div class="input-group">
+     <span class="input-group-addon glyphicon glyphicon-edit"></span>
+     <textarea name="BLOGCOMM" id="BLOGCOMM" class="form-control pull-left"></textarea>
+     </div></div>
+    </div>
+
+   </div>
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
+    <button type="submit" class="btn btn-danger btn-sm"><?php $this->M('gen_ok'); ?></button>
+   </div>
+  </div><!-- /.modal-content -->
+  </form>
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- end  modal new comment  -->
+ 
+</div>

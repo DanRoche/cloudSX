@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title><?php $this->M('mgt_title'); ?></title>
+
+ <!-- Bootstrap -->
+ <link href="<?php echo $this->URL->GetMedia('/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/csxmgmt.css'); ?>" rel="stylesheet">
+<script language="javascript">
+function PopAskPass() {
+ $('#MattAskPass').modal('toggle')
+}
+function PopError() {
+ $('#MattError').modal('toggle')
+}
+</script>
+</head>
+
+<body onload="<?php echo $this->AUTOPOP; ?>()">
+
+<div class="container-fluid">
+
+<div class="row tophead">
+
+<!--    <LOGO>  ------------------------------------ -->
+<div class="col-xs-2">
+<?php if ( isset($this->UINFO['llogo']) ): ?>
+<a href="#"><img id="plogol" src="<?php echo $this->URL->GetMgmtMethod('DispLogo', "UID=".$this->RUSERI); ?>" ></a>
+<?php else: ?>
+<a href="#"><img id="slogol" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
+<?php endif; ?>
+</div>
+<!--    </LOGO>  ------------------------------------ -->
+
+
+<div class="col-xs-10">
+
+<!--    <TITLE+USER>  ------------------------------------ -->
+<div class="row">
+
+<div class="col-xs-6">
+ <h2><?php $this->M('mgt_title'); ?></h2>
+</div>
+
+<div class="col-xs-6">
+ <h2 class="pull-right"><?php echo $this->MYSELF; ?></h2>
+</div>
+
+</div>
+<!--    </TITLE+USER>  ------------------------------------ -->
+
+<!--    <PSEUDO-MBAR>  ------------------------------------ -->
+<div id="mgmbar" class="row" >
+<div class="bs-example"> 
+ <nav id="navbar-example" class="navbar navbar-default navbar-static"> 
+  <div class=container-fluid> 
+   <div class="collapse navbar-collapse bs-example-js-navbar-collapse"> 
+    <ul class="nav navbar-nav"> 
+     <p class="navbar-text"><strong><?php $this->M('mgt_mbrief'); ?></strong></p>
+     <li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;<?php $this->M('mgt_new'); ?></a></li>
+     <li><a href="#"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;<?php $this->M('mgt_attach'); ?></a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right"> 
+     <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php $this->M('mgt_account'); ?></a></li>
+    </ul>
+   </div> 
+  </div> 
+ </nav>  
+</div>  
+
+</div>
+<!--    </PSEUDO-MBAR>  ------------------------------------ -->
+
+</div>
+</div>
+
+<br>
+<p class="text-center"> 
+ <a class="btn btn-default" role="button" href="<?php echo $this->URL->GetMgmtMethod('DosList'); ?>"><?php $this->M('err_back'); ?></a>
+</p>
+
+
+<!-- -----------------modal attach---------------------- -->
+
+<div class="modal fade" id="MattAskPass" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+    <form novalidate="novalidate" id="mattaskpass" class="form-horizontal" method="post" action="<?php echo $this->URL->GetMgmtMethod('AttachURLPass'); ?>">
+      <input type="hidden" name="RUSERI" value="<?php echo $this->RUSERI; ?>">
+      <input type="hidden" name="DID" value="<?php echo $this->DID; ?>">
+
+     <div class="modal-header">
+	<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-paperclip"></span> <?php $this->M('matt_title'); ?><span class="label label-default" ></span></h4>
+     </div>
+
+     <div class="modal-body">
+
+     <div class="well">
+
+     <div class="alert alert-info" role="alert"><?php $this->M('matt_askpass'); ?></div>
+
+      <div class="form-group">
+      <label class="control-label col-md-3" ><em><?php $this->M('matt_pass'); ?></em></label>
+      <div class="col-md-6"><div class="input-group">
+	<span class="input-group-addon glyphicon glyphicon-lock"></span> 
+	<input class="form-control" value="" name="DOSPASS" id="DOSPASS" type="password">
+      </div></div>
+      </div>
+
+    </div>
+
+    </div>
+
+     <div class="modal-footer">
+       <a class="btn btn-default" role="button" href="<?php echo $this->URL->GetMgmtMethod('DosList'); ?>"><?php $this->M('gen_cancel'); ?></a>
+       <button type="submit" class="btn btn-primary" ><?php $this->M('gen_valid'); ?></button>
+     </div>
+
+     </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- end  modal attach -->
+
+<!-- -----------------modal error---------------------- -->
+
+<div class="modal fade" id="MattError" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+    <form novalidate="novalidate" id="matterror" class="form-horizontal" method="post" action="#">
+
+     <div class="modal-header">
+	<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-paperclip"></span> <?php $this->M('matt_title'); ?><span class="label label-default" ></span></h4>
+     </div>
+
+     <div class="modal-body">
+
+     <div class="well">
+
+     <div class="alert alert-danger" role="alert"><?php echo $this->MSG; ?></div>
+
+    </div>
+
+    </div>
+
+     <div class="modal-footer">
+       <a class="btn btn-default" role="button" href="<?php echo $this->URL->GetMgmtMethod('DosList'); ?>"><?php $this->M('err_back'); ?></a>
+     </div>
+
+     </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- end  modal error -->
+
+
+<!-- -------------------------------------------------------------------- -->
+
+<script src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script>
+
+</body>
+</html>
+
+

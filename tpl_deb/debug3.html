@@ -1,0 +1,17 @@
+<html>
+<head>
+<title>debug</title>
+</head>
+<body bgcolor='#ffffff'>
+<h1><?php echo $this->MSG; ?></h1>
+
+<pre>
+<?php 
+ echo $this->URL->GetPodocMethod("Display","TOTO=toto")."\n"; 
+ echo $this->URL->GetPodocStruct()."\n"; 
+ echo $this->URL->GetPodocData("zozo.txt")."\n"; 
+?>
+</pre>
+
+</body>
+</html>

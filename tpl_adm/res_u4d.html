@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<?php include "head_top.html"; ?>
+
+<?php include "part_tabs.html"; ?>
+
+<div class="alert alert-warning" role="alert">
+<div class="row">
+<div class="col-md-11"><h4><?php $this->M('adm_srh_u4d'); ?> <strong><?php echo $this->SEARCHINFO['title']."  ( ".$this->SEARCHINFO['did']." )"; ?> </strong></h4></div><div class="col-md-1"><p class="text-right"><a href="<?php echo $this->URL->GetAdmMethod1Arg('CloseRes',$this->CURTAB); ?>" ><span class="glyphicon glyphicon-remove"></span></a></p></div>
+</div></div>
+
+<table id="uzrtbres" class="table table-striped table-condensed table-hover tablesorter">
+<thead>
+<tr class='thead'>
+ <th>&nbsp;<?php $this->M('adm_tu1'); ?></th>
+ <th>&nbsp;<?php $this->M('adm_tu2'); ?></th>
+ <th>&nbsp;<?php $this->M('adm_tu4'); ?></th>
+ <th>&nbsp;<?php $this->M('adm_tu5'); ?></th>
+ <th>&nbsp;<?php $this->M('adm_tu6'); ?></th>
+</tr>
+</thead>
+<tbody>
+<?php 
+foreach ($this->UPLIST as $did => $udata ) :
+$dspnam = $udata['name']." ".$udata['gvname'];
+?>
+<tr class="datarow">
+ <td><span class="umel"><?php echo $udata['mail']; ?></span></td>
+ <td><span class="unam"><?php echo $dspnam; ?></span></td>
+ <td><?php echo $udata['status']; ?></td>
+ <td><span class="ucre"><?php echo $udata['credate']; ?></span></td>
+ <td><span class="upay"><?php echo $udata['paydate']; ?></span></td>
+</tr>
+<?php
+endforeach;
+?>
+
+</tbody>
+</table>
+
+<!-- --------- closing uzrlist  ----------- -->
+</div>
+
+
+<!-- -------------------------------------------------------------------- -->
+
+<script src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/jquery/jquery.tablesorter.min.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script>
+
+<script language="javascript">
+$(document).ready(function() { 
+  $("#uzrtbres").tablesorter(); 
+} 
+); 
+</script>
+
+</body>
+</html>
+
+

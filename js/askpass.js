@@ -1,0 +1,6 @@
+function AskPass() {
+
+    Alert("PAPAPAP");
+
+}
+

@@ -1,0 +1,32 @@
+<div id="menu_docs" class="container-fluid">
+<?php if ( sizeof($this->DOSINFO['filelist']) ): ?>
+<h4><a href="<?php echo $this->URL->GetInnerMethod('DispThumbs'); ?>"><span class="glyphicon glyphicon-th"></span>&nbsp;<?php $this->M('menu_docs'); ?></a></h4>
+<h4><a href="<?php echo $this->URL->GetDosMethod('GetZip'); ?>"><span class="glyphicon glyphicon-cloud-download"></span>&nbsp;<?php $this->M('menu_getzip'); ?></a></h4>
+<?php endif; ?>
+</div>
+
+<div  id="menu_files" class="container-fluid">
+
+<?php if ( $this->MODACC == 'RW' ) { ?>
+<form id="menuFileForm" enctype="multipart/form-data" method="post" action="<?php echo $this->URL->GetDosMethod('ActionOnFiles'); ?>">
+<input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
+<input id="menuFileAction" name="ACTION" value="none" type="hidden">
+<?php } ?>
+
+<?php 
+while (list($ind, $value) = each($this->DOSINFO['filelist'])):
+  $furl = $this->URL->GetInnerData($value);
+?>
+<label class="checkbox"><?php if ( $this->MODACC == 'RW' ): ?>
+ <input type="checkbox" name="CFI[]" value="<?php echo $value; ?>">
+<?php else: ?> 
+ <span class="mbullet">&raquo;</span>
+<?php endif; ?>
+<a href="<?php echo $furl; ?>"> <?php echo $value; ?></a></label>
+<?php endwhile; ?>
+
+<?php if ( $this->MODACC == 'RW' ) { ?>
+</form>
+<?php } ?>
+
+</div>
