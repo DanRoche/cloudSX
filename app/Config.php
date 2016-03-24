@@ -29,6 +29,13 @@ class Config {
     
     $this->dbparams = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'');
 
+    // database 2 : framadate partner database 
+    // used only by manage_framadate script 
+    $this->db2serv = "my2host";
+    $this->db2base = "framadate";
+    $this->db2user = "my2login";
+    $this->db2pass = "my2pass";
+    
     // lang set  only EN and FR available for now !
     //           you may add some translation file in the lang sub-directory
     $this->LangSet = Array(
