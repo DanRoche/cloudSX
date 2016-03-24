@@ -101,17 +101,21 @@ class URL {
   function GetRawDosData($file) {
     // used only by plugins now ! 
     // since no-frame display !!
-
     if ( $this->dosinfo == null ) {
        return("no_dosinfo");
-     }
-     $theu = $this->gconf->TopAppUrl;
-     $theu .= $this->gconf->DataDir;
-     $theu .= "/".$this->dosinfo['rdir'];
-     $theu .= "/".$file;
-     return($theu);
+    }
+    $theu = $this->GetDosStruct();
+    $theu .= "/".$file;
+    return($theu);
   }
  
+  function GetAbsRawDosData($file) {
+    // used only by mobile app ( json export )
+    $tmp = $this->GetRawDosData($file);
+    $theu = "http://".$_SERVER['SERVER_NAME'].$tmp;
+    return($theu);
+  }
+  
   function GetDosThumb($file) {
     if ( $this->dosinfo == null ) {
       return("no_dosinfo");
@@ -242,6 +246,14 @@ class URL {
     }
     return($theu);
   }
+
+  function GetAbsDefLogo($size) {
+    // used only by mobile app ( json export )
+    $tmp = $this->GetDefLogo($size);
+    $theu = "http://".$_SERVER['SERVER_NAME'].$tmp;
+    return($theu);
+  }
+  
 
   //===============================================
   // Static methods
