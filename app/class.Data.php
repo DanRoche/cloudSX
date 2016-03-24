@@ -186,16 +186,13 @@ class Data {
 
     $ddir = $this->GetAbsDirFromDID($did);
 
-
-    
     if ( ! file_exists($ddir) ) {
       return null;
     }
-    if ( file_exists($ddir."/struct/datapath") ) {
-      $datapath = chop(file_get_contents($ddir."/struct/datapath"));
-      $ddir = $this->gconf->AbsDataDir."/".$datapath;
-
-      system("rm -rf ".$ddir);
+    if ( file_exists($ddir."/.struct/framadate") ) {
+      $framadate = chop(file_get_contents($ddir."/.struct/framadate"));
+      $cmd = $this->gconf->TopAppDir."/script/manage_framadate -d -i ".$framadate;
+      system($cmd);
     }
     system("rm -rf ".$ddir);
 
