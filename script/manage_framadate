@@ -4,10 +4,11 @@
 ##########################################################
 # Framadate manage ( create/delete)
 # 
-# d.roche@dan.y.roche@gmail.com
+# dan.y.roche@gmail.com
 #
 # 1st version 20150612
 #             20160123  fetch config from php
+#             20160324  new mysql connection + fix env
 #
 ##########################################################
 
@@ -15,15 +16,17 @@ PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/opt/miscbin:/
 export PATH
 
 ##########################################################
-# config
+# env stuff
+# HOME does not seem to be set in apache env !
+# we need it for mysql --login-path !
 ##########################################################
 
-#------------------
-# FRAMADATE setup
-DBHOST=localhost
-DBUSER=root
-DBPASS=root007
-DBBASE=framadate
+if [ "${HOME}" = "" ]
+then
+  WHOAMI=$(whoami)
+  HOME=$(fgrep ${WHOAMI} /etc/passwd | awk -F ":" '{print $6}')
+  export HOME
+fi
 
 ##########################################################
 # fetch cloudSX config
@@ -42,12 +45,33 @@ then
   CDIR1=$(expr "${TMP1}" : ' *$this->TopAppDir *= *\"\(.*\)\"')
   TMP2=$(cat ${APPCONF} | grep '^ *$this->DataDir')
   CDIR2=$(expr "${TMP2}" : ' *$this->DataDir *= *\"\(.*\)\"')
+  # fetch framadate base connection
+  TMP3=$(cat ${APPCONF} | grep '^ *$this->db2serv')
+  B2ZH=$(expr "${TMP3}" : ' *$this->db2serv *= *\"\(.*\)\"')
+  TMP4=$(cat ${APPCONF} | grep '^ *$this->db2base')
+  B2ZB=$(expr "${TMP4}" : ' *$this->db2base *= *\"\(.*\)\"')
+  TMP5=$(cat ${APPCONF} | grep '^ *$this->db2user')
+  B2ZU=$(expr "${TMP5}" : ' *$this->db2user *= *\"\(.*\)\"')
+  TMP6=$(cat ${APPCONF} | grep '^ *$this->db2pass')
+  B2ZP=$(expr "${TMP6}" : ' *$this->db2pass *= *\"\(.*\)\"')
 else
   echo "Can't find application config file - aborting !"
   exit 3
 fi
 
 CSXDDIR=${CDIR1}${CDIR2}
+
+type mysql_config_editor > /dev/null 2>&1
+if [ $? -eq 0 ]
+then
+ # new mysql (5.6.6) connection
+ # use mysql_config_editor on the server to initialize the login-path
+ # use dbuser as login-path entry
+ MYCMD="mysql --login-path=${B2ZU} -D${B2ZB}"
+else
+ # old school mysql connection
+ MYCMD="mysql -h${B2ZH} -u${B2ZU} -p${B2ZP} -D${B2ZB}"
+fi
 
 # verify 
 if [ ! -d ${CSXDDIR} ]
@@ -145,7 +169,9 @@ case ${ACTION} in
   # INIT
 
   NOW=$(date "+%s")
-  END0=$((NOW + 315360000))
+  // 20 years in the future, we dont care about the partner framadate !
+  // it will be destroyed with the cloudsx
+  END0=$((NOW + 630720000))
   END1=$(date "+%Y-%m-%d %H:%M:%S" -d @${END0})
 
   # dev/urandom bloque ????
@@ -161,9 +187,9 @@ case ${ACTION} in
   #----------------------
   # LOAD 
 
-  echo "insert into sondage set id_sondage='${UUIDSND}', nom_admin='cloudsx', commentaires='', titre='${TITLE}', id_sondage_admin='${UUIDADM}', date_fin='${END1}', format='D+';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
+  echo "insert into sondage set id_sondage='${UUIDSND}', nom_admin='cloudsx', commentaires='', titre='${TITLE}', id_sondage_admin='${UUIDADM}', date_fin='${END1}', format='D+';" | ${MYCMD}
 
-  echo "insert sujet_studs set id_sondage='${UUIDSND}', sujet='${STUD}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
+  echo "insert sujet_studs set id_sondage='${UUIDSND}', sujet='${STUD}';" | ${MYCMD}
   #----------------------
   # if CSXID provided, create the cloudsx struct
   if [ "${CSXID}" != "" ]
@@ -187,10 +213,10 @@ case ${ACTION} in
   # on ne prend que UID simple
   UUIDSND=${UUID:0:16}
   
-  echo "delete from sondage where id_sondage='${UUIDSND}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
-  echo "delete from sujet_studs where id_sondage='${UUIDSND}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
-  echo "delete from user_studs where id_sondage='${UUIDSND}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
-  echo "delete from comments where id_sondage='${UUIDSND}';" | mysql -h${DBHOST} -u${DBUSER} -p${DBPASS} -D${DBBASE} 
+  echo "delete from sondage where id_sondage='${UUIDSND}';" | ${MYCMD}
+  echo "delete from sujet_studs where id_sondage='${UUIDSND}';" | ${MYCMD}
+  echo "delete from user_studs where id_sondage='${UUIDSND}';" | ${MYCMD}
+  echo "delete from comments where id_sondage='${UUIDSND}';" | ${MYCMD}
   ;;
 
 ############ esac #############
