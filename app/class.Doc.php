@@ -880,15 +880,15 @@ class Doc {
       return('none');
     }
 
-    if ( strpos(@$_SERVER['HTTP_REFERER'], "DosList") ) {
-      // if coming from mgmt
-      setcookie($this->gconf->name."_Visited", 1, time()+315360000, "/");
-      return('none');
-    }
-
     if ( @$_COOKIE[$this->gconf->name."_Visited"] != 1 ) {
       setcookie($this->gconf->name."_Visited", 1, time()+315360000, "/");
       return('all');
+    }
+
+    if ( strpos(@$_SERVER['HTTP_REFERER'], "DosList") ) {
+      // if coming from mgmt
+      setcookie($this->gconf->name."_Visited_".$dosinfo['did'], 1, time()+315360000, "/");
+      return('none');
     }
 
     if ( @$_COOKIE[$this->gconf->name."_Visited_".$dosinfo['did']] != 1 ) {
