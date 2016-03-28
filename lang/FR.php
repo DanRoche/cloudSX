@@ -96,7 +96,7 @@
      'idx_title' => "CloudSX",
      'idx_intro' => "Le porte-documents collaboratif dans le Cloud",
      'idx_exp1' => "CloudSX simplifie vos réunions et les échanges de documents avec vos partenaires.",
-     'idx_exp2' => "<strong>1)</strong> Créez un porte-document, <strong>2)</strong> rajoutez vos fichiers, <strong>3)</strong> Partagez le lien avec vos correspondants. <strong>Facile !</strong>",
+     'idx_exp2' => "<strong>1)</strong> Créez un porte-document, <strong>2)</strong> Rajoutez vos fichiers, <strong>3)</strong> Partagez le lien avec vos correspondants. <strong>Facile !</strong>",
      'idx_m1p1' => "<strong>Pas besoin de compte ni d'enregistrement !</strong><br>Lancez vous :",
      'idx_m1p2' => "Créez un nouveau porte-documents",
      'idx_m1p3' => "partagez le, et collaborez. C'est immédiat !",
