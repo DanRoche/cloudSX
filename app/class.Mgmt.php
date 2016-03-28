@@ -303,7 +303,7 @@ class Mgmt {
     
     $res = $this->data->UpdateUserInfo( $vars['RUSERI'], $udata);
 
-    if ( $vars['ACTPSW1'] == $vars['ACTPSW2'] ) {
+    if ( isset( $vars['ACTPSW1'], $vars['ACTPSW2']) and $vars['ACTPSW1'] == $vars['ACTPSW2'] ) {
       $res = $this->data->UpdateUserPassword( $vars['RUSERI'], $vars['ACTPSW1']);
     }
 

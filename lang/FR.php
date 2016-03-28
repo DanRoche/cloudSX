@@ -136,6 +136,7 @@
      'act_mail' => "Mail",
      'act_gvnam' => "Prénom",
      'act_nam' => "Nom",
+     'act_ldap' => "Votre mot de passe, relié au LDAP, n'est pas modifiable ici.",
      'act_psw' => "Nouveau mot de passe",
      'act_psw2' => "Confirmez le mot de passe",
      'act_chpsw' => "<b>Attention !</b>, si vous changez le mot de passe, le nouveau vous sera immédiatement redemandé !",

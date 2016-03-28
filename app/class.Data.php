@@ -770,13 +770,29 @@ class Data {
     try {
       $dbh = new PDO($this->gconf->dbpdo, $this->gconf->dbuser, $this->gconf->dbpass, $this->gconf->dbparams);
 
+      $stmt0 = $dbh->query("select password from user where mail = '".$user."';");
+      $res0 = $stmt0->fetchAll();
+
     } catch(PDOException $e)  {
       echo $e->getMessage();
       exit();
     }
 
-    $h = sha1($passwd);
+    if ( count($res0) == 1 ) {
+      $passhash = $res0[0]['password'];
+    } else {
+      // user not found 
+      // will call UserAutoCreate later !!
+      return(0);
+    }
 
+    $uzv = $this->VerifUserPassword($user,$passwd,$passhash);
+    if ( $uzv == 0 ) {
+      // passwd not good 
+      return(0);
+    }
+    
+    // password verified, now check user type
     try {
 
       if ( $type == "std" ) {
@@ -786,7 +802,7 @@ class Data {
 	$sttest = "status = 'admin'";
       }
 
-      $stmt = $dbh->query("select id,status from user where mail = '".$user."' and password = '".$h."' and ".$sttest.";");
+      $stmt = $dbh->query("select id,status from user where mail = '".$user."' and ".$sttest.";");
       $res = $stmt->fetchAll();
 
     } catch(PDOException $e)  {
@@ -804,6 +820,58 @@ class Data {
     }
   }
 
+  function VerifUserPassword($user,$passwd,$passhash) {
+    // return 1 if passwd match, 0 otherwise
+
+    if ( strncmp($passhash,"LDAP:",5) == 0 ) {
+      // ===============================
+      // authenticate user with LDAP
+      // ===============================
+      if ( preg_match('/(.*)@(.*)\.(.*)/', $user, $rm) != 1 ) {
+	// user no match mail
+	return(0);
+      }
+      
+      $login = $rm[1];
+      $domain = $rm[2];
+      $tld = $rm[3];
+
+      if ( preg_match('/LDAP:(.*):(.*):(.*)/', $passhash, $rm) != 1 ) {
+	// no valid LDAP info
+	return(0);
+      }
+
+      $ldpserv = $rm[1];
+      if ( $rm[2] != "" ) {
+	$ldpport = $rm[2];
+      } else {
+	$ldpport = 389;
+      }
+      $ldpdn = sprintf($rm[3],$login,$domain,$tld);
+
+      $ldpconn = @ldap_connect($ldpserv, $ldpport);
+      if ( @ldap_bind ($ldpconn, $ldpdn, $passwd) ) {
+	// connected
+	@ldap_unbind($ldpconn);
+	return(1);
+      } else {
+	// connect failed
+	return(0);
+      }
+
+    } else {
+      // ===============================
+      // local SHA1 user authentication
+      // ===============================
+      $h = sha1($passwd);
+      if ( $h == $passhash ) {
+	return(1);
+      } else {
+	return(0);
+      }
+    }
+  }
+
   function UserInfo($user ) {
 
     try {
@@ -816,7 +884,7 @@ class Data {
 
     try {
 
-      $stmt = $dbh->query("select id,mail,name,gvname,status,length(logo) as llogo from user where mail = '".$user."';");
+      $stmt = $dbh->query("select id,mail,name,gvname,status,IF(password like 'LDAP%', 1, 0) as pswldap,length(logo) as llogo from user where mail = '".$user."';");
       $res = $stmt->fetchAll();
 
     } catch(PDOException $e)  {
@@ -937,7 +1005,11 @@ class Data {
       return(0);
     }
 
-    $h = sha1(chop($newpasswd));
+    if ( strncmp("LDAP:", $newpasswd, 5) == 0 ) {
+      $h = chop($newpasswd);
+    } else {
+      $h = sha1(chop($newpasswd));
+    }
 
     try {
 
@@ -1201,7 +1273,11 @@ class Data {
       exit();
     }
 
-    $h = sha1(chop($udata['password']));
+    if ( strncmp("LDAP:", $udata['password'], 5) == 0 ) {
+      $h = chop($udata['password']);
+    } else {
+      $h = sha1(chop($udata['password']));
+    }
 
     try {
 
@@ -1405,7 +1481,7 @@ class Data {
     try {
 
       //$stmt = $dbh->query("select id,mail,name,gvname,status,credate,paydate from user;");
-      $stmt = $dbh->query("select user.id,mail,name,gvname,status,credate,paydate,count(dos_id) as cnt from user left join owner on user.id=owner.user_id group by id;");
+      $stmt = $dbh->query("select user.id,mail,name,gvname,IF(password like 'LDAP%', password, '') as passinf,status,credate,paydate,count(dos_id) as cnt from user left join owner on user.id=owner.user_id group by id;");
       $res = $stmt->fetchAll();
 
     } catch(PDOException $e)  {

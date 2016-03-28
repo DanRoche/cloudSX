@@ -86,7 +86,7 @@ $dspnam = $udata['name']." ".$udata['gvname'];
  <td><span class="upay"><?php echo $udata['paydate']; ?></span></td>
  <td>
   <div>
-  <button type="button" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="<?php $this->M('adm_tip3'); ?>" onclick="ModUserModal(<?php echo $udata['id'].",'".$udata['mail']."','".$udata['name']."','".$udata['gvname']."','".$udata['status']."'"; ?>)">&nbsp;<span class="glyphicon glyphicon-pencil"></span>&nbsp;</button>
+  <button type="button" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="<?php $this->M('adm_tip3'); ?>" onclick="ModUserModal(<?php echo $udata['id'].",'".$udata['mail']."','".$udata['name']."','".$udata['gvname']."','".$udata['status']."','".$udata['passinf']."'"; ?>)">&nbsp;<span class="glyphicon glyphicon-pencil"></span>&nbsp;</button>
   <button type="button" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="<?php $this->M('mgt_tip3'); ?>" onclick="DelUserModal(<?php echo $udata['id'].",'".$dspnam."'"; ?>)">&nbsp;<span class="glyphicon glyphicon-trash"></span>&nbsp;</button>
   </div>
 </td>

@@ -334,6 +334,9 @@ foreach ($this->DLIST as $did => $pdata ) {
      </div></div>
      </div>
 
+     <?php if ( $this->UINFO['pswldap'] == 1 ): ?>
+     <div class="alert alert-info" role="alert"><?php $this->M('act_ldap'); ?></div>
+     <?php else: ?>
      <div class="alert alert-danger" role="alert"><?php $this->M('act_chpsw'); ?></div>
 
      <div class="form-group">
@@ -351,6 +354,7 @@ foreach ($this->DLIST as $did => $pdata ) {
        <input class="form-control" value="" name="ACTPSW2" id="ACTPSW2" type="password">
      </div></div>
      </div>
+     <?php endif; ?>
 
     </div>
 

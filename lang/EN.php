@@ -136,6 +136,7 @@
      'act_mail' => "Mail",
      'act_gvnam' => "Given name",
      'act_nam' => "Name",
+     'act_ldap' => "Your password, linked to LDAP, can not be modified here.",
      'act_psw' => "New password",
      'act_psw2' => "Confirm password",
      'act_chpsw' => "<b>Be careful !</b>, if you change the password, the new one will be re-asked immediately !",
