@@ -117,7 +117,7 @@ class Admin {
     $tpl->assign("APPNAM", $this->gconf->name);
     $tpl->setMessages($messages);
 
-    $uflist = $this->data-> GetUserListFull();
+    $uflist = $this->data->GetUserListFull();
     //echo "<pre>\n";
     //print_r($dflist);
     //echo "</pre>\n";
