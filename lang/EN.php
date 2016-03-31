@@ -95,6 +95,7 @@
      'add_ok' => "OK",
      'idx_title' => "CloudSX",
      'idx_intro' => "Collaborative briefcase in the Cloud",
+     'idx_connx' => "connection",
      'idx_exp1' => "CloudSX simplifies your meetings and documents exchange with yours partners.",
      'idx_exp2' => "<strong>1)</strong> Create a briefcase, <strong>2)</strong> Add your files, <strong>3)</strong> Share the link with your recipients. <strong>Easy !</strong>",
      'idx_m1p1' => "<strong>No need account nor registration !</strong><br>Go on:",

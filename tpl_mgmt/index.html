@@ -25,7 +25,8 @@
    <div class="row"><div class="col-md-12"><h3 class="title"><?php $this->M('idx_intro'); ?></h3></div></div>
   </div>
   <div class="col-md-2">
-    <form id="lang" method="post" action="<?php echo $this->URL->GetMgmtMethod('SetLng'); ?>" target=_top>
+     <p class="text-right" id="connx"><a href="<?php echo $this->URL->GetMgmtMethod('DosList'); ?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?php $this->M('idx_connx'); ?></a>&nbsp;&nbsp;</p>
+     <form id="lang" method="post" action="<?php echo $this->URL->GetMgmtMethod('SetLng'); ?>" target=_top>
      <div class="input-group">
       <span class="input-group-addon"><span class="glyphicon glyphicon-flag"></span></span>
       <select name="LNG" class="form-control" onchange="this.form.submit()">

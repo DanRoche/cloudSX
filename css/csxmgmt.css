@@ -59,6 +59,7 @@ th.header {
     right: 0px;
     left: 0px;
     padding: 10px;
+    z-index: 400;
 }
 .p0ch1 {
     margin-top: 180px;
@@ -80,10 +81,19 @@ th.header {
 }
 
 #lang {
- margin-top: 40px;
+ margin-top: 10px;
  margin-right: 10px;
 }
 .title {
+    color: #ffffff;
+}
+#connx a:link {
+    color: #ffffff;
+}
+#connx a:visited {
+    color: #ffffff;
+}
+#connx a:hover {
     color: #ffffff;
 }
 
