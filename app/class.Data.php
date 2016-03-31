@@ -1366,7 +1366,7 @@ class Data {
     
     try {
 
-      $stmt = $dbh->query("select id,mail,name,gvname from user where mail = '".$umail."' and status != 'request';");
+      $stmt = $dbh->query("select id,mail,name,gvname,password from user where mail = '".$umail."' and status != 'request';");
       $res = $stmt->fetchAll();
 
     } catch(PDOException $e)  {
@@ -1384,6 +1384,12 @@ class Data {
     $udata['mail'] =  $res[0]['mail'];
     $udata['gvname'] =  $res[0]['gvname'];
     $udata['name'] =  $res[0]['name'];
+    $udata['password'] = $res[0]['password'];
+
+    if ( strncmp("LDAP:", $udata['password'], 5) == 0 ) {
+      // DO NOT RESET ldap password
+      return(NULL);
+    }
  
     $udata['newpasswd'] = $this->GetRandomString(6);
     $h = sha1($udata['newpasswd']);
