@@ -22,7 +22,16 @@
 <div class="col-xs-6">
  <strong><span class="glyphicon glyphicon-folder-open" aria-hidden="true">&nbsp;<?php echo $this->FILENAM; ?></span></strong>
 </div>
-<div class="col-xs-6">
+<div class="col-xs-1">
+<?php if ( isset($this->UPURL) ): ?>
+<a href="<?php echo $this->UPURL; ?>"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></a>
+<?php endif; ?>
+&nbsp;
+<?php if ( isset($this->DOWNURL) ): ?>
+<a href="<?php echo $this->DOWNURL; ?>"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
+<?php endif; ?>
+</div>
+<div class="col-xs-5">
  <p class="text-right" > 
  <a href="<?php echo $this->IMGURL; ?>" class="btn btn-link btn-xs" role="button"><span class="glyphicon glyphicon-eye-open"> <?php $this->M('cont_orig'); ?></a>&nbsp;
  <a href="<?php echo $this->DLURL; ?>" class="btn btn-link btn-xs" role="button" ><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"> <?php $this->M('cont_dl'); ?></a>&nbsp;

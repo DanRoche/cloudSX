@@ -3,6 +3,7 @@
 include_once "Savant3/Savant3.php";
 include_once "class.Data.php";
 include_once "class.URL.php";
+include_once "class.PluginLib.php";
 include_once "class.Debug.php";
 
 class Doc {
@@ -214,22 +215,20 @@ class Doc {
     //$this->debug->Debug2("DISPPLUGIN", $vars);
     //return;
  
-    $dosinf = $this->data->FetchDosInfo($vars['DID']);
+    $dosinf = $this->data->FetchDosInfo($vars['DID'], 1);
     $ra = $this->AuthenticateInner($dosinf);
 
     $file = $vars['FILENAM'];
     $messages = $this->data->GetMessages($this->lng);
 
     $plugnam = $vars['PLUGIN'];
-    if ( isset($vars['HEADER']) ) {
-      $headr = 1;
-    } else {
-      $headr = 0;
-    }
-    $classplug = "./plugins/class.".$plugnam.".php";
+    $classplug = "./plugins/".$plugnam."/class.".$plugnam.".php";
     if ( file_exists($classplug) ) {
+
+      $pluglib = new PluginLib($dosinf, $file, $this->gconf, $messages);
+
       include_once $classplug;
-      $obj = new $plugnam($dosinf, $file, $this->gconf, $messages, $headr);
+      $obj = new $plugnam($pluglib);
     
       $obj->Display();
 

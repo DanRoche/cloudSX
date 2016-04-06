@@ -7,6 +7,7 @@
 
 include_once "Savant3/Savant3.php";
 include_once "app/class.URL.php";
+include_once "app/class.PluginLib.php";
 include_once "app/class.Debug.php";
 
 class Pdf {
@@ -15,17 +16,10 @@ class Pdf {
   // init
   //===============================================
 
-  var $pdinfo;
-  var $file;
-  var $gconf;
-  var $msgs;
+  var $pluginlib;
 
-  function __construct($pdinfo, $file, $conf, $msgs, $header=0) { 
-    $this->pdinfo = $pdinfo;
-    $this->file = $file;
-    $this->gconf = $conf;
-    $this->msgs = $msgs;
-    $this->header = $header;
+  function __construct($pluglib) { 
+    $this->pluginlib = $pluglib;
 
     $this->debug = new Debug();
    }
@@ -36,11 +30,11 @@ class Pdf {
 
   function Display() {
 
-    $urls = URL::GetURLByInfo($this->gconf, $this->pdinfo);
+    $urls = URL::GetURLByInfo($this->pluginlib->globalconf, $this->pluginlib->dosinfo);
     $tpl = new Savant3();
 
-    $tpl->assign("PDFURL", $urls->GetRawDosData($this->file));
-    $tpl->display("plugins/tpl.Pdf.html");
+    $tpl->assign("PDFURL", $urls->GetRawDosData($this->pluginlib->filename));
+    $tpl->display("plugins/Pdf/tpl.Pdf.html");
 
   }
 

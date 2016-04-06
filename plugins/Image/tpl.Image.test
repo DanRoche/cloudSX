@@ -17,6 +17,16 @@
 #conthead p {
  margin-bottom: 0px;
 }
+#upbutn {
+ position: fixed;
+ top: 140px;
+ right: 40px;
+}
+#dwbutn {
+ position: fixed;
+ top: 140px;
+ right: 20px;
+}
 </style>
 <div id="conthead" class="container-fluid"><div class="row">
 <div class="col-xs-6">
@@ -29,6 +39,18 @@
 </p>
 </div></div></div>
 <img id="imgfit" src="<?php echo $this->IMGURL; ?>">
+
+<?php if ( isset($this->UPURL) ): ?>
+<div id="upbutn">
+<a href="<?php echo $this->UPURL; ?>"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+</div>
+<?php endif; ?>
+<?php if ( isset($this->DOWNURL) ): ?>
+<div id="dwbutn">
+<a href="<?php echo $this->DOWNURL; ?>"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+</div>
+<?php endif; ?>
+
 <script language="javascript">
   adjustContentLeft();
 </script>

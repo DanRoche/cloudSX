@@ -7,6 +7,7 @@
 
 include_once "Savant3/Savant3.php";
 include_once "app/class.URL.php";
+include_once "app/class.PluginLib.php";
 include_once "app/class.Debug.php";
 
 class Html {
@@ -15,17 +16,10 @@ class Html {
   // init
   //===============================================
 
-  var $pdinfo;
-  var $file;
-  var $gconf;
-  var $msgs;
+  var $pluginlib;
 
-  function __construct($pdinfo, $file, $conf, $msgs, $header=0) { 
-    $this->pdinfo = $pdinfo;
-    $this->file = $file;
-    $this->gconf = $conf;
-    $this->msgs = $msgs;
-    $this->header = $header;
+  function __construct($pluglib) { 
+    $this->pluginlib = $pluglib;
 
     $this->debug = new Debug();
    }
@@ -36,14 +30,14 @@ class Html {
 
   function Display() {
 
-    $urls = URL::GetURLByInfo($this->gconf, $this->pdinfo);
+    $urls = URL::GetURLByInfo($this->pluginlib->globalconf, $this->pluginlib->dosinfo);
     $tpl = new Savant3();
-    $tpl->setMessages($this->msgs);
+    $tpl->setMessages($this->pluginlib->langmessg);
 
-    $tpl->assign("FILENAM", $this->file);
-    $tpl->assign("HTURL", $urls->GetRawDosData($this->file));
-    $tpl->assign("DLURL", $urls->GetDosDownload($this->file));
-    $tpl->display("plugins/tpl.Html.html");
+    $tpl->assign("FILENAM", $this->pluginlib->filename);
+    $tpl->assign("HTURL", $urls->GetRawDosData($this->pluginlib->filename));
+    $tpl->assign("DLURL", $urls->GetDosDownload($this->pluginlib->filename));
+    $tpl->display("plugins/Html/tpl.Html.html");
 
   }
 

@@ -136,22 +136,18 @@ class URL {
     return($theu);
   }
   
-  function GetPluginDosData($plugin,$file,$headr=0) {
+  function GetPluginDosData($plugin,$file) {
     if ( $this->dosinfo == null ) {
       return("no_dosinfo");
     }
-    if ( $headr != 0 ) {
-      $qs = "PLUGIN=".$plugin."&HEADER=1";
-    } else {
-      $qs = "PLUGIN=".$plugin;
-    }
+    $qs = "PLUGIN=".$plugin;
     $theu = $this->GetDosMethodArg1("DispPlugin",$file,$qs);
     return($theu);
   }
 
-  function GetPluginMethod($pmethod,$filepath) {
+  function GetPluginMethod($plugin,$pmethod,$filepath) {
      $theu = $this->gconf->TopAppUrl;
-     $theu .= "/plugins/";
+     $theu .= "/plugins/".$plugin."/";
      $theu .= $pmethod;
      $theu .= "?FILEPATH=".$filepath;
      return($theu);

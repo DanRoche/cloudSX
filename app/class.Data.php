@@ -127,12 +127,12 @@ class Data {
       $this->GetUserLogo($uinfo['id'],$hh['FHD']."/.logo");
     }
 
-    // create a pseudo (incomplete) pdinfo for return
-    $pdret = Array();
-    $pdret['did'] = $hh['H'];
-    $pdret['passwd'] = $hh['PASSWD'];
+    // create a pseudo (incomplete) dosinfo for return
+    $dosret = Array();
+    $dosret['did'] = $hh['H'];
+    $dosret['passwd'] = $hh['PASSWD'];
 
-    return($pdret); 
+    return($dosret); 
   }
 
   function UpdateDosStruct($did, $vars) {
@@ -439,10 +439,10 @@ class Data {
 
   }
 
-  function CheckAuth($pdinfo) {
+  function CheckAuth($dosinfo) {
     
-    $did = $pdinfo['did'];
-    $passwd = $pdinfo['passwd'];
+    $did = $dosinfo['did'];
+    $passwd = @$dosinfo['passwd'];
 
     $appnam = $this->gconf->name;
 
@@ -453,9 +453,9 @@ class Data {
 
     if ( $passwd == "" || ( isset($_SESSION[$appnam.'_'.$did]) && $_SESSION[$appnam.'_'.$did] == $passwd ) ) {
 
-      if ( isset($pdinfo['passadm']) ) {
+      if ( isset($dosinfo['passadm']) ) {
 
-	$passadm = $pdinfo['passadm']; 
+	$passadm = $dosinfo['passadm']; 
 	if (  isset($_SESSION[$appnam.'ADM_'.$did]) && $_SESSION[$appnam.'ADM_'.$did] == $passadm ) {
 	  return(ACCES_RW);
 	} else {
@@ -1565,8 +1565,7 @@ class Data {
     }
   }
 
-
-  //===============================================
+ //===============================================
   // end
   //===============================================
 
