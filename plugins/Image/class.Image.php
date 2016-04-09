@@ -40,6 +40,7 @@ class Image {
     $tpl->setMessages($this->pluginlib->langmessg);
 
     $tpl->assign("FILENAM", $this->pluginlib->filename);
+    $tpl->assign("URL", $urls);
 
     $prevf = $this->pluginlib->GetNearFile("prev");
     if ( $prevf != "" ) {
