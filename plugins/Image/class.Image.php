@@ -44,11 +44,11 @@ class Image {
 
     $prevf = $this->pluginlib->GetNearFile("prev");
     if ( $prevf != "" ) {
-      $tpl->assign("UPURL", $urls->GetInnerData($prevf) );
+      $tpl->assign("PREVURL", $urls->GetInnerData($prevf) );
     }
     $nextf = $this->pluginlib->GetNearFile("next");
     if ( $nextf != "" ) {
-      $tpl->assign("DOWNURL", $urls->GetInnerData($nextf) );
+      $tpl->assign("NEXTURL", $urls->GetInnerData($nextf) );
     }
     $tpl->assign("IMGURL", $urls->GetRawDosData($this->pluginlib->filename));
     $tpl->assign("DLURL", $urls->GetDosDownload($this->pluginlib->filename));

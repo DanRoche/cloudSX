@@ -16,6 +16,7 @@ function adjustContentLeft() {
    var i1 = pl.indexOf("px");
    var pn = parseInt(pl.substr(0,i1))
    $('#conthead').css('left',pn+5);   
+   $('#prvbutn').css('left',pn+25);   
 }
 
 

@@ -48,7 +48,9 @@ function ResizeMC(x) {
 	$('#pgmenu').css('display','none');
     } else {
 	$('#pgmenu').css('display','block');
-    }    
+    }   
+    
+    $('#prvbutn').css('left', x+30); 
 }
 
 function RegisterPosition() {

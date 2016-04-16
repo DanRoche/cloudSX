@@ -17,14 +17,15 @@
 #conthead p {
  margin-bottom: 0px;
 }
-#upbutn {
+#prvbutn {
  position: fixed;
- top: 150px;
- right: 20px;
+ top: 140px;
+ /* right: 60px; */
+ left: 310px;
 }
-#dwbutn {
+#nxtbutn {
  position: fixed;
- top: 200px;
+ top: 140px;
  /* bottom: 20px; */
  right: 20px;
 }
@@ -47,14 +48,14 @@
 </div></div></div>
 <img id="imgfit" src="<?php echo $this->IMGURL; ?>">
 
-<?php if ( isset($this->UPURL) ): ?>
-<div id="upbutn">
-<a href="<?php echo $this->UPURL; ?>"><img class="arrimg" src="<?php echo $this->URL->GetMedia('/plugins/Image/img/arrup.png'); ?>"></a>
+<?php if ( isset($this->PREVURL) ): ?>
+<div id="prvbutn">
+<a href="<?php echo $this->PREVURL; ?>"><img class="arrimg" src="<?php echo $this->URL->GetMedia('/plugins/Image/img/arrlf.png'); ?>"></a>
 </div>
 <?php endif; ?>
-<?php if ( isset($this->DOWNURL) ): ?>
-<div id="dwbutn">
-<a href="<?php echo $this->DOWNURL; ?>"><img class="arrimg" src="<?php echo $this->URL->GetMedia('/plugins/Image/img/arrdn.png'); ?>"></a>
+<?php if ( isset($this->NEXTURL) ): ?>
+<div id="nxtbutn">
+<a href="<?php echo $this->NEXTURL; ?>"><img class="arrimg" src="<?php echo $this->URL->GetMedia('/plugins/Image/img/arrrt.png'); ?>"></a>
 </div>
 <?php endif; ?>
 
