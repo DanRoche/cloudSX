@@ -47,7 +47,8 @@ class Doc {
 				    "SendMail" => TRUE,
 				    "GetData" => TRUE,
 				    "Download" => TRUE,
-				    "ExternUrl" => TRUE
+				    "ExternUrl" => TRUE,
+				    "GetQR" => TRUE
 				    );
     $this->gconf = $conf;
     $this->lng = $lng;
@@ -818,6 +819,25 @@ class Doc {
    
     $tpl->display("tpl_doc/part_xu.html");
  
+  }
+
+  function GetQR($vars) {
+    //  png generation with qrencode
+
+    $dosinf = $this->data->FetchDosInfo($vars['DID']);
+    $urls = URL::GetURLByInfo($this->gconf, $dosinf);
+    
+    $sharurl = $urls->GetMinimumURL();
+    
+    header("MIME-Version: 1.0");
+    header("Expires: Sat, 01 Jan 2000 05:00:00 GMT");        // date in the past
+    header("Last-Modified:".date("D, d M Y H:i:s")." GMT");  // always modified
+    header("Cache-Control: no-cache, must-revalidate");      // HTTP/1.1
+    header("Pragma: no-cache");                              // HTTP/1.0
+    header("Content-type: image/png");   
+
+    $fn=popen("qrencode -lH -o - ".$sharurl , "r"); 
+    return fpassthru($fn); 
   }
 
   //===============================================
