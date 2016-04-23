@@ -18,7 +18,7 @@ function GoAttach() {
 <?php endif; ?>
 
 <p>
- <?php $this->M('1stdos1'); ?> <a href="javascript:GoAttach()"><strong><?php $this->M('1stdos2'); ?></strong></a>.
+ <?php $this->M('1stdos1'); ?> <a href="<?php echo $this->URL->GetMgmtMethod1Arg('Attach', $this->ATTACHARG); ?>"><strong><?php $this->M('1stdos2'); ?></strong></a>.
 </p>
 
 </div>

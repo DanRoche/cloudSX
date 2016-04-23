@@ -173,6 +173,7 @@ class Doc {
       $tpl->assign("MODACC", 'RO');
       break;
     }
+    $tpl->assign("ATTACHARG", $dosinf['did']."/".$ra );
 
     if ( ! isset($vars['PAGE']) ) {
       /* 
