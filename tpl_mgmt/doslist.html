@@ -117,7 +117,7 @@ foreach ($this->DLIST as $did => $pdata ) {
 ?>
 <tr class="datarow">
  <td><span class="dnam"><a href="<?php echo $this->URL->GetMgmtMethodWithDID('View',$did); ?>" ><?php echo $elem['title']; ?></a></span></td>
- <td><?php echo $elem['passwd']; ?></td>
+ <td><?php echo @$elem['passwd']; ?></td>
  <td><?php echo (isset($elem['passadm']))? $elem['passadm'] : "&nbsp;"; ?></td>
  <td><span class="dmod"><?php echo $elem['modified']; ?></span></td>
  <td><span class="deol"><?php echo $elem['endoflife']; ?></span></td>
