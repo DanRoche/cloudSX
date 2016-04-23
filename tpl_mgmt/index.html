@@ -26,7 +26,7 @@
    <div class="row"><div class="col-md-12"><h3 class="title"><?php $this->M('idx_intro'); ?></h3></div></div>
   </div>
   <div class="col-md-2">
-     <p class="text-right" id="connx"><a href="<?php echo $this->URL->GetMgmtMethod('DosList'); ?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?php $this->M('idx_connx'); ?></a>&nbsp;&nbsp;</p>
+     <p class="text-right" id="connx"><a href="<?php echo $this->URL->GetAbsMgmtMethod('DosList'); ?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?php $this->M('idx_connx'); ?></a>&nbsp;&nbsp;</p>
      <form id="lang" method="post" action="<?php echo $this->URL->GetMgmtMethod('SetLng'); ?>" target=_top>
      <div class="input-group">
       <span class="input-group-addon"><span class="glyphicon glyphicon-flag"></span></span>
@@ -68,7 +68,7 @@
 <?php $this->M('idx_pre2'); ?>
 </p>
 <p class="text-center">
-<button class="btn btn-primary btn-lg" type="button" onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('DosList'); ?>'" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?php $this->M('idx_but2'); ?></button>
+<button class="btn btn-primary btn-lg" type="button" onclick="window.location.href='<?php echo $this->URL->GetAbsMgmtMethod('DosList'); ?>'" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?php $this->M('idx_but2'); ?></button>
 </p>
 <hr>
 <p class="text-center">
@@ -89,7 +89,7 @@
 </div>
 <div class="col-md-6">
 <p class="text-center">
-<a href="<?php echo $this->URL->GetAdmMethod('UserList'); ?>"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;administration</a>
+<a href="<?php echo $this->URL->GetAbsAdmMethod('UserList'); ?>"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;administration</a>
 <p>
 </div>
 </div>

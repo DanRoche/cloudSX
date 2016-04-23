@@ -21,9 +21,9 @@
 <!--    <LOGO>  ------------------------------------ -->
 <div class="col-xs-2">
 <?php if ( isset($this->UINFO['llogo']) ): ?>
-<a href="<?php echo $this->URL->GetMgmtMethod('Index'); ?>" target="_top"><img id="plogol" src="<?php echo $this->URL->GetMgmtMethod('DispLogo', "UID=".$this->RUSERI); ?>" ></a>
+<a href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="plogol" src="<?php echo $this->URL->GetMgmtMethod('DispLogo', "UID=".$this->RUSERI); ?>" ></a>
 <?php else: ?>
-<a href="<?php echo $this->URL->GetMgmtMethod('Index'); ?>" target="_top"><img id="slogol" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
+<a href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="slogol" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
 <?php endif; ?>
 </div>
 <!--    </LOGO>  ------------------------------------ -->

@@ -209,14 +209,26 @@ class URL {
 
   function GetAbsMgmtMethod1Arg($method,$arg) {
     $tmp = $this->GetMgmtMethod1Arg($method,$arg);
-    $theu = "http://".$_SERVER['SERVER_NAME'].$tmp;
+    $mgproto = $this->MgmtProto($method);
+    $theu = $mgproto."://".$_SERVER['SERVER_NAME'].$tmp;
     return($theu);
   }
   
   function GetAbsMgmtMethod($method) {
     $tmp = $this->GetMgmtMethod($method);
-    $theu = "http://".$_SERVER['SERVER_NAME'].$tmp;
+    $mgproto = $this->MgmtProto($method);
+    $theu = $mgproto."://".$_SERVER['SERVER_NAME'].$tmp;
     return($theu);
+  }
+  
+  function MgmtProto($method) {
+	// awfull kludge ! 
+	// get http/s proto by the method
+	if ( $method == "Index" ) {
+		return("http");
+	} else {
+		return("https");
+	}
   }
   
 
@@ -407,13 +419,13 @@ class URL {
 
   function GetAbsAdmMethod1Arg($method,$arg) {
     $tmp = $this->GetAdmMethod1Arg($method,$arg);
-    $theu = "http://".$_SERVER['SERVER_NAME'].$tmp;
+    $theu = "https://".$_SERVER['SERVER_NAME'].$tmp;
     return($theu);
   }
   
   function GetAbsAdmMethod($method) {
     $tmp = $this->GetAdmMethod($method);
-    $theu = "http://".$_SERVER['SERVER_NAME'].$tmp;
+    $theu = "https://".$_SERVER['SERVER_NAME'].$tmp;
     return($theu);
   }
   
