@@ -188,6 +188,8 @@
      'unauth_message' => "Une authentification est nécéssaire pour accéder à votre compte !",
      'unauth_retry' => "Identifiez vous",
      'unauth_lostpass' => "Mot de passe perdu ?",
+     'unauth_explain' => "Pas encore ce compte ? Profitez des avantages : gardez trace de tous les porte-documents, ne soyez pas ennuyé par les mots de passe, prolongez leur durée de vie....",
+     'unauth_creacct' => "Créer votre compte !",
      'lostp_title' => "CloudSX - Mot de passe perdu",
      'lostp_message' => "Entrez l'adresse mail que vous avez fourni lors de la création de votre compte, votre nouveau mot de passe vous sera envoyé à cette adresse.",
      'melacc_tit' => "CloudSX - Création de compte",

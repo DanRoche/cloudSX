@@ -188,6 +188,8 @@
      'unauth_message' => "You must authenticate to access your account !",
      'unauth_retry' => "Sign In",
      'unauth_lostpass' => "Password lost ?",
+     'unauth_explain' => "No account yet ? Enjoy all the benefits : keep track of all briefcases, don't be bothered by passwords, increase their lifespan....",
+     'unauth_creacct' => "Create an account !",
      'lostp_title' => "CloudSX - Lost password",
      'lostp_message' => "Enter the mail address you gave during your account creation, your new password will be sent to this address.",
      'melacc_tit' => "CloudSX - Account creation",

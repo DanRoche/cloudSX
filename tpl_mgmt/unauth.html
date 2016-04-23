@@ -18,7 +18,7 @@
 
 <div class="well c0head">
  <div class="row">
-  <div class="col-md-4"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></div>
+  <div class="col-md-4"><a href="<?php echo $this->URL->GetMgmtMethod('Index'); ?>"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></a></div>
   <div class="col-md-8">
    <h3 class="title"><?php $this->M('unauth_title'); ?></h3>
  </div>
@@ -31,6 +31,16 @@
  <button type="button" class="btn btn-default btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('Index'); ?>'"> <?php $this->M('akp_ret'); ?> </button>
  <button type="button" class="btn btn-default btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('DosList'); ?>'"> <?php $this->M('unauth_retry'); ?> </button>
  <button type="button" class="btn btn-info btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('LostPassword'); ?>'"> <?php $this->M('unauth_lostpass'); ?> </button>
+</div>
+
+<div class="well">
+<p class="text-info"><?php $this->M('unauth_explain'); ?></p>
+<hr>
+
+<p class="text-center">
+<a class="btn btn-default btn-sm" role="button" href="<?php echo $this->URL->GetMgmtMethod('CreAcc1'); ?>" ><span class="glyphicon glyphicon-user"></span>&nbsp;<?php $this->M('unauth_creacct'); ?></a>
+</p>
+
 </div>
 
 </body></html>
