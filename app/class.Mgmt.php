@@ -331,6 +331,18 @@ class Mgmt {
     $this->AskAuth();
     $uinfo = $this->data->UserInfo($_SERVER['PHP_AUTH_USER']);
 
+	if ( ! isset($vars['DID']) or ! isset($vars['MODE']) ) {
+      $tpl = new Savant3();
+      $tpl->assign("MSG", "Porte Document inconnu !");
+      $urls = URL::GetURLSimple($this->gconf);
+      $tpl->assign("URL", $urls);
+      $tpl->assign("RURL", $urls->GetMgmtMethod('Index'));
+      $messages = $this->data->GetMessages($this->lng);
+      $tpl->setMessages($messages);
+      $tpl->display("tpl_mgmt/error2.html");
+      exit(0);
+    }
+
     switch($vars['MODE']) {
     case ACCES_RW:
       $mode = 'writer';
