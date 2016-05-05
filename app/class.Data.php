@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 include_once "class.Debug.php";
 include_once "class.URL.php";
@@ -1572,4 +1572,3 @@ class Data {
     
 }
 
-</script>

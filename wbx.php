@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 include_once "app/Config.php";
 
 //*************************************
@@ -196,4 +196,3 @@ if ($class && $method) {
   }
 }
     
-</script>

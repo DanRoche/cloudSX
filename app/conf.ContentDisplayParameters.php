@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
    //=======================================================
    // Content Display Parameters Config
@@ -51,4 +51,3 @@
  }
  
 
-</script>

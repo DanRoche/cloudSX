@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 //===============================================
 // plugins to display office document 
@@ -45,5 +45,3 @@ class PdfConvert {
   }
 
 }
-</script>
-

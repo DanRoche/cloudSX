@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 //===============================================
 // plugins to display resized image 
@@ -57,4 +57,3 @@ class Image {
   }
 
 }
-</script>

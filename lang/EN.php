@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
    $msgs = Array(
      'gen_ok' => " OK ",
@@ -256,4 +256,3 @@
      'adm_srh_u4d' => "list of users associated to briefcase :",
      'adm_srh_d4u' => "list of briefcases associated to user :",
 );
-</script>

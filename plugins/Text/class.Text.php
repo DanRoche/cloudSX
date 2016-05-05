@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 //===============================================
 // plugins to display text document 
@@ -42,5 +42,3 @@ class Text {
   }
 
 }
-</script>
-

@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 //===============================================
 // plugins to display pdf document 
@@ -39,5 +39,3 @@ class Pdf {
   }
 
 }
-</script>
-

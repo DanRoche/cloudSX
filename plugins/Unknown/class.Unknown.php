@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 //===============================================
 // plugins to display unknown content 
@@ -50,5 +50,3 @@ class Unknown {
   }
 
 }
-</script>
-

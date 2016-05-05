@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
    // need to be seriously improved/rewriten !!
    // kept as reminder
@@ -119,4 +119,3 @@ class API {
 
 }
 
-</script>

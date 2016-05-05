@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 include_once "Savant3/Savant3.php";
 
@@ -43,4 +43,3 @@ class Debug {
 
 }
 
-</script>

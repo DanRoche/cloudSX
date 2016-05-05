@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 include_once "Savant3/Savant3.php";
 include_once "class.Data.php";
@@ -736,4 +736,3 @@ class Mgmt {
 
 }
 
-</script>

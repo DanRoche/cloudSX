@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 class Config {
 
@@ -103,4 +103,3 @@ class Config {
     
 }
 
-</script>

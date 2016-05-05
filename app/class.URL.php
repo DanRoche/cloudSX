@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 include_once "conf.ContentDisplayParameters.php";
 
@@ -437,4 +437,3 @@ class URL {
   
 }
 
-</script>

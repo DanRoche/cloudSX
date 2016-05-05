@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
    // #######################################
    // DATA transport and Utilities functions
@@ -68,4 +68,3 @@ class PluginLib {
 
 }
 
-</script>

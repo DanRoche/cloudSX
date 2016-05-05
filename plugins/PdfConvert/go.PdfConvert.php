@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
 //===============================================
 // convert office file to PDF
@@ -21,6 +21,3 @@ header("Content-type: application/pdf");
 //header("Content-Description: File"); 
 
 passthru($command); 
-
-</script>
-

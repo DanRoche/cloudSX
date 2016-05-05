@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 
    $msgs = Array(
      'gen_ok' => " OK ",
@@ -256,4 +256,3 @@
      'adm_srh_u4d' => "liste des utilisateurs associés au porte-document :",
      'adm_srh_d4u' => "liste des porte-documents associés à l'utilisateur :",
 );		 
-</script>
