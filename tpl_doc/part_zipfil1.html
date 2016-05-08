@@ -1,0 +1,25 @@
+<div class="container">
+
+<h1><span class="glyphicon glyphicon-cloud-download"></span>&nbsp;<span class="glyphicon glyphicon-compressed"></span>&nbsp;<?php $this->M('zip_title'); ?></h1>
+
+<div class="well">
+<?php if ( empty($this->ZLIST) ): ?>
+<em><?php $this->M('zip_all'); ?></em>
+<?php else: ?>
+<em><?php $this->M('zip_m1'); ?></em>
+<?php endif; ?>
+<form method="post" action="<?php echo $this->URL->GetDosMethod('GetZip'); ?>" target="_top">
+  <input name="DID" value="<?php echo $this->DID; ?>" type="hidden">
+<p>
+<ul>
+<?php while (list($ind, $value) = each($this->ZLIST) ) { ?>
+ <li><?php echo $value; ?></li>
+ <input type="hidden" name="LDL[]" value="<?php echo $value; ?>" >
+<?php } ?>
+ </ul>
+</p>
+  <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-cloud-download"></span>&nbsp;<?php $this->M('zip_confirm'); ?></button>
+</form>
+</div>
+
+</div>

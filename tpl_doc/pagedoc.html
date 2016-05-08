@@ -14,6 +14,7 @@
  <script language="javascript" src="<?php echo $this->URL->GetMedia('/js/resizeMC3.js'); ?>"></script>
  <script language="javascript" src="<?php echo $this->URL->GetMedia('/js/content.js'); ?>"></script>
  <script language="javascript" src="<?php echo $this->URL->GetMedia('/js/scroll2top.js'); ?>"></script>
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/js/floataction.js'); ?>"></script>
 </head>
 
 <body id="onepage">
@@ -42,6 +43,7 @@
   ResizeMCInit();
   changeContent("<?php echo $this->URL->GetDosMethod($this->PAGE); ?>");
   RecallPosition();
+  AdjustFloatAction();
 </script>
 
 </body>

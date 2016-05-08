@@ -508,7 +508,7 @@ class Data {
 
   }
 
-  function GenerateAndSendZip($did) {
+ function GenerateAndSendZip($did, $filelist="*") {
     
     $ddir = $this->GetAbsDirFromDID($did);
     
@@ -516,7 +516,7 @@ class Data {
       return null;
     }
 
-    $cmd = "zip -jq - ".$ddir."/*";
+    $cmd = "cd ".$ddir.";zip -jq - ".$filelist;
 
     header("Content-type: application/zip");
     header("Content-Disposition: attachment; filename=".$did.".zip");

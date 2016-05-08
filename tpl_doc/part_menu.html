@@ -1,32 +1,55 @@
 <div id="menu_docs" class="container-fluid">
 <?php if ( sizeof($this->DOSINFO['filelist']) ): ?>
 <h4><a href="<?php echo $this->URL->GetInnerMethod('DispThumbs'); ?>"><span class="glyphicon glyphicon-th"></span>&nbsp;<?php $this->M('menu_docs'); ?></a></h4>
-<h4><a href="<?php echo $this->URL->GetDosMethod('GetZip'); ?>"><span class="glyphicon glyphicon-cloud-download"></span>&nbsp;<?php $this->M('menu_getzip'); ?></a></h4>
 <?php endif; ?>
 </div>
 
 <div  id="menu_files" class="container-fluid">
 
-<?php if ( $this->MODACC == 'RW' ) { ?>
 <form id="menuFileForm" enctype="multipart/form-data" method="post" action="<?php echo $this->URL->GetDosMethod('ActionOnFiles'); ?>">
 <input name="DID" value="<?php echo $this->DOSINFO['did']; ?>" type="hidden">
 <input id="menuFileAction" name="ACTION" value="none" type="hidden">
-<?php } ?>
 
 <?php 
 while (list($ind, $value) = each($this->DOSINFO['filelist'])):
   $furl = $this->URL->GetInnerData($value);
 ?>
-<label class="checkbox"><?php if ( $this->MODACC == 'RW' ): ?>
+<label class="checkbox">
  <input type="checkbox" name="CFI[]" value="<?php echo $value; ?>">
-<?php else: ?> 
- <span class="mbullet">&raquo;</span>
-<?php endif; ?>
 <a href="<?php echo $furl; ?>"> <?php echo $value; ?></a></label>
 <?php endwhile; ?>
 
-<?php if ( $this->MODACC == 'RW' ) { ?>
 </form>
-<?php } ?>
+<span id="endfiles">&nbsp;</span>
 
+<br><br>
 </div>
+
+<?php if ( sizeof($this->DOSINFO['filelist']) ): ?>
+<div id="floatactions" class="container-fluid">
+<h5>
+<form>
+<img id="filaction" src="<?php echo $this->URL->GetMedia('/img/filaction.png'); ?>">
+<input type="checkbox" id="togall" name="togall" value="" onclick="javascript:ToggleAll()">&nbsp;
+<a href="javascript:contentGetZip()" data-toggle="tooltip" data-placement="right" title="<?php $this->M('menu_getzip'); ?>"><span class="glyphicon glyphicon-cloud-download"></span></a>
+<?php if ( $this->MODACC == 'RW' ) : ?>
+<a href="javascript:contentDelete()" data-toggle="tooltip" data-placement="right" title="<?php $this->M('menu_del'); ?>"><span class="glyphicon glyphicon-trash"></span></a>
+<a href="javascript:contentRename()" data-toggle="tooltip" data-placement="right" title="<?php $this->M('menu_ren'); ?>"><span class="glyphicon glyphicon-edit"></span></a>
+<?php endif; ?>
+</form>
+</h5>
+</div>
+
+<script language="javascript">
+  $('[data-toggle="tooltip"]').tooltip()
+</script>
+
+<script language="javascript">
+function ToggleAll() {
+   var gsts = $('#togall').prop('checked');
+   $('#menuFileForm input').each(function() {
+      $(this).prop('checked',gsts);
+    })
+}
+</script>
+<?php endif; ?>

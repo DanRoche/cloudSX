@@ -43,6 +43,7 @@ function ResizeMC(x) {
     $('#pgresizer').css('left',x);   
     $('#pgcont').css('margin-left',x+5);   
     $('#conthead').css('left',x+10);   
+    $('#floatactions').css('width',x);   
 
     if ( x < 25 ) {
 	$('#pgmenu').css('display','none');

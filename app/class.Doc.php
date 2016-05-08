@@ -435,6 +435,9 @@ class Doc {
     case "REN":
       $this->RenFile1($vars);
       break;
+    case "ZIP":
+      $this->GetZip1($vars);
+      break;
     default:
       echo "Unknown Action : Should not happen !";
       return;
@@ -630,16 +633,43 @@ class Doc {
 
   }
 
+  // called by ActionOnFiles
+  function GetZip1($vars) {
+
+    $tpl = new Savant3();
+
+    $dosinf = $this->data->FetchDosInfo($vars['DID']);
+    $ra = $this->AuthenticateInner($dosinf);
+
+    $urls = URL::GetURLByDID($this->gconf, $vars['DID']);
+    $tpl->assign("URL", $urls);
+    $messages = $this->data->GetMessages($this->lng);
+    $tpl->setMessages($messages);
+    $tpl->assign("DID", $vars['DID']);
+
+    if ( isset($vars["CFI"]) ) {
+      $tpl->assign("ZLIST", $vars["CFI"]);
+    } else {
+      $tpl->assign("ZLIST",Array());
+    }
+    $tpl->display("tpl_doc/part_zipfil1.html");
+
+  }
+
   function GetZip($vars) {
 
-    //$this->debug->Debug2("update", $vars);
+    //$this->debug->Debug2("getzip", $vars);
     //exit(0);
 
     $dosinf = $this->data->FetchDosInfo($vars['DID']);
     $ra = $this->Authenticate($dosinf);
     
-    $this->data->GenerateAndSendZip($vars['DID']);
-
+    if ( empty($vars['LDL'] )) {
+	$this->data->GenerateAndSendZip($vars['DID']);
+    } else {
+      $f2z = implode(" ", $vars['LDL']);
+      $this->data->GenerateAndSendZip($vars['DID'], $f2z);
+    }
   }
 
   function DispBlog($vars) {

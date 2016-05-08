@@ -13,9 +13,6 @@
       <ul class="dropdown-menu" aria-labelledby="drop2"> 
        <li><a href="<?php echo $this->URL->GetInnerMethod('DispParam'); ?>"><span class="glyphicon glyphicon-briefcase"></span>&nbsp;<?php $this->M('menu_param'); ?></a></li> 
        <li role="separator" class="divider"></li> 
-       <li<?php echo ($this->MODACC=='RO')? ' class="disabled"':''; ?>><a href="javascript:contentDelete()"><span class="glyphicon glyphicon-trash"></span>&nbsp;<?php $this->M('menu_del'); ?></a></li> 
-       <li<?php echo ($this->MODACC=='RO')? ' class="disabled"':''; ?>><a href="javascript:contentRename()"><span class="glyphicon glyphicon-edit"></span>&nbsp;<?php $this->M('menu_ren'); ?></a></li> 
-       <li role="separator" class="divider"></li> 
        <?php if ( $this->MJITSI == 1 ): ?>
        <li><a href="<?php echo $this->URL->GetMeetJitsi(); ?>" target="jitsi"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;<?php $this->M('menu_vidconf'); ?></a></li> 
        <?php endif; ?>

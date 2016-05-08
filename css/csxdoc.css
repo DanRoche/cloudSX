@@ -66,7 +66,7 @@ html, body {
  margin-right: 0px;
  margin-bottom: 0px;
  margin-left: 0px;
- padding-top: 180px;
+ padding-top: 140px;
  padding-right: 10px;
  padding-bottom: 10px;
  padding-left: 10px;
@@ -77,7 +77,7 @@ html, body {
  position: fixed;
  top: 100px;
  left: 0px;
- height: 80px;
+ height: 40px;
  width: 246px;
  overflow: hidden;
  white-space: nowrap;
@@ -242,4 +242,31 @@ html, body {
  position: absolute;
  top: 10px;
  right: 10px;
+}
+
+/* ========== floating actions  ============== */
+
+#floatactions {
+ background-color: #e3e9ec;
+ position: fixed;
+ left: 0px;
+ bottom: 0px;
+ height: 45px;
+ width: 260px;
+ overflow: hidden;
+ white-space: nowrap;
+}
+
+#filaction {
+ position: absolute;
+ left: 0px;
+ bottom: 0px;
+}
+
+#floatactions a {
+ margin-left: 20px
+}
+
+#floatactions input {
+ margin-left: 30px
 }

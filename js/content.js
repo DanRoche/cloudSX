@@ -30,6 +30,11 @@ function contentDelete() {
     contentAction();
 }
 
+function contentGetZip() {
+    $('#menuFileAction').val("ZIP");
+    contentAction();
+}
+
 function contentAction() {
 
     $('#menuFileForm').submit(function( event ) {
