@@ -307,10 +307,10 @@ class URL {
   }
 
   function GetFramaDate() {
-    $lconvert = Array("FR" => "fr_FR", 
-		      "EN" => "en_GB" );
+    $lconvert = Array("FR" => "fr", 
+		      "EN" => "en" );
     if ( isset($this->dosinfo['framadate']) ) {
-      $theu = $this->gconf->FramaDateUrl."/adminstuds.php?sondage=".$this->dosinfo['framadate']."&lang=".$lconvert[$this->lng];
+      $theu = $this->gconf->FramaDateUrl."/adminstuds.php?poll=".$this->dosinfo['framadate']."&lang=".$lconvert[$this->lng];
     } else {
       $theu = "about:blank";
     }
@@ -319,7 +319,7 @@ class URL {
 
   function GetInnerDate() {
     $ur1 = $this->GetFramaDate();
-    $ur2 = $this->GetDosMethod("ExternUrl","XU=".$ur1);
+    $ur2 = $this->GetDosMethod("ExternUrl","XU=".base64_encode($ur1));
     return $this->AddChangeContent($ur2);
   }
 

@@ -845,7 +845,7 @@ class Doc {
 
     $tpl = new Savant3();
 
-    $tpl->assign("XU", $vars['XU']);
+    $tpl->assign("XU", base64_decode($vars['XU']));
    
     $tpl->display("tpl_doc/part_xu.html");
  

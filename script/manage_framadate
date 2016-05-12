@@ -9,6 +9,7 @@
 # 1st version 20150612
 #             20160123  fetch config from php
 #             20160324  new mysql connection + fix env
+#             20160512  framadate version 0.9.6
 #
 ##########################################################
 
@@ -169,8 +170,8 @@ case ${ACTION} in
   # INIT
 
   NOW=$(date "+%s")
-  // 20 years in the future, we dont care about the partner framadate !
-  // it will be destroyed with the cloudsx
+  # 20 years in the future, we dont care about the partner framadate !
+  # it will be destroyed with the cloudsx
   END0=$((NOW + 630720000))
   END1=$(date "+%Y-%m-%d %H:%M:%S" -d @${END0})
 
@@ -182,14 +183,13 @@ case ${ACTION} in
   DAT0=$((NOW + 604800))
   DAT1=$((NOW + 777600))
 
-  STUD="${DAT0}@14h00,${DAT1}@15h00"
-
   #----------------------
   # LOAD 
 
-  echo "insert into sondage set id_sondage='${UUIDSND}', nom_admin='cloudsx', commentaires='', titre='${TITLE}', id_sondage_admin='${UUIDADM}', date_fin='${END1}', format='D+';" | ${MYCMD}
+  echo "insert into fd_poll set id='${UUIDSND}', admin_name='cloudsx', description='', title='${TITLE}', admin_id='${UUIDADM}', end_date='${END1}', format='D', editable=1;" | ${MYCMD}
 
-  echo "insert sujet_studs set id_sondage='${UUIDSND}', sujet='${STUD}';" | ${MYCMD}
+  echo "insert into fd_slot set poll_id='${UUIDSND}', title='${DAT0}', moments='14h00';" | ${MYCMD}
+  echo "insert into fd_slot set poll_id='${UUIDSND}', title='${DAT1}', moments='15h00';" | ${MYCMD}
   #----------------------
   # if CSXID provided, create the cloudsx struct
   if [ "${CSXID}" != "" ]
@@ -213,10 +213,10 @@ case ${ACTION} in
   # on ne prend que UID simple
   UUIDSND=${UUID:0:16}
   
-  echo "delete from sondage where id_sondage='${UUIDSND}';" | ${MYCMD}
-  echo "delete from sujet_studs where id_sondage='${UUIDSND}';" | ${MYCMD}
-  echo "delete from user_studs where id_sondage='${UUIDSND}';" | ${MYCMD}
-  echo "delete from comments where id_sondage='${UUIDSND}';" | ${MYCMD}
+  echo "delete from fd_poll where id='${UUIDSND}';" | ${MYCMD}
+  echo "delete from fd_slot where poll_id='${UUIDSND}';" | ${MYCMD}
+  echo "delete from fd_vote where poll_id='${UUIDSND}';" | ${MYCMD}
+  echo "delete from fd_comment where poll_id='${UUIDSND}';" | ${MYCMD}
   ;;
 
 ############ esac #############
