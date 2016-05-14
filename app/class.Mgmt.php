@@ -60,6 +60,7 @@ class Mgmt {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
     $tpl->assign("LANGSET", $this->gconf->LangSet);
 
@@ -74,6 +75,7 @@ class Mgmt {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     $utyp = $this->data->CurrentUserStatus();
@@ -164,6 +166,7 @@ class Mgmt {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     $dlist = $this->data-> GetDosListByUser($uinfo['mail']);
@@ -380,6 +383,7 @@ class Mgmt {
       $tpl->assign("MSG", $messages['matt_err1']);
       $urls = URL::GetURLSimple($this->gconf);
       $tpl->assign("APPNAM", $this->gconf->name);
+      $tpl->assign("FAVICO", $this->gconf->favico);
       $tpl->assign("URL", $urls);
       $tpl->assign("AUTOPOP", "PopError");
 
@@ -396,6 +400,7 @@ class Mgmt {
       $tpl->assign("MSG", $messages['matt_err2']);
       $urls = URL::GetURLSimple($this->gconf);
       $tpl->assign("APPNAM", $this->gconf->name);
+      $tpl->assign("FAVICO", $this->gconf->favico);
       $tpl->assign("URL", $urls);
       $tpl->assign("AUTOPOP", "PopError");
 
@@ -410,6 +415,7 @@ class Mgmt {
       $tpl->assign("MSG", $messages['matt_err2']);
       $urls = URL::GetURLSimple($this->gconf);
       $tpl->assign("APPNAM", $this->gconf->name);
+      $tpl->assign("FAVICO", $this->gconf->favico);
       $tpl->assign("URL", $urls);
       $tpl->assign("AUTOPOP", "PopAskPass");
       $tpl->assign("DID", $dosinfo['did']);
@@ -455,6 +461,7 @@ class Mgmt {
       $tpl->assign("MSG", $messages['matt_err3']);
       $urls = URL::GetURLSimple($this->gconf);
       $tpl->assign("APPNAM", $this->gconf->name);
+      $tpl->assign("FAVICO", $this->gconf->favico);
       $tpl->assign("URL", $urls);
       $tpl->assign("AUTOPOP", "PopError");
 
@@ -510,6 +517,7 @@ class Mgmt {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     $tpl->display("tpl_mgmt/acccre1.html");
@@ -527,6 +535,7 @@ class Mgmt {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     if ( $vars['ACCPASS'] != $vars['ACCPAS2'] ) {
@@ -584,6 +593,7 @@ class Mgmt {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     $ret = $this->data->ValidateUser($uid);
@@ -618,6 +628,7 @@ class Mgmt {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     $tpl->display("tpl_mgmt/lostpass.html");
@@ -690,6 +701,7 @@ class Mgmt {
     $urls = URL::GetURLSimple($this->gconf);
     $tpl->assign("URL", $urls);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $messages = $this->data->GetMessages($this->lng);
     $tpl->setMessages($messages);
     

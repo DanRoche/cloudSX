@@ -149,6 +149,7 @@ class Doc {
 
     $tpl->assign("DID", $vars['DID']);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->assign("SELFPROMO", $this->SelfPromoteCookie($dosinf));
 
     $urls = URL::GetURLByInfo($this->gconf, $dosinf);
@@ -886,6 +887,7 @@ class Doc {
       $tpl->assign("URL", $urls);
       $tpl->assign("DID", $dosinfo["did"]);
       $tpl->assign("APPNAM", $this->gconf->name);
+      $tpl->assign("FAVICO", $this->gconf->favico);
 
       $messages = $this->data->GetMessages($this->lng);
       $tpl->setMessages($messages);

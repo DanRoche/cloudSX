@@ -9,8 +9,9 @@ class Config {
     // CUSTOMIZABLE VARIABLES
     // ============================
 
-    // application name
+    // application name & icon
     $this->name = "CloudSX";
+    $this->favico = "/img/cloudsx.ico";
 
     // application topdir & topurl
     //     TopAppDir should match the PATH where you installed this software

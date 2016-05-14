@@ -53,6 +53,7 @@ class Admin {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     $dflist = $this->data-> GetDosListFull();
@@ -80,6 +81,7 @@ class Admin {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     $uinfo = $this->data->UserInfoByUid($vars['UID']);
@@ -115,6 +117,7 @@ class Admin {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     $uflist = $this->data->GetUserListFull();
@@ -143,6 +146,7 @@ class Admin {
     $messages = $this->data->GetMessages($this->lng);
     $tpl->assign("LNG", $this->lng);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
     $dinfo = $this->data->FetchDosInfo($vars['DID']);
@@ -353,6 +357,7 @@ class Admin {
     $urls = URL::GetURLSimple($this->gconf);
     $tpl->assign("URL", $urls);
     $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
     $messages = $this->data->GetMessages($this->lng);
     $tpl->setMessages($messages);
     
