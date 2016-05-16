@@ -31,9 +31,8 @@
  <br>
 </div>
 
-<div class="row">
+<div class="row" id="uploadend" style="display: none">
 <a href="<?php echo $this->URL->GetDosMethod('Display'); ?>" target="_top" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-ok"></span>&nbsp;OK</a>
-<!-- <button class="btn btn-primary btn-sm" type="button" href="<?php echo $this->URL->GetDosMethod('Display'); ?>" ><span class="glyphicon glyphicon-ok"></span>&nbsp;<?php $this->M('add_ok'); ?></button> -->
 </div>
 
 </div>
@@ -65,7 +64,10 @@ $(function () {
                 'width',
                 progress + '%'
             );
-        }
+        },
+        stop: function (e) {
+			$('#uploadend').show();
+		}
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
 });
