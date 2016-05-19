@@ -3,7 +3,7 @@
  <ul class="nav nav-tabs">
   <li <?php if ($this->MYSELF == "DosList") echo "class=\"active\""; ?>><a href="<?php echo $this->URL->GetAdmMethod('DosList'); ?>"><?php $this->M('adm_tabdlist'); ?></a></li>
   <li <?php if ($this->MYSELF == "UserList") echo "class=\"active\""; ?>><a href="<?php echo $this->URL->GetAdmMethod('UserList'); ?>"><?php $this->M('adm_tabulist'); ?></a></li>
-<?php foreach ( $this->RTABS as $ind => $tag ): ?>
+<?php foreach ( @$this->RTABS as $ind => $tag ): ?>
   <li <?php if ($this->CURTAB == $tag) echo "class=\"active\""; ?>><a href="<?php echo $this->URL->GetAdmMethod($tag); ?>"><?php $this->M1('adm_tabres',$ind); ?></a></li>
 <?php endforeach; ?>
  </ul>

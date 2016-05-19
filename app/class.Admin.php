@@ -65,7 +65,7 @@ class Admin {
     $tpl->assign("DFLIST", $dflist);
     $tpl->assign("MYSELF", "DosList");
     @session_start();
-    $tpl->assign("RTABS", $_SESSION['RESTAB']);
+    $tpl->assign("RTABS", @$_SESSION['RESTAB']);
 
     $tpl->display("tpl_adm/doslist.html");
 
