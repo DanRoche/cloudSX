@@ -233,10 +233,11 @@ html, body {
  z-index: 10000;
  position: fixed;
  top: 140px;
- left: 10px;
- width: 500px;
+ left: 50px;
+ width: 400px;
  overflow: hidden;
  background:  #ffffd0;
+ opacity: 0.9;
 }
 #clozprom {
  position: absolute;
