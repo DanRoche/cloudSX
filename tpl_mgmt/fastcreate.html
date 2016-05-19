@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!-- tpl: create.html -->
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <title><?php echo $this->APPNAM; ?></title>
+ <link rel="icon" type="image/ico" href="<?php echo $this->FAVICO; ?>" />
+ <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/jquery/jquery-1.11.1.min.js'); ?>"></script> 
+ <script language="javascript" src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script> 
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link href="<?php echo $this->URL->GetMedia('/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/csxmgmt.css'); ?>" rel="stylesheet">
+ </head>
+<body id="page001">
+
+<div class="container">
+
+<div class="rox c0head">
+ <div class="row">
+  <div class="col-md-4"><a href="<?php echo $this->URL->GetMgmtMethodWithDID('FastUnCreate',$this->DID); ?>"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></a></div>
+  <div class="col-md-8">
+   <h3 class="title"><?php $this->M('fast_title'); ?></h3>
+  </div>
+ </div>
+</div>
+
+<form novalidate="novalidate" id="fastcredoc" class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('Display','PAGE=DispShare'); ?>">
+
+<div class="cont1 well">
+
+<div class="alert alert-info" role="alert"><p class="text-center"><?php $this->M('fast_msg1'); ?></p></div>
+
+<input value="<?php echo $this->DID; ?>" name="DID" id="DID"  type="hidden">
+
+<hr>
+
+<div class="row">
+ <div class="well" id="dropzone">
+  <p class="text-center">
+   <span class="btn btn-success fileinput-button">
+    <i class="glyphicon glyphicon-plus"></i> <span><?php $this->M('add_select'); ?></span>
+     <!-- The file input field used as target for the file upload widget -->
+    <input id="fileupload" type="file" name="files[]" multiple>
+   </span>&nbsp;&nbsp;
+   <em><?php $this->M('add_drop'); ?></em>&nbsp;<img src="<?php echo $this->URL->GetMedia('/img/dragdrop.png'); ?>"</p>
+ </div>
+</div>
+
+<div class="row">
+ <!-- The global progress bar -->
+ <div id="progress" class="progress">
+  <div class="progress-bar progress-bar-success"></div>
+ </div>
+</div>
+
+<div class="row">
+ <!-- The container for the uploaded files  and  end operation -->
+ <div id="files" class="files"></div>
+ <br>
+</div>
+
+<!-- <div id="uploadend" class="row" style="display: none">
+<a href="#" target="_top" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-ok"></span>&nbsp;OK</a>
+</div> -->
+
+</div>
+
+<div class="well c0foot" id="uploadcancel">
+ <button type="button" class="btn btn-default btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethodWithDID('FastUnCreate',$this->DID); ?>'"> <?php $this->M('gen_cancel'); ?> </button>
+</div>
+
+</form>
+
+
+<!-- ------ JQFU ----------- -->
+
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="/jqfu/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/jqfu/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/jqfu/js/jquery.fileupload.js"></script>
+<script>
+/*jslint unparam: true */
+/*global window, $ */
+$(function () {
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    var url = '<?php echo $this->URL->GetMgmtMethod('CreateJQFU'); ?>';
+    $('#fileupload').fileupload({
+        url: url,
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo('#files');
+            });
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        },
+        stop: function (e) {
+            $('#fastcredoc').submit();
+	}
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
+<!-- ------ end JQFU ----------- -->
+
+</body></html>
