@@ -19,7 +19,10 @@ class Mgmt {
     $this->public_functions = array(
 				    "Index" => TRUE,
 				    "Create1" => TRUE,
+                                    "FastCreate" => TRUE,
+                                    "CreateJQFU" => TRUE,
 				    "Create2" => TRUE,
+				    "FastUnCreate" => TRUE,
 				    "SetLng" => TRUE,
 				    "DosList" => TRUE,
 				    "View" => TRUE,
@@ -99,6 +102,65 @@ class Mgmt {
 
   }
 
+  function FastCreate($vars) {
+
+    $tpl = new Savant3();
+    $fc = $this->data->PreCreate4Fast();
+
+    if ( ! isset($fc['did']) ) {
+      $tpl->assign("MSG", "Pre-Create failure, contact administrator !");
+      $urls = URL::GetURLSimple($this->gconf);
+      $tpl->assign("URL", $urls);
+      $tpl->assign("RURL", $urls->GetMgmtMethod('Index'));
+      $messages = $this->data->GetMessages($this->lng);
+      $tpl->setMessages($messages);
+      $tpl->display("tpl_doc/error2.html");
+      return;
+    }
+
+    $dosinf = $this->data->FetchDosInfo($fc['did']);
+    $urls = URL::GetURLByInfo($this->gconf, $dosinf);
+
+    $tpl->assign("URL", $urls);
+    $messages = $this->data->GetMessages($this->lng);
+    $tpl->assign("LNG", $this->lng);
+    $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
+    $tpl->assign("URL", $urls);
+    $tpl->assign("DID", $dosinf["did"] );
+    $tpl->setMessages($messages);
+    $tpl->display("tpl_mgmt/fastcreate.html");
+
+  }
+  
+  function CreateJQFU($vars) {
+
+    //$this->debug->DebugToFile("/tmp/cre_jqfu_deb.log", $vars);
+    //exit(0);
+
+    $did = @$vars["DID"];
+    if ( isset($did) && $did != "" ) {
+
+      $ret = $this->data->AddJQFUFiles($did, $vars);
+    
+      $tmp = $vars['files'];
+      $finfo['name'] = $tmp['name'][0];
+      $finfo['type'] = $tmp['type'][0];
+      $finfo['tmp_name'] = $tmp['tmp_name'][0];
+      $finfo['error'] = $tmp['error'][0];
+      $finfo['size'] = $tmp['size'][0];
+
+      // jquery file upload need a json return 
+      header('Content-type: application/json');
+      $tpl = new Savant3();
+      $tpl->assign("NAME", $finfo['name']);
+      $tpl->assign("TYPE", $finfo['type']);
+      $tpl->assign("SIZE", $finfo['size']);
+      $tpl->display("tpl_doc/jqfu_ret.json");
+    }
+
+  }
+
   function Create2($vars) {
 
     //$this->debug->Debug1("create2");
@@ -136,6 +198,18 @@ class Mgmt {
       //echo $gourl."\n";
       header("Location: ".$gourl);
     }
+  }
+
+  function FastUnCreate($vars) {
+
+    if ( isset($vars['DID']) and $vars['DID'] != "" ) {
+      $this->data->DeleteDosStruct($vars['DID']);
+    }
+    
+    $urls = URL::GetURLSimple($this->gconf);
+    $url = $urls->GetMgmtMethod('Index' );
+  
+    header("Location: ".$url);
   }
 
   function SetLng($vars) {

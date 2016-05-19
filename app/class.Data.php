@@ -135,6 +135,21 @@ class Data {
     return($dosret); 
   }
 
+  function PreCreate4Fast() {
+    // create pseudo vars for create
+    $pseudo = Array();
+    $pseudo["DOSNAM"] = date("_Ymd_His");
+    $pseudo["DOSPSW"] = "";
+    $pseudo["DOSCOM"] = "####";
+
+    $utyp = $this->CurrentUserStatus();
+    $datinf = $this->GetDateInfo($utyp);
+
+    $pseudo["DOSLIM"] =  date("Y-m-d", $datinf['datelim']);
+
+    return $this->CreDosStruct($pseudo);
+  }
+
   function UpdateDosStruct($did, $vars) {
     
     $ddir = $this->GetAbsDirFromDID($did);

@@ -115,6 +115,11 @@ if ( $class == "Mgmt" and $method == "Attach" and $arg1 != "" and $arg2 != "" ) 
   $GPCVARS["MODE"] = $arg2;
 }
 
+// for method Mgmt/FastUnCreate , assume arg1 if present is UCODE
+if ( $class == "Mgmt" and $method == "FastUnCreate" and $arg1 != "" ) {
+  $GPCVARS["DID"] = $arg1;
+}
+
 // for method Admin/View , assume arg1 if present is DID
 if ( $class == "Admin" and $method == "View" and $arg1 != "" ) {
   $GPCVARS["DID"] = $arg1;
