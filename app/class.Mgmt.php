@@ -19,10 +19,13 @@ class Mgmt {
     $this->public_functions = array(
 				    "Index" => TRUE,
 				    "Create1" => TRUE,
-                                    "FastCreate" => TRUE,
-                                    "CreateJQFU" => TRUE,
 				    "Create2" => TRUE,
-				    "FastUnCreate" => TRUE,
+                                    "DosCreate" => TRUE,
+                                    "MgtCreate" => TRUE,
+                                    "CreateJQFU" => TRUE,
+				    "FinishCreate" => TRUE,
+				    "UnCreate" => TRUE,
+				    "UnCreateMgt" => TRUE,
 				    "SetLng" => TRUE,
 				    "DosList" => TRUE,
 				    "View" => TRUE,
@@ -70,6 +73,7 @@ class Mgmt {
     $tpl->display("tpl_mgmt/".$this->gconf->MainIndex);
   }
 
+  // old creation method, no longer used ?
   function Create1($vars) {
 
     $tpl = new Savant3();
@@ -102,65 +106,7 @@ class Mgmt {
 
   }
 
-  function FastCreate($vars) {
-
-    $tpl = new Savant3();
-    $fc = $this->data->PreCreate4Fast();
-
-    if ( ! isset($fc['did']) ) {
-      $tpl->assign("MSG", "Pre-Create failure, contact administrator !");
-      $urls = URL::GetURLSimple($this->gconf);
-      $tpl->assign("URL", $urls);
-      $tpl->assign("RURL", $urls->GetMgmtMethod('Index'));
-      $messages = $this->data->GetMessages($this->lng);
-      $tpl->setMessages($messages);
-      $tpl->display("tpl_doc/error2.html");
-      return;
-    }
-
-    $dosinf = $this->data->FetchDosInfo($fc['did']);
-    $urls = URL::GetURLByInfo($this->gconf, $dosinf);
-
-    $tpl->assign("URL", $urls);
-    $messages = $this->data->GetMessages($this->lng);
-    $tpl->assign("LNG", $this->lng);
-    $tpl->assign("APPNAM", $this->gconf->name);
-    $tpl->assign("FAVICO", $this->gconf->favico);
-    $tpl->assign("URL", $urls);
-    $tpl->assign("DID", $dosinf["did"] );
-    $tpl->setMessages($messages);
-    $tpl->display("tpl_mgmt/fastcreate.html");
-
-  }
-  
-  function CreateJQFU($vars) {
-
-    //$this->debug->DebugToFile("/tmp/cre_jqfu_deb.log", $vars);
-    //exit(0);
-
-    $did = @$vars["DID"];
-    if ( isset($did) && $did != "" ) {
-
-      $ret = $this->data->AddJQFUFiles($did, $vars);
-    
-      $tmp = $vars['files'];
-      $finfo['name'] = $tmp['name'][0];
-      $finfo['type'] = $tmp['type'][0];
-      $finfo['tmp_name'] = $tmp['tmp_name'][0];
-      $finfo['error'] = $tmp['error'][0];
-      $finfo['size'] = $tmp['size'][0];
-
-      // jquery file upload need a json return 
-      header('Content-type: application/json');
-      $tpl = new Savant3();
-      $tpl->assign("NAME", $finfo['name']);
-      $tpl->assign("TYPE", $finfo['type']);
-      $tpl->assign("SIZE", $finfo['size']);
-      $tpl->display("tpl_doc/jqfu_ret.json");
-    }
-
-  }
-
+  // old creation method step 2, no longer used ?
   function Create2($vars) {
 
     //$this->debug->Debug1("create2");
@@ -200,7 +146,191 @@ class Mgmt {
     }
   }
 
-  function FastUnCreate($vars) {
+
+  function DosCreate($vars) {
+
+    $tpl = new Savant3();
+    $fc = $this->data->PreCreateDosStruct();
+
+    if ( ! isset($fc['did']) ) {
+      $tpl->assign("MSG", "Pre-Create failure, contact administrator !");
+      $urls = URL::GetURLSimple($this->gconf);
+      $tpl->assign("URL", $urls);
+      $tpl->assign("RURL", $urls->GetMgmtMethod('Index'));
+      $messages = $this->data->GetMessages($this->lng);
+      $tpl->setMessages($messages);
+      $tpl->display("tpl_doc/error2.html");
+      return;
+    }
+
+    $dosinf = $this->data->FetchDosInfo($fc['did']);
+    $urls = URL::GetURLByInfo($this->gconf, $dosinf);
+
+    $tpl->assign("URL", $urls);
+    $messages = $this->data->GetMessages($this->lng);
+    $tpl->assign("LNG", $this->lng);
+    $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
+    $tpl->assign("DID", $dosinf['did']);
+    $tpl->assign("DOSINF", $dosinf);
+    $tpl->setMessages($messages);
+
+    $utyp = $this->data->CurrentUserStatus();
+    $datinf = $this->data->GetDateInfo($utyp);
+
+    $tpl->assign("DATESEL", $datinf['datesel'] );
+
+    if ( isset($this->gconf->MeetJitSiUrl) && $this->gconf->MeetJitSiUrl != "" ) {
+      $tpl->assign("MJITSI", 1);
+    } else {
+      $tpl->assign("MJITSI", 0);
+    }
+    if ( isset($this->gconf->FramaDateUrl) && $this->gconf->FramaDateUrl != "" ) {
+      $tpl->assign("FRMDAT", 1);
+    } else {
+      $tpl->assign("FRMDAT", 0);
+    }
+
+    $tpl->display("tpl_mgmt/fullcreate.html");
+
+  }
+  
+  function MgtCreate($vars) {
+
+    $tpl = new Savant3();
+    $fc = $this->data->PreCreateDosStruct();
+
+    if ( ! isset($fc['did']) ) {
+      $tpl->assign("MSG", "Pre-Create failure, contact administrator !");
+      $urls = URL::GetURLSimple($this->gconf);
+      $tpl->assign("URL", $urls);
+      $tpl->assign("RURL", $urls->GetMgmtMethod('Index'));
+      $messages = $this->data->GetMessages($this->lng);
+      $tpl->setMessages($messages);
+      $tpl->display("tpl_doc/error2.html");
+      return;
+    }
+
+    $uinfo = $this->data->UserInfo($_SERVER['PHP_AUTH_USER']);
+    $dosinf = $this->data->FetchDosInfo($fc['did']);
+    $urls = URL::GetURLByInfo($this->gconf, $dosinf);
+
+    $tpl->assign("URL", $urls);
+    $messages = $this->data->GetMessages($this->lng);
+    $tpl->assign("LNG", $this->lng);
+    $tpl->assign("APPNAM", $this->gconf->name);
+    $tpl->assign("FAVICO", $this->gconf->favico);
+    $tpl->assign("DID", $dosinf['did']);
+    $tpl->assign("DOSINF", $dosinf);
+    $tpl->assign("RUSERI", $uinfo['id']);
+    $tpl->assign("RUSERM", $uinfo['mail']);
+    $tpl->setMessages($messages);
+
+    $utyp = $this->data->CurrentUserStatus();
+    $datinf = $this->data->GetDateInfo($utyp);
+
+    $tpl->assign("DATESEL", $datinf['datesel'] );
+
+    if ( isset($this->gconf->MeetJitSiUrl) && $this->gconf->MeetJitSiUrl != "" ) {
+      $tpl->assign("MJITSI", 1);
+    } else {
+      $tpl->assign("MJITSI", 0);
+    }
+    if ( isset($this->gconf->FramaDateUrl) && $this->gconf->FramaDateUrl != "" ) {
+      $tpl->assign("FRMDAT", 1);
+    } else {
+      $tpl->assign("FRMDAT", 0);
+    }
+
+    $tpl->display("tpl_mgmt/part_mgtcreate.html");
+
+  }
+  
+  function CreateJQFU($vars) {
+
+    //$this->debug->DebugToFile("/tmp/cre_jqfu_deb.log", $vars);
+    //exit(0);
+
+    $did = @$vars["DID"];
+    if ( isset($did) && $did != "" ) {
+
+      $ret = $this->data->AddJQFUFiles($did, $vars);
+    
+      $tmp = $vars['files'];
+      $finfo['name'] = $tmp['name'][0];
+      $finfo['type'] = $tmp['type'][0];
+      $finfo['tmp_name'] = $tmp['tmp_name'][0];
+      $finfo['error'] = $tmp['error'][0];
+      $finfo['size'] = $tmp['size'][0];
+
+      // jquery file upload need a json return 
+      header('Content-type: application/json');
+      $tpl = new Savant3();
+      $tpl->assign("NAME", $finfo['name']);
+      $tpl->assign("TYPE", $finfo['type']);
+      $tpl->assign("SIZE", $finfo['size']);
+      $tpl->display("tpl_doc/jqfu_ret.json");
+    }
+
+  }
+
+  function FinishCreate($vars) {
+
+    //$this->debug->Debug1("FinishCreate");
+    //exit(0);
+
+    if ( ! isset($vars['DID']) ) {
+      $tpl->assign("MSG", "Post-Create failure, DID missing, contact administrator !");
+      $urls = URL::GetURLSimple($this->gconf);
+      $tpl->assign("URL", $urls);
+      $tpl->assign("RURL", $urls->GetMgmtMethod('Index'));
+      $messages = $this->data->GetMessages($this->lng);
+      $tpl->setMessages($messages);
+      $tpl->display("tpl_doc/error2.html");
+      return;
+    }
+
+    $dosinf = $this->data->FetchDosInfo($vars['DID']);
+
+    $dosinf2 = $this->data->PostCreateDosStruct($dosinf['did'], $vars);
+
+    if ( isset($vars['RUSERI']) and isset($vars['RUSERM']) ) {
+      // created by registered user -> attach it writer mode
+      $this->data->DosAttach($dosinf2['did'], $vars['RUSERI'], 'writer');
+    }
+
+    if ( isset($vars['RUSERI']) and isset($vars['RUSERM']) ) {
+      // created by registered user -> redisplay list 
+
+      $urls = URL::GetURLSimple($this->gconf);
+      $gourl = $urls->GetMgmtMethod('DosList');      
+
+      //echo $gourl."\n";
+      header("Location: ".$gourl);
+
+    } else {
+      // created standalone -> display new doc
+
+      // set auth before redirecting to the doc
+      $this->data->UpdateAuth($dosinf2['did'], $dosinf2['passwd']); 
+
+      // fetch full dosinfo to see if files present
+      $dosinffull = $this->data->FetchDosInfo($dosinf2['did'],1);
+
+      $urls = URL::GetURLByInfo($this->gconf, $dosinf2);
+      if ( count($dosinffull['filelist']) > 0 ) {
+	$gourl = $urls->GetDosMethod('Display','PAGE=DispShare');
+      } else {
+	$gourl = $urls->GetDosMethod('Display');
+      }
+      
+      //echo $gourl."\n";
+      header("Location: ".$gourl);
+    }
+
+  }
+
+  function UnCreate($vars) {
 
     if ( isset($vars['DID']) and $vars['DID'] != "" ) {
       $this->data->DeleteDosStruct($vars['DID']);
@@ -210,6 +340,14 @@ class Mgmt {
     $url = $urls->GetMgmtMethod('Index' );
   
     header("Location: ".$url);
+  }
+
+  function UnCreateMgt($vars) {
+
+    if ( isset($vars['DID']) and $vars['DID'] != "" ) {
+      $this->data->DeleteDosStruct($vars['DID']);
+    }
+    echo "DONE";
   }
 
   function SetLng($vars) {

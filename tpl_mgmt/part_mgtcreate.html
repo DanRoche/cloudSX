@@ -1,0 +1,171 @@
+<form novalidate="novalidate" id="mgtcredoc" class="form-horizontal" method="post" action="<?php echo $this->URL->GetMgmtMethod('FinishCreate'); ?>">
+ <input type="hidden" name="RUSERI" value="<?php echo $this->RUSERI; ?>">
+ <input type="hidden" name="RUSERM" value="<?php echo $this->RUSERM; ?>">
+
+ <div class="modal-header">
+  <button type="button" class="close" aria-hidden="true"onclick="MgtCreateDismiss('<?php echo $this->URL->GetMgmtMethodWithDID('UnCreateMgt',$this->DID); ?>')">&times;</button>
+  <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-briefcase"></span> <?php $this->M('mgt_cretit'); ?><span class="label label-default" id="mm_tit_vnam"></span></h4>
+ </div>
+
+ <div class="modal-body">
+  <div class="well">
+
+   <input value="<?php echo $this->DID; ?>" name="DID" id="DID"  type="hidden">
+
+   <div class="row">
+    <div class="well" id="dropzone">
+     <p class="text-center">
+     <span class="btn btn-success fileinput-button">
+      <i class="glyphicon glyphicon-plus"></i> <span><?php $this->M('add_select'); ?></span>
+      <!-- The file input field used as target for the file upload widget -->
+      <input id="fileupload" type="file" name="files[]" multiple>
+     </span>&nbsp;&nbsp;
+     <em><?php $this->M('add_drop'); ?></em>&nbsp;<img src="<?php echo $this->URL->GetMedia('/img/dragdrop.png'); ?>"</p>
+    </div>
+   </div>
+
+   <div class="row">
+    <!-- The global progress bar -->
+    <div id="progress" class="progress">
+     <div class="progress-bar progress-bar-success"></div>
+    </div>
+   </div>
+
+   <div class="row">
+    <!-- The container for the uploaded files  and  end operation -->
+    <div id="files" class="files"></div>
+    <br>
+   </div>
+
+   <hr>
+
+   <div class="form-group">
+    <label class="control-label col-md-2" ><em><?php $this->M('prm_nam1'); ?></em></label>
+    <div class="col-md-10"><div class="input-group">
+     <span class="input-group-addon glyphicon glyphicon-briefcase"></span> 
+     <input class="form-control" value="<?php echo $this->DOSINF['title']; ?>" name="DOSNAM" id="DOSNAM" placeholder="<?php $this->M('cre_nam2'); ?>"  type="text">
+    </div></div>
+   </div>
+
+  <div class="form-group">
+   <label class="control-label col-md-2" ><em><?php $this->M('prm_comm'); ?></em></label>
+   <div class="col-md-10"><div class="input-group">
+    <span class="input-group-addon glyphicon glyphicon-comment"></span>
+    <textarea name="DOSCOM" id="DOSCOM" class="form-control pull-left"><?php  echo $this->DOSINF['comment']; ?></textarea>
+   </div></div>
+  </div>
+
+  <div class="form-group">
+   <label class="control-label col-md-2" ><em><?php $this->M('prm_pass1'); ?></em></label>
+   <div class="col-md-10"><div class="input-group">
+    <span class="input-group-addon glyphicon glyphicon-exclamation-sign"></span> 
+    <input class="form-control" value="" name="DOSPSW" id="DOSPSW" placeholder="<?php $this->M('cre_pass2'); ?>" type="text">
+   </div></div>
+  </div>
+
+  <div class="form-group">
+   <label class="control-label col-md-2" ><em><?php $this->M('prm_eol'); ?></em></label>
+   <div class="col-md-10"><div class="input-group">
+    <span class="input-group-addon glyphicon glyphicon-calendar"></span> 
+    <input class="form-control" value="<?php echo $this->DOSINF['endoflife']; ?>" name="DOSLIM" id="DOSLIM" type="text" <?php echo ($this->DATESEL=='no')?"readonly":""; ?>>
+   </div></div>
+  </div>
+
+  <hr>
+
+  <div class="form-group">
+   <label class="control-label col-md-2" ><em><?php $this->M('prm_blog'); ?></em></label>
+   <div class="col-md-10">
+    <div class="checkbox">
+     <label>
+      <input type="checkbox" checked="checked" name="DOSBLG" id="DOSBLG" > 
+     </label>
+    </div>
+   </div>
+  </div>
+
+  <?php if ( $this->FRMDAT == 1 ): ?>
+  <div class="form-group">
+   <label class="control-label col-md-2" ><em><?php $this->M('prm_csxdate'); ?></em></label>
+    <div class="col-md-10">
+     <div class="checkbox">
+      <label>
+       <input type="checkbox" name="DOSDAT" id="DOSDAT" > 
+      </label>
+     </div>
+    </div>
+   </div>
+   <?php endif; ?>
+
+ </div></div>
+
+ <div class="modal-footer">
+  <button type="button" class="btn btn-default" onclick="MgtCreateDismiss('<?php echo $this->URL->GetMgmtMethodWithDID('UnCreateMgt',$this->DID); ?>')"><?php $this->M('gen_cancel'); ?></button>
+  <button type="submit" class="btn btn-primary" ><?php $this->M('fcre_cont'); ?></button>
+  <span id="mgtuncreate"></span>
+ </div>
+
+</form>
+
+<!-- ------ JQFU ----------- -->
+
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="/jqfu/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/jqfu/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/jqfu/js/jquery.fileupload.js"></script>
+<script>
+/*jslint unparam: true */
+/*global window, $ */
+$(function () {
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    var url = '<?php echo $this->URL->GetMgmtMethod('CreateJQFU'); ?>';
+    $('#fileupload').fileupload({
+        url: url,
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo('#files');
+            });
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
+<!-- ------ end JQFU ----------- -->
+
+
+<?php if ( $this->DATESEL == 'yes' ): ?>
+<!-- ------ init datepicker ----------- -->
+<script type="text/javascript">
+  $('#DOSLIM').datepicker({
+   format: 'yyyy-mm-dd',
+   weekStart: 1
+  });
+</script>
+<!-- ------ end init datepicker ----------- -->
+<?php endif; ?>
+
+<!-- ------ form control ----------- -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#mgtcredoc").validate({
+      rules:{
+        DOSNAM:{
+          required:true
+        },
+      },
+      errorClass: "help-inline"
+    });
+  });
+</script>
+<!-- ------ end form control ----------- -->

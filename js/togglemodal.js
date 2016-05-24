@@ -25,3 +25,24 @@ function DelUserModal(uid,unam) {
     $('#mud_imp_uid').val(uid);
     $('#ModalUserDelete').modal();
 }
+
+
+function MgtCreateModal(url) {
+
+    $.get(url).done(function(data) {
+	$('#mgtcremodal').html(data);
+    }).fail(function(data) {
+	$('#mgtcremodal').html("<h1> ERROR </h1>");
+    })
+    $('#ModalCreate').modal();
+}
+
+function MgtCreateDismiss(url) {
+
+    $.get(url).done(function(data) {
+	$('#mgtuncreate').html(data);
+    }).fail(function(data) {
+	$('#mgtuncreate').html("<h1> ERROR </h1>");
+    })
+    $('#ModalCreate').modal('hide');
+}

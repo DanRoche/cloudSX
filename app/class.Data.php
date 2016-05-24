@@ -20,7 +20,7 @@ class Data {
   }
 
   //===============================================
-  // processing
+  // internal dir structure
   //===============================================
 
   function CreHashDirs($name) {
@@ -72,7 +72,11 @@ class Data {
     return( $this->gconf->AbsDataDir."/".$this->GetDirFromDID($did) );
   }
 
-  function CreDosStruct($vars) {
+  //===============================================
+  // multi step dos structure creation
+  //===============================================
+
+  function DosStructCreateBase($vars) {
     
     $hh = $this->CreHashDirs($vars['DOSNAM']);
 
@@ -112,21 +116,6 @@ class Data {
     fwrite($fp, "</FilesMatch>\n");
     fclose($fp);
  
-    if ( isset($vars['DOSBLG']) && $vars['DOSBLG'] == "on" ) {
-     mkdir($hh['FHD']."/.struct/blog", 02775);
-    }
-
-    if ( isset($vars['DOSDAT']) && $vars['DOSDAT'] == "on" ) {
-      $cmd = $this->gconf->TopAppDir."/script/manage_framadate -c -t \"".$vars['DOSNAM']."\" -j ".$hh['H'];
-      system($cmd);
-    }
-
-    $utyp = $this->CurrentUserStatus();
-    if ( $utyp == "premium" || $utyp == "admin" ) {
-      $uinfo = $this->UserInfo(@$_SERVER['PHP_AUTH_USER']);
-      $this->GetUserLogo($uinfo['id'],$hh['FHD']."/.logo");
-    }
-
     // create a pseudo (incomplete) dosinfo for return
     $dosret = Array();
     $dosret['did'] = $hh['H'];
@@ -135,20 +124,96 @@ class Data {
     return($dosret); 
   }
 
-  function PreCreate4Fast() {
+  function DosStructCreateExtended($did,$vars) {
+
+    $ddir = $this->GetAbsDirFromDID($did);
+    if ( ! file_exists($ddir) ) {
+      echo "Briefcase dir not created, should not happen, aborting...\n";
+      exit(1);
+    }
+
+    // rewrite basic infos (in case of update)
+
+    $fp = fopen($ddir."/.struct/title", 'w');
+    fwrite($fp, $vars['DOSNAM']."\n");
+    fclose($fp);
+    $fp = fopen($ddir."/.struct/comment", 'w');
+    fwrite($fp, $vars['DOSCOM']);
+    fclose($fp);
+
+    if ( isset($vars['DOSPSW']) && strlen($vars['DOSPSW']) > 0 ) {
+      $fp = fopen($ddir."/.struct/passwd", 'w');
+      fwrite($fp, $vars['DOSPSW']."\n");
+      fclose($fp);
+      // reset auth 
+      $this->UpdateAuth($did, $vars['DOSPSW']);
+      $tmppass = $vars['DOSPSW'];
+    } else {
+      $fp = fopen($ddir."/.struct/passwd", 'w');
+      fclose($fp);
+      $tmppass = "";
+    }
+    $fp = fopen($ddir."/.struct/endoflife", 'w');
+    fwrite($fp, $vars['DOSLIM']."\n");
+    fclose($fp);
+
+    // finish extended infos
+
+    if ( isset($vars['DOSBLG']) && $vars['DOSBLG'] == "on" ) {
+      $this->ActivateBlog($did);
+    } else {
+      $this->DesactivateBlog($did);
+    }
+
+    if ( isset($vars['DOSDAT']) && $vars['DOSDAT'] == "on" ) {
+      $cmd = $this->gconf->TopAppDir."/script/manage_framadate -c -t \"".$vars['DOSNAM']."\" -j ".$did;
+      system($cmd);
+    }
+
+    // create a pseudo (incomplete) dosinfo for return
+    $dosret = Array();
+    $dosret['did'] = $did;
+    $dosret['passwd'] = $tmppass;
+
+    return($dosret); 
+  }
+
+  // called by the standalone empty dos create
+  // will no longer be used 
+  function CreDosStruct($vars) {
+
+    $psinf1 = $this->DosStructCreateBase($vars);
+    return($this->DosStructCreateExtended($psinf1['did'],$vars));
+
+  }
+
+  // called by new step 1 dos create
+  function PreCreateDosStruct() {
     // create pseudo vars for create
     $pseudo = Array();
     $pseudo["DOSNAM"] = date("_Ymd_His");
     $pseudo["DOSPSW"] = "";
-    $pseudo["DOSCOM"] = "####";
+    $pseudo["DOSCOM"] = "";
 
     $utyp = $this->CurrentUserStatus();
     $datinf = $this->GetDateInfo($utyp);
 
     $pseudo["DOSLIM"] =  date("Y-m-d", $datinf['datelim']);
 
-    return $this->CreDosStruct($pseudo);
+    return $this->DosStructCreateBase($pseudo);
   }
+
+  // called by new step 2 dos create
+  function PostCreateDosStruct($did,$vars) {
+    
+    $partial = $this->DosStructCreateExtended($did,$vars);
+    return($partial);
+
+  }
+
+  //===============================================
+  // dos struct mgmt
+  //===============================================
 
   function UpdateDosStruct($did, $vars) {
     
@@ -213,6 +278,10 @@ class Data {
 
     $this->DosDestroy($did);
    }
+
+  //===============================================
+  // 
+  //===============================================
 
   function FetchDosInfo($did, $mod=0) {
     
@@ -797,7 +866,7 @@ class Data {
       $passhash = $res0[0]['password'];
     } else {
       // user not found 
-      // will call UserAutoCreate later !!
+      // will call UserAutoCreate eventually later
       return(0);
     }
 
@@ -1580,7 +1649,7 @@ class Data {
     }
   }
 
- //===============================================
+  //===============================================
   // end
   //===============================================
 
