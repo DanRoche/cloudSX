@@ -1,0 +1,172 @@
+#!/bin/bash
+#
+
+##########################################################
+# CLOUDSX purge_empty_fast
+# 
+# purge pre-created ( FastCreate ) empty briefcase
+#
+# dan.y.roche@gmail.com May 2016
+#
+# 1st version 20160519
+##########################################################
+
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/opt/miscbin:/opt/java/bin:.
+export PATH
+
+##########################################################
+# fetch config
+##########################################################
+
+# fetch global application config (php !)
+#
+MYSELF=$0
+MYDIR=$(dirname ${MYSELF})
+APPCONF=${MYDIR}/../app/Config.php
+
+if [ -s ${APPCONF} ]
+then
+  # get the config from php conf
+  TMP1=$(cat ${APPCONF} | grep '^ *$this->TopAppDir')
+  CDIR1=$(expr "${TMP1}" : ' *$this->TopAppDir *= *\"\(.*\)\"')
+  TMP2=$(cat ${APPCONF} | grep '^ *$this->DataDir')
+  CDIR2=$(expr "${TMP2}" : ' *$this->DataDir *= *\"\(.*\)\"')
+  # fetch database connection
+  TMP3=$(cat ${APPCONF} | grep '^ *$this->dbserv')
+  BZH=$(expr "${TMP3}" : ' *$this->dbserv *= *\"\(.*\)\"')
+  TMP4=$(cat ${APPCONF} | grep '^ *$this->dbbase')
+  BZB=$(expr "${TMP4}" : ' *$this->dbbase *= *\"\(.*\)\"')
+  TMP5=$(cat ${APPCONF} | grep '^ *$this->dbuser')
+  BZU=$(expr "${TMP5}" : ' *$this->dbuser *= *\"\(.*\)\"')
+  TMP6=$(cat ${APPCONF} | grep '^ *$this->dbpass')
+  BZP=$(expr "${TMP6}" : ' *$this->dbpass *= *\"\(.*\)\"')
+
+else
+  echo "Can't find application config file - aborting !"
+  exit 3
+fi
+
+CSXDDIR=${CDIR1}${CDIR2}
+
+type mysql_config_editor > /dev/null 2>&1
+if [ $? -eq 0 ]
+then
+ # new mysql (5.6.6) connection
+ # use mysql_config_editor on the server to initialize the login-path
+ # use dbuser as login-path entry
+ MYCMD="mysql --login-path=${BZU} -D${BZB}"
+else
+ # old school mysql connection
+ MYCMD="mysql -h${BZH} -u${BZU} -p${BZP} -D${BZB}"
+fi
+
+# verify 
+if [ ! -d ${CSXDDIR} ]
+then
+  echo "application data dir ${CSXDDIR} not found - aborting !"
+  exit 4
+fi
+
+##########################################################
+# functions
+##########################################################
+
+usage () {
+  echo "purge_empty_fast [-n] [-t nb_hour]"
+  echo "where:"
+  echo "  -n : do not purge, just list"
+  echo "  -t hour : age in hour for purge, default = ${HPURJ}"
+  exit 1
+}
+
+DeleteCSX() {
+    # argument = the cloudSX ID
+    DID=$1
+    CDIR=${CSXDDIR}/${DID:0:1}/${DID:1:1}/${DID:2:1}/${DID:3:1}/${DID:4}
+
+    if [ ! -d ${CDIR} ]
+    then
+      echo "ID not found "	  
+      return
+    fi
+
+    rm -rf ${CDIR}
+
+    ${MYCMD} -e "delete from owner where dos_id='${DID}';"
+}
+
+##########################################################
+# PARSE ARGS
+##########################################################
+
+JUSTLIST=0
+VERBOZ=0
+HPURJ=12
+
+while [ $OPTIND -le $# ] 
+do
+    getopts "nt:" OPT
+    case $OPT in 
+    "n" )
+       JUSTLIST=1
+       ;;
+    "t" )
+       HPURJ=${OPTARG}
+       ;;
+    "?" ) 
+       usage
+       ;;
+    esac
+done
+
+##########################################################
+# DO IT
+##########################################################
+
+NOW=$(date +"%s")
+SECPURJ=$((HPURJ * 3600))
+
+for CDIR in ${CSXDDIR}/?/?/?/?/*
+do
+    DID=$(expr ${CDIR} : '.*/\(././././.*\)$' | tr -d '/')
+
+    ## verify fast created comment
+    #COMM=$(cat ${CDIR}/.struct/comment)
+    #if [ "${COMM}" != "####" ]
+    #then
+    #   continue
+    #fi
+
+    # verify the dos title
+    DTIT=$(cat ${CDIR}/.struct/title)
+    expr "${DTIT}" : '_[0-9]\{8\}_[0-9]\{6\}' > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+       continue
+    fi
+
+    # verify the number of uploaded file
+    NBF=$(ls -1 ${CDIR}/* | fgrep -v index.html | wc -l)
+    if [ ${NBF} != 0 ]
+    then
+        continue
+    fi
+
+    # verify the date of creation
+    DATC=$(stat -c "%Y" ${CDIR}/.struct/.htaccess)
+    LIVT=$((NOW - DATC))
+    if [ ${LIVT} -le ${SECPURJ} ]
+    then
+        continue
+    fi
+
+    if [ ${JUSTLIST} -eq 1 ]
+    then
+	echo ${DID} ${LIVT}    
+    else
+        DeleteCSX ${DID}
+    fi
+
+done
+
+  
