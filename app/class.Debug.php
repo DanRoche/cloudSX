@@ -4,6 +4,9 @@ include_once "Savant3/Savant3.php";
 
 class Debug {
 
+  // hard coded time debug file, why not ?
+  var $timedebfile = "/tmp/timedeb.txt";
+
   //===============================================
   // debug
   //===============================================
@@ -37,6 +40,13 @@ class Debug {
 
   }
  
+  function TimeDebug( $msg ) {
+    $fd = fopen($this->timedebfile, "a+");
+    fwrite($fd, microtime(1));
+    fwrite($fd, " ".$msg."\n");
+    fclose($fd);
+  }
+
   //===============================================
   // end
   //===============================================

@@ -1500,9 +1500,11 @@ class Data {
     
     $top = $this->gconf->AbsDataDir;
     
+    //$this->debug->TimeDebug("DosListFull-start");
     $lst0 = glob($top."/?/?/?/?/*/.struct");
     $lst1 = array();
     
+    //$this->debug->TimeDebug("DosListFull-loop");
     foreach ( $lst0 as $dir) {
       $did = $this->GetDIDFromDir($dir);
  
@@ -1511,6 +1513,7 @@ class Data {
 
       $lst1[$did] = array('info' => $dosinf, 'count' => $ucnt);
     }
+    //$this->debug->TimeDebug("DosListFull-end");
 
     return($lst1);
   }
