@@ -169,7 +169,7 @@
      'ml2_passwd' => "mot de passe :",
      'cont_orig' => "Original",
      'cont_dl' => "Télécharger",
-     'plug1_unknown' => "Votre navigateur ne sais pas afficher ce contenu !",
+     'plug1_unknown' => "Votre navigateur ne sait pas afficher ce contenu !",
      'plug1_view' => "le visualiser malgré tout",
      'plug1_dl' => "le télécharger",
      'acc_title' => "CloudSX - Création de votre compte",
