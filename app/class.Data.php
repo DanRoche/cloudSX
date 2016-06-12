@@ -82,7 +82,7 @@ class Data {
 
     mkdir($hh['FHD']."/.struct", 02775);
     $fp = fopen($hh['FHD']."/.struct/.htaccess", 'w');
-    fwrite($fp, "deny from all\n");
+    fwrite($fp, "Require all denied\n");
     fclose($fp);
 
     $urls = URL::GetURLByDID($this->gconf, $hh['H']);
@@ -105,16 +105,7 @@ class Data {
     $fp = fopen($hh['FHD']."/.struct/endoflife", 'w');
     fwrite($fp, $vars['DOSLIM']."\n");
     fclose($fp);
-    $fp = fopen($hh['FHD']."/.htaccess", 'w');
-    fwrite($fp, "RemoveHandler .php .phtml .php3 .php4\n");
-    fwrite($fp, "RemoveType .php .phtml .php3 .php4\n");
-    fwrite($fp, "php_flag engine off\n");
-    fwrite($fp, "\n");
-    fwrite($fp, "<FilesMatch \.(pl|php|php3)$>\n");
-    fwrite($fp, "Order allow,deny\n");
-    fwrite($fp, "Deny from all\n");
-    fwrite($fp, "</FilesMatch>\n");
-    fclose($fp);
+    $this->SetupHtaccessFile($hh['FHD']);
  
     // create a pseudo (incomplete) dosinfo for return
     $dosret = Array();
@@ -156,6 +147,9 @@ class Data {
     $fp = fopen($ddir."/.struct/endoflife", 'w');
     fwrite($fp, $vars['DOSLIM']."\n");
     fclose($fp);
+ 
+    // adjust htaccess
+    $this->SetupHtaccessFile($ddir);
 
     // finish extended infos
 
@@ -210,6 +204,88 @@ class Data {
     return($partial);
 
   }
+  
+  // setup htaccess file for the briefcase datadir
+  // for security and DAV access
+  // according to passwd or status 
+  function SetupHtaccessFile($ddir) {
+
+    if ( file_exists($ddir."/.struct/passwd") ) {
+      $passwd = chop(file_get_contents($ddir."/.struct/passwd"));
+    } else {
+      $passwd = "";
+    }
+    if ( file_exists($ddir."/.struct/passadm") ) {
+      $passadm = chop(file_get_contents($ddir."/.struct/passadm"));
+    } else {
+      $passadm = "";
+    }
+
+    //$tmp1 = "passwd=".$passwd." passadm=".$passadm."--\n";
+    //$this->debug->DebugToFile("/tmp/sethtfil.log", $tmp1);
+
+    if ( $passwd != "" ) {
+      // generate htpass for dav access
+      $cmd = "/usr/bin/htpasswd -cbm ".$ddir."/.struct/htpass '*' \"".$passwd."\"";
+      //$this->debug->DebugToFile("/tmp/sethtfil.log", $cmd);
+      system($cmd);
+    }
+
+    $fp = fopen($ddir."/.htaccess", 'w');
+
+    // in any case de-activate php+pl 
+    fwrite($fp, "RemoveHandler .php .phtml .php3 .php4\n");
+    fwrite($fp, "RemoveType .php .phtml .php3 .php4\n");
+    fwrite($fp, "php_flag engine off\n");
+    fwrite($fp, "\n");
+    fwrite($fp, "<FilesMatch \.(pl|php|php3)$>\n");
+    fwrite($fp, " Require all denied\n");
+    fwrite($fp, "</FilesMatch>\n");
+    fwrite($fp, "\n");
+
+    if ( $passadm != "" ) {
+      // locked briefcase, de-activate any DAV modification
+      fwrite($fp, "<Limit PUT DELETE MKCOL PROPPATCH COPY MOVE LOCK UNLOCK>\n");
+      fwrite($fp, " Require all denied\n");
+      fwrite($fp, "</Limit>\n");
+      if ( $passwd != "" ) {
+	// allow dav read for with passwd
+	fwrite($fp, "<Limit PROPFIND OPTIONS>\n");
+	fwrite($fp, " AuthType Basic\n");
+	fwrite($fp, " AuthName DAV\n");
+	fwrite($fp, " AuthBasicProvider file\n");
+	fwrite($fp, " AuthUserFile ".$ddir."/.struct/htpass\n");
+	fwrite($fp, " Require valid-user\n");
+	fwrite($fp, "</Limit>\n");
+      } else {
+	// allow dav read for all
+	fwrite($fp, "<Limit PROPFIND OPTIONS>\n");
+	fwrite($fp, " Require all granted\n");
+	fwrite($fp, "</Limit>\n");
+      }
+    } else {
+      // open briefcase, de-activate only mkcol
+      fwrite($fp, "<Limit MKCOL>\n");
+      fwrite($fp, " Require all denied\n");
+      fwrite($fp, "</Limit>\n");
+      if ( $passwd != "" ) {
+	// allow dav read/write for with passwd
+	fwrite($fp, "<Limit PROPFIND OPTIONS PUT DELETE PROPPATCH COPY MOVE LOCK UNLOCK>\n");
+	fwrite($fp, " AuthType Basic\n");
+	fwrite($fp, " AuthName DAV\n");
+	fwrite($fp, " AuthBasicProvider file\n");
+	fwrite($fp, " AuthUserFile ".$ddir."/.struct/htpass\n");
+	fwrite($fp, " Require valid-user\n");
+	fwrite($fp, "</Limit>\n");
+      } else {
+	// allow dav read/write for all
+	fwrite($fp, "<Limit PROPFIND OPTIONS PUT DELETE PROPPATCH COPY MOVE LOCK UNLOCK>\n");
+	fwrite($fp, " Require all granted\n");
+	fwrite($fp, "</Limit>\n");
+      }
+    }
+    fclose($fp);
+  }
 
   //===============================================
   // dos struct mgmt
@@ -246,6 +322,9 @@ class Data {
     $fp = fopen($ddir."/.struct/endoflife", 'w');
     fwrite($fp, $vars['DOSLIM']."\n");
     fclose($fp);
+
+    // adjust htaccess
+    $this->SetupHtaccessFile($ddir);
 
     if ( isset($vars['DOSBLG']) && $vars['DOSBLG'] == "on" ) {
       $this->ActivateBlog($did);
@@ -574,6 +653,9 @@ class Data {
     fwrite($fp, $passadm."\n");
     fclose($fp);
 
+    // adjust htaccess
+    $this->SetupHtaccessFile($ddir);
+
   }
 
  function UnlockDos($did) {
@@ -589,6 +671,9 @@ class Data {
     if ( file_exists($pafil) ) {
       unlink($pafil);
     }
+
+    // adjust htaccess
+    $this->SetupHtaccessFile($ddir);
 
   }
 
