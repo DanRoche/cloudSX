@@ -86,7 +86,7 @@ class Config {
 
     // inner subdirectories
     // modify only if you have changed the software layout
-    $this->DataDir = "/doc";
+    $this->DataDir = "/data";
     $this->AbsDataDir = $this->TopAppDir.$this->DataDir;
     $this->LngDir = $this->TopAppDir."/lang";
 
