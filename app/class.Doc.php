@@ -72,12 +72,13 @@ class Doc {
     $this->debug->Debug1("ExamData");
     exit(0);
 
-    //$dosinf = $this->data->FetchDosInfo($vars['DID']);
+    //$dosinf = $this->data->FetchDosInfo($vars['DID'], 1);
     //echo "<pre>\n";
     //print_r($dosinf);
     //print_r($this->gconf);
     //echo "</pre>\n";
-
+    //exit(0);
+    
     //echo "<pre>".$_SERVER['HTTP_USER_AGENT']."</pre>\n";
 
     //exit(0);
@@ -668,7 +669,7 @@ class Doc {
     if ( empty($vars['LDL'] )) {
 	$this->data->GenerateAndSendZip($vars['DID']);
     } else {
-      $f2z = implode(" ", $vars['LDL']);
+      $f2z = "'".implode("' '", $vars['LDL'])."'";
       $this->data->GenerateAndSendZip($vars['DID'], $f2z);
     }
   }
@@ -831,7 +832,7 @@ class Doc {
     header("Cache-Control: no-cache, must-revalidate");      // HTTP/1.1
     header("Pragma: no-cache");                              // HTTP/1.0
     header("Content-type: application/download");   
-    header("Content-Disposition: attachment; filename=$file");
+    header("Content-Disposition: attachment; filename=\"$file\"");
     header("Content-Description: File"); 
 
     $fn=fopen($filpath , "r"); 
