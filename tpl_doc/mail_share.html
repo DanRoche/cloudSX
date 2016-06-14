@@ -71,7 +71,7 @@ body {
 </pre>
 <p class="p1"><?php $this->M('mel_access'); ?></p>
 <table class="tab"><tr>
-<td class="lab0"><span class="lab"><?php $this->M('mel_link'); ?></span></td><td><span class="val"><a href="<?php echo $this->URL->GetAbsDosStruct(); ?>"><?php echo $this->URL->GetMinimumURL(); ?></a></span></td>
+<td class="lab0"><span class="lab"><?php $this->M('mel_link'); ?></span></td><td><span class="val"><a href="<?php echo $this->URL->GetMinimumURL(); ?>"><?php echo $this->URL->GetMinimumURL(); ?></a></span></td>
 </tr>
 <?php if ($this->DOSINFO['passwd'] != ""): ?>
 <tr><td class="lab0"><span class="lab"><?php $this->M('mel_passwd'); ?></span></td><td><span class="val"><?php echo $this->DOSINFO['passwd']; ?></span></td></tr>
