@@ -4,13 +4,25 @@
 // some init 
 // =============
 
+$itself = __FILE__;
+$appdir = dirname(dirname($itself));
+
+if ( ! file_exists($appdir."/app/Config.php") ) {
+  echo "Can't find application config file - aborting !\n";
+  exit(3);
+}
+
+chdir($appdir);
+
 include "app/Config.php";
 
 // =================
 // do it 
 // =================
 
-$serdata = file_get_contents(".cached_full_doslist");
+$gconf = new Config;
+$cfil = $gconf->CacheDir."/fulldoslist.data";
+$serdata = file_get_contents($cfil);
 
 // unserialise now
 $dflist = unserialize($serdata);
