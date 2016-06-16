@@ -158,6 +158,32 @@ class URL {
     return($theu);
   }
   
+  function GetDavURL($mode=1) {
+
+    $tmp1 = $this->gconf->TopAppUrl;
+    $tmp1 .= $this->gconf->DataDir;
+    $tmp1 .= "/".$this->dosinfo['rdir'];
+
+    $tmp2 = $_SERVER['SERVER_NAME'].$tmp1;
+
+    switch($mode) {
+    case 1:
+      $theu = "http://".$tmp2;
+      break;
+     case 2:
+      $theu = "https://".$tmp2;
+      break;
+     case 3:
+      $theu = "dav://".$tmp2;
+      break;
+     case 4:
+      $theu = "davs://".$tmp2;
+      break;
+    }
+
+    return($theu);
+  }
+  
   //===============================================
   // cloudSX inner content URL
   //===============================================

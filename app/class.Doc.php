@@ -27,6 +27,7 @@ class Doc {
 				    "DispParam" => TRUE,
 				    "DispShare" => TRUE,
 				    "DispAttach" => TRUE,
+				    "DispDav" => TRUE,
 				    "AddFile1" => TRUE,
 				    "AddFile2" => TRUE,
 				    "AddFileJQFU" => TRUE,
@@ -350,7 +351,25 @@ class Doc {
     $tpl->assign("MODE", $ra);
 
     $tpl->display("tpl_doc/part_attach.html");
- }
+  }
+
+  function DispDav($vars) {
+    
+    //$this->debug->Debug1("DispDav");
+    $tpl = new Savant3();
+
+    $dosinf = $this->data->FetchDosInfo($vars['DID']);
+    $ra = $this->AuthenticateInner($dosinf);
+ 
+    $urls = URL::GetURLByInfo($this->gconf, $dosinf);
+    $tpl->assign("URL", $urls);
+    $tpl->assign("DOSINFO", $dosinf);
+    $tpl->assign("LNG", $this->lng);
+    $messages = $this->data->GetMessages($this->lng);
+    $tpl->setMessages($messages);
+
+    $tpl->display("tpl_doc/part_dav.html");
+  }
 
 
   function AddFile1($vars) {
