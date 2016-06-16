@@ -1603,6 +1603,33 @@ class Data {
     return($lst1);
   }
 
+  function GetDosListFullCached() {
+
+    $cfil = $this->gconf->CacheDir."/fulldoslist.data";
+
+    // if cache not here get the real data
+    if ( ! file_exists($cfil) ) {
+      return($this->GetDosListFull());
+    }
+
+    $sr = stat($cfil);
+    // if cache too small get the real data
+    if ( $sr['size'] < 512 ) { 
+      return($this->GetDosListFull());
+    }
+    // if cache too old get the real data
+    $now = date("U");
+    $delta = $now - $sr['mtime'];
+    if ( $delta > 3600 ) { 
+      return($this->GetDosListFull());
+    }
+
+    // otherwise get the cache
+    $serdata = file_get_contents($cfil);
+    $dflist = unserialize($serdata);
+    return($dflist);
+  }
+
   function GetUserCntByDID($did) {
     try {
       $dbh = new PDO($this->gconf->dbpdo, $this->gconf->dbuser, $this->gconf->dbpass, $this->gconf->dbparams);

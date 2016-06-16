@@ -56,7 +56,7 @@ class Admin {
     $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
-    $dflist = $this->data-> GetDosListFull();
+    $dflist = $this->data->GetDosListFullCached();
     //echo "<pre>\n";
     //print_r($dflist);
     //echo "</pre>\n";

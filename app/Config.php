@@ -89,6 +89,7 @@ class Config {
     $this->DataDir = "/data";
     $this->AbsDataDir = $this->TopAppDir.$this->DataDir;
     $this->LngDir = $this->TopAppDir."/lang";
+    $this->CacheDir = $this->TopAppDir."/cache";
 
     // URL generation method
     // simple URLs, pretiest, but require apache mod-rewrite  ( see .htaccess )
