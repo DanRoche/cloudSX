@@ -1747,6 +1747,36 @@ class Data {
     return($cnt);
   }
 
+  function UpdateUserSubscription($uid,$enddate) {
+
+    try {
+      $dbh = new PDO($this->gconf->dbpdo, $this->gconf->dbuser, $this->gconf->dbpass, $this->gconf->dbparams);
+
+    } catch(PDOException $e)  {
+      echo $e->getMessage();
+      exit();
+    }
+
+    if ( empty($enddate) ) {
+        $ed = "NULL";
+    } else {
+        $ed = "'".$enddate." 23:59:59'";
+    }
+    
+    try {
+
+      $qry = "update user set paydate=".$ed." where id='".$uid."'";
+
+      $cnt = $dbh->exec($qry);
+
+    } catch(PDOException $e)  {
+      echo $e->getMessage();
+      exit();
+    }
+ 
+    return($cnt);
+  }
+
   //===============================================
   // utilities
   //===============================================

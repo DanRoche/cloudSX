@@ -86,7 +86,7 @@ $dspnam = $udata['name']." ".$udata['gvname'];
  <td><span class="upay"><?php echo $udata['paydate']; ?></span></td>
  <td>
   <div>
-  <button type="button" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="<?php $this->M('adm_tip3'); ?>" onclick="ModUserModal(<?php echo $udata['id'].",'".$udata['mail']."','".$udata['name']."','".$udata['gvname']."','".$udata['status']."','".$udata['passinf']."'"; ?>)">&nbsp;<span class="glyphicon glyphicon-pencil"></span>&nbsp;</button>
+  <button type="button" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="<?php $this->M('adm_tip3'); ?>" onclick="ModUserModal(<?php echo $udata['id'].",'".$udata['mail']."','".$udata['name']."','".$udata['gvname']."','".$udata['status']."','".$udata['passinf']."','".substr($udata['paydate'],0,10)."'"; ?>)">&nbsp;<span class="glyphicon glyphicon-pencil"></span>&nbsp;</button>
   <button type="button" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="<?php $this->M('mgt_tip3'); ?>" onclick="DelUserModal(<?php echo $udata['id'].",'".$dspnam."'"; ?>)">&nbsp;<span class="glyphicon glyphicon-trash"></span>&nbsp;</button>
   </div>
 </td>
@@ -229,6 +229,8 @@ endforeach;
       </div></div>
       </div>
 
+     <hr>
+
      <div class="form-group">
      <label class="control-label col-md-2" ><em><?php $this->M('adm_uprsts'); ?></em></label>
      <div class="col-md-10"><div class="input-group">
@@ -240,7 +242,14 @@ endforeach;
        </select>
      </div></div>
      </div>
-     <hr>
+
+     <div class="form-group">
+       <label class="control-label col-md-2" ><em><?php $this->M('adm_uprend'); ?></em></label>
+       <div class="col-md-10"><div class="input-group">
+	   <span class="input-group-addon glyphicon glyphicon-calendar"></span> 
+	   <input class="form-control" value="" name="ENDSUB" id="mum_imp_end" type="text" >
+       </div></div>
+     </div>
 
     </div></div>
 
@@ -294,6 +303,7 @@ endforeach;
 <script src="<?php echo $this->URL->GetMedia('/bootstrap/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo $this->URL->GetMedia('/js/togglemodal.js'); ?>"></script>
 <script src="<?php echo $this->URL->GetMedia('/js/filter.js'); ?>"></script>
+<script src="<?php echo $this->URL->GetMedia('/js/bootstrap-datepicker-'.$this->LNG.'.js'); ?>"></script> 
 
 <script language="javascript">
 $('[data-toggle="tooltip"]').tooltip();
@@ -345,9 +355,16 @@ $(document).ready(function() {
     });
   });
 </script>
-
-
 <!-- ------ end form control ----------- -->
+
+<!-- ------ init datepicker ----------- -->
+<script type="text/javascript">
+  $('#mum_imp_end').datepicker({
+   format: 'yyyy-mm-dd',
+   weekStart: 1
+  });
+</script>
+<!-- ------ end init datepicker ----------- -->
 
 </body>
 </html>

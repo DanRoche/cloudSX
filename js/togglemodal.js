@@ -10,13 +10,14 @@ function DetachModal(did,dnam) {
     $('#ModalConfDetach').modal();
 }
 
-function ModUserModal(uid,umel,unam,ugvn,usts,upwd) {
+function ModUserModal(uid,umel,unam,ugvn,usts,upwd,uend) {
     $('#mum_imp_uid').val(uid);
     $('#mum_imp_mel').val(umel);
     $('#mum_imp_nam').val(unam);
     $('#mum_imp_gvn').val(ugvn);
     $('#mum_imp_pwd').val(upwd);
     $('#mum_sel_sts').val(usts);
+    $('#mum_imp_end').val(uend);
     $('#ModalUserModify').modal();
 }
 

@@ -122,7 +122,7 @@ class Admin {
 
     $uflist = $this->data->GetUserListFull();
     //echo "<pre>\n";
-    //print_r($dflist);
+    //print_r($uflist);
     //echo "</pre>\n";
     //exit(0);
    
@@ -261,6 +261,7 @@ class Admin {
     }
 
     $this->data->UpdateUserStatus($vars['UID'], $vars['UZSTS']);
+    $this->data->UpdateUserSubscription($vars['UID'], $vars['ENDSUB']);
 
     $urls = URL::GetURLSimple($this->gconf);
     $gourl = $urls->GetAdmMethod('UserList');
