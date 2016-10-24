@@ -1053,7 +1053,7 @@ class Data {
 
     try {
 
-      $stmt = $dbh->query("select id,mail,name,gvname,status,IF(password like 'LDAP%', 1, 0) as pswldap,length(logo) as llogo from user where mail = '".$user."';");
+      $stmt = $dbh->query("select id,mail,name,gvname,status,paydate,IF(password like 'LDAP%', 1, 0) as pswldap,length(logo) as llogo from user where mail = '".$user."';");
       $res = $stmt->fetchAll();
 
     } catch(PDOException $e)  {
@@ -1080,7 +1080,7 @@ class Data {
 
     try {
 
-      $stmt = $dbh->query("select id,mail,name,gvname,status,length(logo) as llogo from user where id = '".$uid."';");
+      $stmt = $dbh->query("select id,mail,name,gvname,status,paydate,length(logo) as llogo from user where id = '".$uid."';");
       $res = $stmt->fetchAll();
 
     } catch(PDOException $e)  {
