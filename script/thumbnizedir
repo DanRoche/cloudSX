@@ -63,6 +63,7 @@ ICODIR=${CSXDIR}/default_icons
 ICO_GEN=${ICODIR}/file.png
 ICO_VID=${ICODIR}/video.png
 ICO_AUD=${ICODIR}/audio.png
+MAXSIZ=33554432
 
 ############################################
 # args
@@ -85,6 +86,7 @@ fi
 GenerateThumb() {
  
  FIL=$1
+ SIZ=$(stat -c "%s" ${THEDIR}/${FIL})   
  
  # get extension
  EXT0=$( expr "${FIL}" : '.*\.\([^\.]*\)')
@@ -120,9 +122,14 @@ GenerateThumb() {
   ;;
 
  doc | xls | ppt | docx | xlsx | pptx | odt | odg | odp | ods )
-  /usr/bin/unoconv --stdout -f pdf "${THEDIR}/${FIL}" | pdftk - cat 1-1 output /tmp/thnz_$$.pdf
-  convert -resize ${TSIZE} /tmp/thnz_$$.pdf "${THEDIR}/.thumbs/${FIL}.${TSUF}"
-  rm -f /tmp/thnz_$$.pdf
+  if [ ${SIZ} -gt ${MAXSIZ} ]
+  then
+      cp ${ICO_GEN} "${THEDIR}/.thumbs/${FIL}.${TSUF}"
+  else
+      /usr/bin/unoconv --stdout -f pdf "${THEDIR}/${FIL}" | pdftk - cat 1-1 output /tmp/thnz_$$.pdf
+      convert -resize ${TSIZE} /tmp/thnz_$$.pdf "${THEDIR}/.thumbs/${FIL}.${TSUF}"
+      rm -f /tmp/thnz_$$.pdf
+  fi
   ;;
 
  mts | avi | mkv | mp4 | mpg | flv | wmv | mov )
