@@ -477,14 +477,14 @@ class Data {
     $ddir = $this->GetAbsDirFromDID($did);
     while (list($ind, $value) = each($nlist) ) {
       if ( $value != "" ) {
-	$ofil = $ddir."/".$olist[$ind];
-	$nfil = $ddir."/".$value;
-	rename($ofil,$nfil);
-	$cnt += 1;
+          $ofil = $ddir."/".$olist[$ind];
+          $nfil = $ddir."/".trim($value);
+          rename($ofil,$nfil);
+          $cnt += 1;
       }
     }
     if ( $cnt > 0 ) {
-      $this->SpoolUploaded($did);
+        $this->SpoolUploaded($did);
     }
     
   }
