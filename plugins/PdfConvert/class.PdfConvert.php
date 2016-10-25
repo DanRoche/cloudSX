@@ -31,8 +31,28 @@ class PdfConvert {
 
   function Display() {
 
-    $filpath = $this->pluginlib->globalconf->TopAppDir.$this->pluginlib->globalconf->DataDir."/".$this->pluginlib->dosinfo['rdir']."/".$this->pluginlib->filename;
+    $filpath = $this->pluginlib->globalconf->AbsDataDir."/".$this->pluginlib->dosinfo['rdir']."/".$this->pluginlib->filename;
+    $starr = stat($filpath);
+    
+    $urls = URL::GetURLByInfo($this->pluginlib->globalconf, $this->pluginlib->dosinfo);
+    $tpl = new Savant3();
+    $tpl->setMessages($this->pluginlib->langmessg);
 
+    if ( $starr['size'] == 0 ) {
+
+        $tpl->display("plugins/PdfConvert/tpl.Empty.html");
+
+        return;
+    }
+
+    if ( $starr['size'] >= 33554432 ) {
+
+        $tpl->assign("URL2", $urls->GetDosDownload($this->pluginlib->filename) );
+        $tpl->display("plugins/PdfConvert/tpl.TooBig.html");
+
+        return;
+    }
+    
     $urls = URL::GetURLByInfo($this->pluginlib->globalconf, $this->pluginlib->dosinfo);
     $tpl = new Savant3();
     $tpl->setMessages($this->pluginlib->langmessg);

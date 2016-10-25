@@ -178,6 +178,8 @@
      'plug1_unknown' => "Your browser does not know how to display this content !",
      'plug1_view' => "view it anyway",
      'plug1_dl' => "download it",
+     'plug2_2big' => "This document is too large to be viewed directly!",
+     'plug2_empty' => "This document is empty !",
      'acc_title' => "CloudSX - Creating your account",
      'acc_valid' => "CloudSX - Validating your account",
      'acc_step1' => "- 1st step -",

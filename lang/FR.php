@@ -178,6 +178,8 @@
      'plug1_unknown' => "Votre navigateur ne sait pas afficher ce contenu !",
      'plug1_view' => "le visualiser malgré tout",
      'plug1_dl' => "le télécharger",
+     'plug2_2big' => "Ce document est trop gros pour être visualisé directement !",
+     'plug2_empty' => "Ce document est vide !",
      'acc_title' => "CloudSX - Création de votre compte",
      'acc_valid' => "CloudSX - Validation de votre compte",
      'acc_step1' => "- 1ere étape -",
