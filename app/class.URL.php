@@ -189,7 +189,7 @@ class URL {
   //===============================================
   
   function AddChangeContent($url) {
-    $ur2 = "javascript:changeContent('".$url."')";
+    $ur2 = "javascript:changeContent('".addslashes($url)."')";
     return($ur2);
   }
   
