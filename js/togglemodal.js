@@ -47,3 +47,8 @@ function MgtCreateDismiss(url) {
     })
     $('#ModalCreate').modal('hide');
 }
+
+function PayModal() {
+    $('#ModalAccount').modal('hide');
+    $('#ModalPay').modal();
+}

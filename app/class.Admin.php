@@ -377,11 +377,15 @@ class Admin {
     //$this->debug->Debug1("Debug");
     //exit(0);
 
-    @session_start();
-    $tabs = $_SESSION['RESTAB'];
-    echo "<pre>\n";
-    print_r($tabs);
-    echo "</pre>\n";
+      
+      $this->debug->Debug1("Debug");
+      exit(0);
+    
+    //@session_start();
+    //$tabs = $_SESSION['RESTAB'];
+    //echo "<pre>\n";
+    //print_r($tabs);
+    //echo "</pre>\n";
 
     //$alist = $this->data-> GetDosListFull();
     //echo "<pre>\n";

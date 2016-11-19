@@ -38,11 +38,15 @@ th.header {
 
 .c0head {
     background-color:  #404040;
-    position: absolute;
+    position: fixed;
     right: 0px;
     left: 0px;
-    padding: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin-top: 0px;
+    z-index: 400;
 }
 .cont1 {
     margin-top: 200px;
@@ -77,10 +81,11 @@ th.header {
     right: 0px;
     left: 0px;
     padding: 10px;
+    margin-top: 0px;
     z-index: 400;
 }
 .p0ch1 {
-    margin-top: 100px;
+    margin-top: 160px;
     padding: 40px;
 }
 #stp3 {
@@ -140,3 +145,15 @@ th.header {
  height: 50px;
 }
 
+/* ========== account create ============== */
+
+.notyet {
+    opacity: 0.3;
+}
+
+/* ========== paypal form ============== */
+
+#PPCont {
+ margin: auto;
+ width: 160px;
+}    

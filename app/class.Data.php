@@ -1777,6 +1777,75 @@ class Data {
     return($cnt);
   }
 
+  function IncreaseUserSubscription($uid,$duration,$nbdays=0) {
+
+    try {
+      $dbh = new PDO($this->gconf->dbpdo, $this->gconf->dbuser, $this->gconf->dbpass, $this->gconf->dbparams);
+
+    } catch(PDOException $e)  {
+      echo $e->getMessage();
+      exit();
+    }
+
+    try {
+
+      $stmt = $dbh->query("select paydate from user where id = '".$uid."';");
+      $resu = $stmt->fetchAll();
+
+    } catch(PDOException $e)  {
+      echo $e->getMessage();
+      exit();
+    }
+
+    if ( count($resu) != 1 ) {
+        // user paydate not found , do nothing
+        return(null);
+    }
+
+    $paydate = $resu[0]['paydate'];
+    $now = time();
+
+    if ( empty($paydate) ) {
+        $baztim = $now;
+    } else {
+        $baztim =  mktime(substr($paydate,11,2),
+                          substr($paydate,14,2),
+                          substr($paydate,17,2),
+                          substr($paydate,5,2),
+                          substr($paydate,8,2),
+                          substr($paydate,0,4) );
+        if ( $baztim < $now ) {
+            $baztim = $now;
+        }
+    }    
+
+    // if nbdays not given, try to decode the duration string  !
+    if ( $nbdays <= 0 ) {
+        switch($duration) {
+        case "1 mois":
+        case "1 month":
+            $nbdays = 31;
+            break;
+        case "3 mois":
+        case "3 months":
+            $nbdays = 92;
+            break;
+        case "1 an":
+        case "1 year":
+        case "12 months":
+         case "12 mois":
+           $nbdays = 365;
+            break;
+        }        
+    }
+
+    $endtim = $baztim + $nbdays * 86400;
+    $enddat = date("Y-m-d", $endtim);
+
+    $this->UpdateUserSubscription($uid,$enddat); 
+    $this->UpdateUserStatus($uid,"premium");
+  }
+
   //===============================================
   // utilities
   //===============================================

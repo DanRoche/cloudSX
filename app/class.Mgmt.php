@@ -750,8 +750,17 @@ class Mgmt {
     $tpl->assign("FAVICO", $this->gconf->favico);
     $tpl->setMessages($messages);
 
+    if ( ! isset($vars['ACCMAIL']) ) {
+      $tpl->assign("ERR", "NOINFO"); 
+      $tpl->display("tpl_mgmt/acccre2.html");
+      return;
+    }
+
     if ( $vars['ACCPASS'] != $vars['ACCPAS2'] ) {
       $tpl->assign("ERR", "PASS"); 
+      $tpl->assign("GVN", $vars['ACCGVN']); 
+      $tpl->assign("NAM", $vars['ACCNAME']); 
+      $tpl->assign("MEL", $vars['ACCMAIL']); 
       $tpl->display("tpl_mgmt/acccre2.html");
       return;
     }
@@ -765,16 +774,21 @@ class Mgmt {
     $uid = $this->data->CreateUserRequest($udata);
     if ( $uid == 0 ) {
       $tpl->assign("ERR", "LOGIN"); 
+      $tpl->assign("GVN", $vars['ACCGVN']); 
+      $tpl->assign("NAM", $vars['ACCNAME']); 
+      $tpl->assign("MEL", $vars['ACCMAIL']); 
       $tpl->display("tpl_mgmt/acccre2.html");
       return;
    }
+
+    $tpl->assign("GVN", $udata['gvname']); 
+    $tpl->assign("NAM", $udata['name']); 
+    $tpl->assign("MEL", $udata['mail']); 
 
     $tpl->display("tpl_mgmt/acccre2.html");
 
     // send the mail for validation account 
 
-    $tpl->assign("GVN", $udata['gvname']); 
-    $tpl->assign("NAM", $udata['name']); 
     $mskid = sprintf("%s_%06d",$this->data->GetRandomString(5),$uid);
     $tpl->assign("RANDID", base64_encode($mskid) ); 
 
@@ -812,20 +826,26 @@ class Mgmt {
     
     switch($ret) {
     case 0:
-      $tpl->assign("ERR", "NONE"); 
+      $tpl->assign("ERR", "NONE");
+      $uinfo =  $this->data->UserInfoByUid($uid);
+      $tpl->assign("UINFO", $uinfo); 
+      $tpl->display("tpl_mgmt/acccre3.html");
       break;
     case 1:
       $tpl->assign("ERR", "ALREADY"); 
+      $uinfo =  $this->data->UserInfoByUid($uid);
+      $tpl->assign("UINFO", $uinfo); 
+      $tpl->display("tpl_mgmt/acccre3.html");
       break;
     case 2:
       $tpl->assign("ERR", "NOUSER"); 
+      $tpl->display("tpl_mgmt/acccre2.html");
       break;
-    case 2:
+    case 3:
       $tpl->assign("ERR", "UNKNOWN"); 
+      $tpl->display("tpl_mgmt/acccre2.html");
       break;
     }
-
-    $tpl->display("tpl_mgmt/acccre3.html");
 
   }
 

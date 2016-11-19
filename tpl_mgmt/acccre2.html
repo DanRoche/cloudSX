@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- tpl: acccre2.html -->
+<!-- tpl: acccre1.html -->
 <html lang="fr">
 <head>
  <meta charset="utf-8">
@@ -17,7 +17,7 @@
 
 <div class="container">
 
-<div class="well c0head">
+<div class="row c0head">
  <div class="row">
   <div class="col-md-4"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></div>
   <div class="col-md-8">
@@ -27,22 +27,125 @@
  </div>
 </div>
 
-<div class="row cont1">
-<?php  if ( $this->ERR == "PASS" ) { ?>
- <div class="alert alert-danger" role="alert"><p> <?php $this->M('acc_errpass'); ?></p></div>
-<?php } elseif ( $this->ERR == "LOGIN" ) { ?>
- <div class="alert alert-danger" role="alert"><p> <?php $this->M('acc_errlogin'); ?></p></div>
-<?php } else { ?>
- <div class="well"> <p> <?php $this->M('acc_message'); ?></p> </div>
-<?php } ?>
+<!-- STEP 1 -->
+
+<form novalidate="novalidate" id="creaccount1" class="form-horizontal" method="post" >
+
+<div class="panel panel-default cont1" id="accstep1">
+  <div class="panel-heading">
+    <h3 class="panel-title"><?php $this->M('acc_step1'); ?>&nbsp;<?php $this->M('acc_step1c'); ?></h3>
+  </div>
+  <div class="panel-body">
+
+<div class="form-group">
+<label class="control-label col-md-3" ><em><?php $this->M('act_mail'); ?></em></label>
+<div class="col-md-7"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
+  <input class="form-control" value="<?php echo $this->MEL; ?>" name="ACCMAIL" id="ACCMAIL" type="text" readonly>
+</div></div>
 </div>
 
-<div class="well c0foot">
-<?php  if ( isset($this->ERR) ) { ?>
- <button type="button" class="btn btn-warning btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('CreAcc1'); ?>'"> <?php $this->M('err_back'); ?> </button>
-<?php } else { ?>
- <button type="button" class="btn btn-default btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('Index'); ?>'"> <?php $this->M('akp_ret'); ?> </button>
-<?php } ?>
+<div class="form-group">
+<label class="control-label col-md-3" ><em><?php $this->M('act_nam'); ?></em></label>
+<div class="col-md-7"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-tag"></span> 
+  <input class="form-control" value="<?php echo $this->NAM; ?>" name="ACCNAME" id="ACCNAME" type="text" readonly>
+</div></div>
+</div>
+
+<div class="form-group">
+<label class="control-label col-md-3" ><em><?php $this->M('act_gvnam'); ?></em></label>
+<div class="col-md-7"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-tag"></span> 
+  <input class="form-control" value="<?php echo $this->GVN; ?>" name="ACCGVN" id="ACCGVN" type="text" readonly>
+</div></div>
+</div>
+
+</div>
+</div>
+
+</form>
+
+<!-- STEP 2 -->
+
+<div class="panel panel-primary" id="accstep2">
+  <div class="panel-heading">
+    <h3 class="panel-title"><?php $this->M('acc_step2'); ?>&nbsp;<?php $this->M('acc_step2c'); ?></h3>
+  </div>
+  <div class="panel-body">
+    <?php  if ( $this->ERR == "PASS" ) { ?>
+    <div class="alert alert-danger" role="alert"><p> <?php $this->M('acc_errpass'); ?></p></div>
+    <?php } elseif ( $this->ERR == "LOGIN" ) { ?>
+    <div class="alert alert-danger" role="alert"><p> <?php $this->M('acc_errlogin'); ?></p></div>
+    <?php } elseif ( $this->ERR == "NOUSER" ) { ?>
+    <div class="alert alert-danger" role="alert"><p> <?php $this->M('acc_errnouser'); ?></p></div>
+    <?php } elseif ( $this->ERR == "NOINFO" ) { ?>
+    <div class="alert alert-danger" role="alert"><p> <?php $this->M('acc_errnoinfo'); ?></p></div>
+    <?php } elseif ( $this->ERR == "UNKNOWN" ) { ?>
+    <div class="alert alert-danger" role="alert"><p> <?php $this->M('acc_errunkn'); ?></p></div>
+    <?php } else { ?>
+    <div> <p> <?php $this->M('acc_message'); ?></p> </div>
+    <?php } ?>
+  </div>
+  <div class="panel-footer">
+    <?php  if ( isset($this->ERR) ) { ?>
+    <button type="button" class="btn btn-default btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('CreAcc1'); ?>'"> <?php $this->M('err_back'); ?> </button>
+    <?php } else { ?>
+    <button type="button" class="btn btn-default btn-sm"  onclick="window.location.href='<?php echo $this->URL->GetMgmtMethod('Index'); ?>'"> <?php $this->M('akp_ret'); ?> </button>
+    <?php } ?>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+
+<div class="panel panel-default notyet" id="accstep3" >
+  <div class="panel-heading">
+    <h3 class="panel-title"><?php $this->M('acc_step3'); ?>&nbsp;<?php $this->M('acc_step3c'); ?></h3>
+  </div>
+  <div class="panel-body">
+   <div class="row">
+   <div class="col-md-6">
+    <?php  if ( $this->ERR == "ALREADY" ) { ?>
+    <div class="alert alert-info" role="alert"><p> <?php $this->M('acc_erralready'); ?></p></div>
+    <?php } elseif ( $this->ERR == "NOUSER" ) { ?>
+    <div class="alert alert-danger" role="alert"><p> <?php $this->M('acc_errnouser'); ?></p></div>
+    <?php } elseif ( $this->ERR == "UNKNOWN" ) { ?>
+    <div class="alert alert-danger" role="alert"><p> <?php $this->M('acc_errunkn'); ?></p></div>
+    <?php } else { ?>
+    <div class="alert alert-success" role="alert"> <p> <?php $this->M('acc_validated'); ?></p> </div>
+    <?php } ?>
+    <!-- php  if ( $this->ERR == "NONE" ||  $this->ERR == "ALREADY" ) {  -->
+     <p class="text-center">
+       <button type="button" class="btn btn-success btn-sm" disabled="disabled" > <?php $this->M('acc_connect'); ?> </button>
+     </p>
+    <!-- php }  -->
+   </div>
+   <div  class="col-md-6">
+       <div class="alert alert-info" role="alert">
+          <p class="text-center"><strong><?php $this->M('act_noprem3'); ?></strong></p>
+          <p><?php $this->M('act_noprem2'); ?></p>
+       </div>
+       <div id="PPCont">
+	 <form method="post" target="_top">
+	   <input type="hidden" name="cmd" value="*********">
+	   <input type="hidden" name="hosted_button_id" value="*************">
+	   <table>
+	     <tr><td><input type="hidden" name="on0" value="Subscription duration">Subscription duration</td></tr><tr><td><select name="os0">
+		   <option value="1 month">1 month €9,99 EUR</option>
+		   <option value="12 months">12 months €95,00 EUR</option>
+	     </select> </td></tr>
+	     <tr style="display: none"><td><input type="hidden" name="on1" value="CLOUDSX-ACCOUNT">CLOUDSX-ACCOUNT</td></tr><tr style="display: none"><td><input type="text" name="os1" maxlength="200" value="<?php echo $this->UINFO['mail']; ?>" readonly></td></tr><tr><td>&nbsp;</td></tr>
+	   </table>
+	   <input type="hidden" name="currency_code" value="EUR">
+	   <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" disabled="disabled">
+	   <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+	 </form>
+      </div>
+   </div>
+  </div>
+  <div class="panel-footer">
+    <button type="button" class="btn btn-default btn-sm"  disabled="disabled"> <?php $this->M('akp_ret'); ?> </button>
+  </div>
 </div>
 
 </body></html>
