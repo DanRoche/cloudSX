@@ -688,8 +688,8 @@ class Doc {
     if ( empty($vars['LDL'] )) {
 	$this->data->GenerateAndSendZip($vars['DID']);
     } else {
-      $f2z = "'".implode("' '", $vars['LDL'])."'";
-      $this->data->GenerateAndSendZip($vars['DID'], $f2z);
+        $f2z = "\"".implode("\" \"", $vars['LDL'])."\"";
+        $this->data->GenerateAndSendZip($vars['DID'], $f2z);
     }
   }
 
