@@ -1,0 +1,135 @@
+#!/bin/bash
+#
+##########################################################
+# CLOUDSX launch generate_fulldoslist cache daemon
+# 
+# dan.y.roche@gmail.com Nov 2016
+#
+# 1st version 20161122
+#             
+##########################################################
+
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/opt/miscbin:/opt/java/bin:.
+export PATH
+
+##########################################################
+# specific config
+##########################################################
+
+DUSER=www-data
+PIDFIL=/var/run/gfdl.pid
+
+##########################################################
+# fetch CSX config
+##########################################################
+
+# fetch global application config (php !)
+#
+MYSELF=$0
+MYDIR=$(dirname ${MYSELF})
+APPCONF=${MYDIR}/../app/Config.php
+
+if [ -s ${APPCONF} ]
+then
+  # get the config from php conf
+  TMP1=$(cat ${APPCONF} | grep '^ *$this->TopAppDir')
+  CDIR1=$(expr "${TMP1}" : ' *$this->TopAppDir *= *\"\(.*\)\"')
+
+else
+  echo "Can't find application config file - aborting !"
+  exit 3
+fi
+
+GFDL=${CDIR1}/script/generate_fulldoslist.php
+
+##########################################################
+# function
+##########################################################
+
+function isrunning() {
+    if [ -s ${PIDFIL} ]
+    then
+	PID=$(cat ${PIDFIL})
+	if [ -e /proc/${PID}/cmdline ]
+	then
+	    CML=$(cat /proc/${PID}/cmdline)
+	    MT=$(expr "${CML}" : '.*generate_fulldoslist.*')
+	    if [ ${MT} -ne 0 ]
+	    then
+		return 1
+	    else
+		return 0
+	    fi
+	else
+	    return 0
+	fi
+    else
+	return 0
+    fi
+	
+}
+
+function start() {
+    WU=$(id -u)
+    if [ ${WU} -eq 0 ]
+    then
+	> ${PIDFIL}
+	chmod 666 ${PIDFIL}
+	su -l ${DUSER} -c "nice -20 nohup ${GFDL} -D &"
+    else
+	nice -20 nohup ${GFDL} -D &
+    fi
+}
+
+function stop() {
+    kill ${PID}
+    rm -f ${PIDFIL}
+}
+
+##########################################################
+# go
+##########################################################
+
+ACTION=$1
+
+case ${ACTION} in
+    "start")
+	isrunning
+	if [ $? -eq 1 ]
+	then
+	    echo "daemon generate_fulldoslist already running (${PID})"
+	    exit 0
+	fi
+	start
+	;;
+  
+    "stop")
+	isrunning
+	if [ $? -eq 1 ]
+	then
+	    stop
+	else
+	    echo "cannot find daemon - do not stop"
+	fi
+	;;
+
+    "restart")
+	stop
+	start
+	;;
+	
+    "status")
+	isrunning
+	if [ $? -eq 1 ]
+	then
+	    echo "daemon generate_fulldoslist is running (${PID})"
+	else
+	    echo "daemon generate_fulldoslist is down"
+	fi
+	;;
+
+    *)
+	echo "usage : $0 start|stop|status|restart"
+	;;
+esac
+

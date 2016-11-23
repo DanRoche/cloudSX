@@ -64,10 +64,14 @@ $gconf = new Config;
 $dataobj = new Data($gconf);
 
 if ( $daemon == 1 ) {
-  while ( 1 ) {
-    GenerateOne();
-    sleep(60);
-  }
+    $fd = fopen("/var/run/gfdl.pid", "w");
+    fwrite($fd, getmypid());
+    fwrite($fd, "\n");
+    fclose($fd);
+    while ( 1 ) {
+        GenerateOne();
+        sleep(60);
+    }
 } else {
   GenerateOne();
 }
