@@ -84,9 +84,9 @@ fi
 # function
 
 GenerateThumb() {
- 
+
  FIL=$1
- SIZ=$(stat -c "%s" ${THEDIR}/${FIL})   
+ SIZ=$(stat -c "%s" "${THEDIR}/${FIL}")   
  
  # get extension
  EXT0=$( expr "${FIL}" : '.*\.\([^\.]*\)')
