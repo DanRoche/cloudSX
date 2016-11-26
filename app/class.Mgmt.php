@@ -767,16 +767,24 @@ class Mgmt {
 
     $udata=Array();
     $udata['mail'] = $vars['ACCMAIL'];
-    $udata['gvname'] = $vars['ACCGVN'];
-    $udata['name'] = $vars['ACCNAME'];
+    if ( isset($vars['ACCGVN']) && $vars['ACCGVN'] != "" ) {
+        $udata['gvname'] = $vars['ACCGVN'];
+    } else {
+        $udata['gvname'] = "-";
+    }
+    if ( isset($vars['ACCNAME']) && $vars['ACCNAME'] != "" ) {
+        $udata['name'] = $vars['ACCNAME'];
+    } else {
+        $udata['name'] = "-";
+    }
     $udata['password'] = $vars['ACCPASS'];
     
     $uid = $this->data->CreateUserRequest($udata);
     if ( $uid == 0 ) {
       $tpl->assign("ERR", "LOGIN"); 
-      $tpl->assign("GVN", $vars['ACCGVN']); 
-      $tpl->assign("NAM", $vars['ACCNAME']); 
-      $tpl->assign("MEL", $vars['ACCMAIL']); 
+      $tpl->assign("GVN", $udata['gvname']); 
+      $tpl->assign("NAM", $udata['name']); 
+      $tpl->assign("MEL", $udata['mail']); 
       $tpl->display("tpl_mgmt/acccre2.html");
       return;
    }

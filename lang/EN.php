@@ -189,7 +189,7 @@
      'acc_step2' => "- 2nd step -",
      'acc_step2c' => "Validation",
      'acc_step3' => "- 3rd step -",
-     'acc_step3c' => "Sign In / Go premium",
+     'acc_step3c' => "Sign In",
      'acc_hmail' => "Your mail address (valid)",
      'acc_pass' => "Password",
      'acc_message' => "You will receive a mail to the address you just gave, click on this mail link to validate your account.",

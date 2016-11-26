@@ -19,7 +19,7 @@
 
 <div class="row c0head">
  <div class="row">
-  <div class="col-md-4"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></div>
+  <div class="col-md-4"><a href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></a></div>
   <div class="col-md-8">
    <h3 class="title"><?php $this->M('acc_title'); ?></h3>
    <h3 class="title"><?php $this->M('acc_step3'); ?></h3>
@@ -33,7 +33,7 @@
 
 <div class="panel panel-default cont1" id="accstep1">
   <div class="panel-heading">
-    <h3 class="panel-title"><?php $this->M('acc_step1'); ?>&nbsp;<?php $this->M('acc_step1c'); ?></h3>
+    <h3 class="panel-title"><span class="stepnum">1</span><?php $this->M('acc_step1c'); ?></h3>
   </div>
   <div class="panel-body">
 
@@ -70,7 +70,7 @@
 
 <div class="panel panel-default" id="accstep2">
   <div class="panel-heading">
-    <h3 class="panel-title"><?php $this->M('acc_step2'); ?>&nbsp;<?php $this->M('acc_step2c'); ?></h3>
+    <h3 class="panel-title"><span class="stepnum">2</span><?php $this->M('acc_step2c'); ?></h3>
   </div>
   <div class="panel-body">
     <p> OK </p>
@@ -81,7 +81,7 @@
 
 <div class="panel panel-primary" id="accstep3" >
   <div class="panel-heading">
-    <h3 class="panel-title"><?php $this->M('acc_step3'); ?>&nbsp;<?php $this->M('acc_step3c'); ?></h3>
+    <h3 class="panel-title"><span class="stepnum">3</span><?php $this->M('acc_step3c'); ?></h3>
   </div>
   <div class="panel-body">
    <div class="row">

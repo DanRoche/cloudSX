@@ -19,7 +19,7 @@
 
 <div class="row c0head">
  <div class="row">
-  <div class="col-md-4"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></div>
+  <div class="col-md-4"><a href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>"><img src="<?php echo $this->URL->GetDefLogo('large'); ?>"></a></div>
   <div class="col-md-8">
    <h3 class="title"><?php $this->M('acc_title'); ?></h3>
    <h3 class="title"><?php $this->M('acc_step1'); ?></h3>
@@ -33,12 +33,12 @@
 
 <div class="panel panel-primary cont1" id="accstep1">
   <div class="panel-heading">
-    <h3 class="panel-title"><?php $this->M('acc_step1'); ?>&nbsp;<?php $this->M('acc_step1c'); ?></h3>
+    <h3 class="panel-title"><span class="stepnum">1</span><?php $this->M('acc_step1c'); ?></h3>
   </div>
   <div class="panel-body">
 
 <div class="form-group">
-<label class="control-label col-md-3" ><em><?php $this->M('act_mail'); ?></em></label>
+<label class="control-label col-md-3" ><em><?php $this->M('act_mail'); ?></em> *</label>
 <div class="col-md-7"><div class="input-group">
   <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
   <input class="form-control" value="" name="ACCMAIL" id="ACCMAIL" placeholder="<?php $this->M('acc_hmail'); ?>" type="text">
@@ -62,7 +62,7 @@
 </div>
 
 <div class="form-group">
-<label class="control-label col-md-3" ><em><?php $this->M('acc_pass'); ?></em></label>
+<label class="control-label col-md-3" ><em><?php $this->M('acc_pass'); ?></em> *</label>
 <div class="col-md-7"><div class="input-group">
   <span class="input-group-addon glyphicon glyphicon-lock"></span> 
   <input class="form-control" value="" name="ACCPASS" id="ACCPASS" placeholder="<?php $this->M('acc_hpass'); ?>" type="password">
@@ -70,7 +70,7 @@
 </div>
 
 <div class="form-group">
-<label class="control-label col-md-3" ><em><?php $this->M('act_psw2'); ?></em></label>
+<label class="control-label col-md-3" ><em><?php $this->M('act_psw2'); ?></em> *</label>
 <div class="col-md-7"><div class="input-group">
   <span class="input-group-addon glyphicon glyphicon-lock"></span> 
   <input class="form-control" value="" name="ACCPAS2" id="ACCPAS2" placeholder="<?php $this->M('acc_hpass'); ?>" type="password">
@@ -93,7 +93,7 @@
 
 <div class="panel panel-default notyet" id="accstep2">
   <div class="panel-heading">
-    <h3 class="panel-title"><?php $this->M('acc_step2'); ?>&nbsp;<?php $this->M('acc_step2c'); ?></h3>
+    <h3 class="panel-title"><span class="stepnum">2</span><?php $this->M('acc_step2c'); ?></h3>
   </div>
   <div class="panel-body">
     <div> <p> <?php $this->M('acc_message'); ?></p> </div>
@@ -107,11 +107,9 @@
 
 <div class="panel panel-default notyet" id="accstep3" >
   <div class="panel-heading">
-    <h3 class="panel-title"><?php $this->M('acc_step3'); ?>&nbsp;<?php $this->M('acc_step3c'); ?></h3>
+    <h3 class="panel-title"><span class="stepnum">3</span><?php $this->M('acc_step3c'); ?></h3>
   </div>
   <div class="panel-body">
-   <div class="row">
-   <div class="col-md-6">
     <?php  if ( $this->ERR == "ALREADY" ) { ?>
     <div class="alert alert-info" role="alert"><p> <?php $this->M('acc_erralready'); ?></p></div>
     <?php } elseif ( $this->ERR == "NOUSER" ) { ?>
@@ -126,29 +124,6 @@
        <button type="button" class="btn btn-default btn-sm" disabled="disabled"> <?php $this->M('acc_connect'); ?> </button>
      </p>
     <!-- php }  -->
-   </div>
-   <div  class="col-md-6">
-       <div class="alert alert-info" role="alert">
-          <p class="text-center"><strong><?php $this->M('act_noprem3'); ?></strong></p>
-          <p><?php $this->M('act_noprem2'); ?></p>
-       </div>
-       <div id="PPCont">
-	 <form method="post" target="_top">
-	   <input type="hidden" name="cmd" value="*********">
-	   <input type="hidden" name="hosted_button_id" value="*************">
-	   <table>
-	     <tr><td><input type="hidden" name="on0" value="Subscription duration">Subscription duration</td></tr><tr><td><select name="os0">
-		   <option value="1 month">1 month €9,99 EUR</option>
-		   <option value="12 months">12 months €95,00 EUR</option>
-	     </select> </td></tr>
-	     <tr style="display: none"><td><input type="hidden" name="on1" value="CLOUDSX-ACCOUNT">CLOUDSX-ACCOUNT</td></tr><tr style="display: none"><td><input type="text" name="os1" maxlength="200" value="<?php echo $this->UINFO['mail']; ?>" readonly></td></tr><tr><td>&nbsp;</td></tr>
-	   </table>
-	   <input type="hidden" name="currency_code" value="EUR">
-	   <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"  disabled="disabled">
-	   <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-	 </form>
-      </div>
-   </div>
   </div>
   <!-- <div class="panel-footer">
     <button type="button" class="btn btn-default btn-sm" disabled="disabled"> <?php $this->M('akp_ret'); ?> </button>
@@ -163,12 +138,6 @@
     $("#creaccount1").validate({
       rules:{
         ACCMAIL:{
-          required:true
-        },
-        ACCNAME:{
-          required:true
-        },
-        ACCGVN:{
           required:true
         },
         ACCPASS:{

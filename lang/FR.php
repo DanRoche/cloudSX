@@ -189,7 +189,7 @@
      'acc_step2' => "- 2eme étape -",
      'acc_step2c' => "Validation",
      'acc_step3' => "- 3eme étape -",
-     'acc_step3c' => "Connectez vous / Passez à un compte premium",
+     'acc_step3c' => "Connectez vous",
      'acc_hmail' => "Votre adresse mail (valide)",
      'acc_pass' => "Mot de passe",
      'acc_message' => "Vous allez recevoir un mail à l'adresse que vous avez spécifiée, cliquez sur le lien de ce mail pour valider votre compte.",

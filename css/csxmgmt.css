@@ -148,7 +148,14 @@ th.header {
 /* ========== account create ============== */
 
 .notyet {
-    opacity: 0.3;
+    opacity: 0.5;
+}
+
+.stepnum {
+    font-weight: bold;
+    font-size: 32px;
+    font-family: monospace;
+    padding-right: 20px;
 }
 
 /* ========== paypal form ============== */
