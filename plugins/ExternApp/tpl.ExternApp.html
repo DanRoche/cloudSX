@@ -1,0 +1,24 @@
+<style type="text/css">
+#app_content  {
+  width: 100%; 
+  height: 100%;
+  margin-top: 5px;
+}
+</style>
+<?php if ( $this->NEWTAB == 1): ?>
+<div id="conthead" class="container-fluid">
+<div class="col-xs-6">
+ <strong><?php echo $this->APPNAM; ?></strong>
+</div>
+<div class="col-xs-6">
+ <p class="text-right"> 
+ <a href="<?php echo $this->XURL; ?>" target="<?php echo $this->APPNAM; ?>" class="btn btn-link btn-xs" role="button"><span class="glyphicon glyphicon-fullscreen"></span>&nbsp;<?php $this->M('cont_newtab'); ?></a>&nbsp;
+</p>
+</div></div>
+<?php endif; ?>
+<object type="text/html" data="<?php echo $this->XURL; ?>" id="app_content">
+  <p>this APP cannot be displayed !</p>
+</object>
+<script language="javascript">
+  adjustContentLeft();
+</script>

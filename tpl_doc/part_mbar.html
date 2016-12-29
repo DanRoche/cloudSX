@@ -5,7 +5,16 @@
     <ul class="nav navbar-nav"> 
      <!-- <li><a href="<?php echo $this->URL->GetDosMethod('Display'); ?>"><span class="glyphicon glyphicon-home"></span></a></li> -->
      <li><a href="<?php echo $this->URL->GetInnerMethod('DispShare'); ?>"><span class="glyphicon glyphicon-hand-right"></span>&nbsp;<?php $this->M('menu_share'); ?></a></li>
-     <li<?php echo ($this->MODACC=='RO')? ' class="disabled"':''; ?>><a href="<?php echo $this->URL->GetInnerMethod('AddFile1'); ?>"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;<?php $this->M('menu_add'); ?></a></li>
+     
+     <li class="dropdown<?php echo ($this->MODACC=='RO')? ' disabled':''; ?>"><a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;<?php $this->M('menu_add'); ?> <span class="caret"></span> </a>
+      <ul class="dropdown-menu" aria-labelledby="drop1"> 
+       <li><a href="<?php echo $this->URL->GetInnerMethod('AddFile1'); ?>"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;<?php $this->M('menu_add1'); ?></a></li>
+       <li role="separator" class="divider"></li> 
+       <?php foreach($this->XAPPLIST as $xclass => $xobj): ?>
+       <li<?php echo ($this->ALLOWXAPP==1)?'':' class="disabled"'; ?>><a href="<?php echo $this->URL->GetInnerMethod('AddXapp1/'.$xclass); ?>"><span class="glyphicon glyphicon-cog"></span>&nbsp;<?php echo $xobj->title[$this->LNG]; ?></a></li>
+       <?php endforeach; ?>
+     </ul>
+
      <li id="attchbtn"><a href="<?php echo $this->URL->GetAbsMgmtMethod1Arg('Attach', $this->ATTACHARG); ?>"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;<?php $this->M('menu_attach'); ?></a></li>
      <li<?php echo ($this->DOSINFO['hasblog']==1)? '':' class="disabled"'; ?>><a href="<?php echo $this->URL->GetInnerMethod('DispBlog'); ?>"><span class="glyphicon glyphicon-comment"></span>&nbsp;<?php $this->M('menu_messg'); ?></a></li>
 
@@ -13,13 +22,6 @@
       <ul class="dropdown-menu" aria-labelledby="drop2"> 
        <li><a href="<?php echo $this->URL->GetInnerMethod('DispParam'); ?>"><span class="glyphicon glyphicon-briefcase"></span>&nbsp;<?php $this->M('menu_param'); ?></a></li> 
        <li><a href="<?php echo $this->URL->GetInnerMethod('DispDav'); ?>"><span class="glyphicon glyphicon-hdd"></span>&nbsp;<?php $this->M('menu_dav'); ?></a></li> 
-       <li role="separator" class="divider"></li> 
-       <?php if ( $this->MJITSI == 1 ): ?>
-       <li><a href="<?php echo $this->URL->GetMeetJitsi(); ?>" target="jitsi"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;<?php $this->M('menu_vidconf'); ?></a></li> 
-       <?php endif; ?>
-       <?php if ( $this->FRMDAT == 1 ): ?>
-       <li<?php echo (isset($this->DOSINFO['framadate']))? '':' class="disabled"'; ?>><a href="<?php echo $this->URL->GetInnerDate(); ?>"><span class="glyphicon glyphicon-time"></span>&nbsp;<?php $this->M('menu_date'); ?></a></li> 
-       <?php endif; ?>
       </ul>
       </ul>
      </li> 

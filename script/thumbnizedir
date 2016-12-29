@@ -63,6 +63,7 @@ ICODIR=${CSXDIR}/default_icons
 ICO_GEN=${ICODIR}/file.png
 ICO_VID=${ICODIR}/video.png
 ICO_AUD=${ICODIR}/audio.png
+ICO_APP=${ICODIR}/xapp.png
 MAXSIZ=33554432
 
 ############################################
@@ -138,6 +139,10 @@ GenerateThumb() {
 
  mp3 | ogg | wav | mp4 | wma | flac | mid | midi )
   cp ${ICO_AUD} "${THEDIR}/.thumbs/${FIL}.${TSUF}"
+  ;;
+
+ xapp )
+  cp ${ICO_APP} "${THEDIR}/.thumbs/${FIL}.${TSUF}"
   ;;
 
  * )

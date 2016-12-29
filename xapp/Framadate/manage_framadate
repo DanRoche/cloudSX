@@ -10,6 +10,7 @@
 #             20160123  fetch config from php
 #             20160324  new mysql connection + fix env
 #             20160512  framadate version 0.9.6
+#             20161227  moved/modified to external application framadate
 #
 ##########################################################
 
@@ -30,37 +31,30 @@ then
 fi
 
 ##########################################################
-# fetch cloudSX config
+# fetch Framadate config
 ##########################################################
 
 # fetch global application config (php !)
 #
 MYSELF=$0
 MYDIR=$(dirname ${MYSELF})
-APPCONF=${MYDIR}/../app/Config.php
+APPCONF=${MYDIR}/config.ini
 
 if [ -s ${APPCONF} ]
 then
-  # get the config from php conf
-  TMP1=$(cat ${APPCONF} | grep '^ *$this->TopAppDir')
-  CDIR1=$(expr "${TMP1}" : ' *$this->TopAppDir *= *\"\(.*\)\"')
-  TMP2=$(cat ${APPCONF} | grep '^ *$this->DataDir')
-  CDIR2=$(expr "${TMP2}" : ' *$this->DataDir *= *\"\(.*\)\"')
-  # fetch framadate base connection
-  TMP3=$(cat ${APPCONF} | grep '^ *$this->db2serv')
-  B2ZH=$(expr "${TMP3}" : ' *$this->db2serv *= *\"\(.*\)\"')
-  TMP4=$(cat ${APPCONF} | grep '^ *$this->db2base')
-  B2ZB=$(expr "${TMP4}" : ' *$this->db2base *= *\"\(.*\)\"')
-  TMP5=$(cat ${APPCONF} | grep '^ *$this->db2user')
-  B2ZU=$(expr "${TMP5}" : ' *$this->db2user *= *\"\(.*\)\"')
-  TMP6=$(cat ${APPCONF} | grep '^ *$this->db2pass')
-  B2ZP=$(expr "${TMP6}" : ' *$this->db2pass *= *\"\(.*\)\"')
+    # fetch framadate base connection
+    TMP3=$(cat ${APPCONF} | grep '^DB2SERV')
+    DB2SERV=$(expr "${TMP3}" : '^DB2SERV *= *\(.*\)')
+    TMP4=$(cat ${APPCONF} | grep '^DB2BASE')
+    DB2BASE=$(expr "${TMP4}" : '^DB2BASE *= *\(.*\)')
+    TMP5=$(cat ${APPCONF} | grep '^DB2USER')
+    DB2USER=$(expr "${TMP5}" : '^DB2USER *= *\(.*\)')
+    TMP6=$(cat ${APPCONF} | grep '^DB2PASS')
+    DB2PASS=$(expr "${TMP6}" : '^DB2PASS *= *\(.*\)')
 else
-  echo "Can't find application config file - aborting !"
-  exit 3
+    echo "Can't find application config file - aborting !"
+    exit 3
 fi
-
-CSXDDIR=${CDIR1}${CDIR2}
 
 type mysql_config_editor > /dev/null 2>&1
 if [ $? -eq 0 ]
@@ -68,17 +62,10 @@ then
  # new mysql (5.6.6) connection
  # use mysql_config_editor on the server to initialize the login-path
  # use dbuser as login-path entry
- MYCMD="mysql --login-path=${B2ZU} -D${B2ZB}"
+ MYCMD="mysql --login-path=${DB2USER} -D${DB2BASE}"
 else
  # old school mysql connection
- MYCMD="mysql -h${B2ZH} -u${B2ZU} -p${B2ZP} -D${B2ZB}"
-fi
-
-# verify 
-if [ ! -d ${CSXDDIR} ]
-then
-  echo "application data dir ${CSXDDIR} not found - aborting !"
-  exit 4
+ MYCMD="mysql -h${DB2SERV} -u${DB2USER} -p${DB2PASS} -D${DB2BASE}"
 fi
 
 ##########################################################
@@ -86,11 +73,10 @@ fi
 ##########################################################
 
 usage () {
-  echo "manage_framadate -c -t title [-j cloudsx_id] | -d -i uuid "
+  echo "manage_framadate -c -t title | -d -i uuid "
   echo "where:"
   echo "  -c : create framadate"
   echo "   -t : framadate title "
-  echo "   -j : matching cloudSX ID"
   echo "  -d : delete framadate"
   echo "   -i uuid: framadate UUID"
   exit 1
@@ -104,7 +90,6 @@ usage () {
 ACTION="none"
 VERBOZ=0
 TITLE=""
-CSXID=""
 UUID=""
 
 while [ $OPTIND -le $# ] 
@@ -122,9 +107,6 @@ do
        ;;
     "t" )
        TITLE=${OPTARG}
-       ;;
-    "j" )
-       CSXID=${OPTARG}
        ;;
     "v" )
        VERBOZ=1
@@ -190,13 +172,6 @@ case ${ACTION} in
 
   echo "insert into fd_slot set poll_id='${UUIDSND}', title='${DAT0}', moments='14h00';" | ${MYCMD}
   echo "insert into fd_slot set poll_id='${UUIDSND}', title='${DAT1}', moments='15h00';" | ${MYCMD}
-  #----------------------
-  # if CSXID provided, create the cloudsx struct
-  if [ "${CSXID}" != "" ]
-  then
-    JDIR0=${CSXDDIR}/${CSXID:0:1}/${CSXID:1:1}/${CSXID:2:1}/${CSXID:3:1}/${CSXID:4}
-    echo ${UUIDADM} > ${JDIR0}/.struct/framadate
-  fi
 
   #----------------------
   # dislay the created framadate ID

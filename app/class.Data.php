@@ -353,6 +353,16 @@ class Data {
       $cmd = $this->gconf->TopAppDir."/script/manage_framadate -d -i ".$framadate;
       system($cmd);
     }
+    // ----  before erasing everything,  search for xapp !
+    $do = dir($ddir);
+    while (false !== ($entry = $do->read())) {
+        $ext = pathinfo($entry, PATHINFO_EXTENSION);
+        if ( $ext == "xapp" ) {
+            $this->DelXapp($ddir."/".$entry);
+        }
+    }
+    $do->close();
+    // ---- wipe all
     system("rm -rf ".$ddir);
 
     $this->DosDestroy($did);
@@ -466,6 +476,10 @@ class Data {
     $ddir = $this->GetAbsDirFromDID($did);
     while (list($ind, $value) = each($dlist) ) {
       $dfil = $ddir."/".$value;
+      $ext = pathinfo($dfil, PATHINFO_EXTENSION);
+      if ( $ext == "xapp" ) {
+          $this->DelXapp($dfil);
+      }
       unlink($dfil);
     }
     
@@ -1846,6 +1860,65 @@ class Data {
     $this->UpdateUserStatus($uid,"premium");
   }
 
+  //===============================================
+  // External App
+  //===============================================
+
+  function GetXappList() {
+      $xapdir = $this->gconf->TopAppDir."/xapp";
+      $thelist = array();
+
+      
+      $do = dir($xapdir);
+      while (false !== ($class = $do->read())) {
+          if ( $class[0] == '.' ) {
+              continue;
+          }
+          $classfile = $xapdir."/".$class."/class.".$class.".php";
+          if ( file_exists($classfile) ) {
+              include_once $classfile;
+              $obj = new $class($this->gconf);
+              
+              $thelist[$class] = $obj;
+          }
+      }
+      $do->close();
+
+      return($thelist);
+  }
+  
+  function GetXapp($class) {
+      $xapdir = $this->gconf->TopAppDir."/xapp";
+      
+      $classfile = $xapdir."/".$class."/class.".$class.".php";
+      if ( file_exists($classfile) ) {
+          include_once $classfile;
+          $obj = new $class($this->gconf);
+          
+          return($obj);
+      } else {
+          return(NULL);
+      }
+  }
+
+  function DelXapp($xappfile) {
+
+      $xinfo = parse_ini_file($xappfile);
+      $xapdir = $this->gconf->TopAppDir."/xapp";
+      $class = $xinfo['CLASS'];
+      $classfile = $xapdir."/".$class."/class.".$class.".php";
+      if ( file_exists($classfile) ) {
+          include_once $classfile;
+          $obj = new $class($this->gconf);
+          
+          if ( method_exists($obj,"Delete") ) {
+              $obj->Delete($xinfo);
+          }
+          unset($obj);
+      }
+  }
+  
+  
   //===============================================
   // utilities
   //===============================================

@@ -15,17 +15,19 @@ class PluginLib {
   var $dosinfo;
   var $filename;
   var $globalconf;
+  var $lang;
   var $langmessg;
 
   //===============================================
   // init 
   //===============================================
 
-  function __construct($dinfo, $file, $gconf, $msg) { 
+  function __construct($dinfo, $file, $gconf, $lng, $msg) { 
     // init all
     $this->dosinfo = $dinfo;
     $this->filename = $file;
     $this->globalconf = $gconf;
+    $this->lang = $lng;
     $this->langmessg = $msg;
    }
 

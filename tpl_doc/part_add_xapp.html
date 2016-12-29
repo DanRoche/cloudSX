@@ -1,0 +1,32 @@
+
+<div class="container">
+
+<h1><span class="glyphicon glyphicon-cog"></span>&nbsp;<?php $this->M('xapp_title'); ?><?php echo $this->XAPPO->title[$this->LNG] ?></h1>
+
+<div class="well">
+
+<form novalidate="novalidate" id="xappcre1" class="form-horizontal" method="post" action="<?php echo $this->URL->GetDosMethod('AddXapp2'); ?>" target="_top">
+<input name="DID" value="<?php echo $this->DID; ?>" type="hidden">
+<input name="XCLASS" value="<?php echo $this->XCLASS; ?>" type="hidden">
+
+<div class="form-group">
+<label class="control-label col-md-2" ><em><?php $this->M('xapp_nam1'); ?></em></label>
+<div class="col-md-10"><div class="input-group">
+  <span class="input-group-addon glyphicon glyphicon-cog"></span> 
+  <input class="form-control" value="<?php echo str_replace(' ','_',strtolower($this->XAPPO->title[$this->LNG])); ?>" name="XAPPNAM" id="XAPPNAM" placeholder="<?php $this->M('xapp_nam2'); ?>"  type="text">
+</div></div>
+
+</div>
+
+<hr>
+<div>
+<button class="btn btn-primary btn-sm" type="submit"><span class="glyphicon glyphicon-ok"></span>&nbsp;<?php $this->M('xapp_confirm'); ?></button>
+</div>
+
+</form>
+</div>
+
+</div>
+
+
+

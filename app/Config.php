@@ -30,13 +30,6 @@ class Config {
     
     $this->dbparams = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'');
 
-    // database 2 : framadate partner database 
-    // used only by manage_framadate script 
-    $this->db2serv = "my2host";
-    $this->db2base = "framadate";
-    $this->db2user = "my2login";
-    $this->db2pass = "my2pass";
-    
     // lang set  only EN and FR available for now !
     //           you may add some translation file in the lang sub-directory
     $this->LangSet = Array(
@@ -53,18 +46,6 @@ class Config {
     // DO NOT forget to initialise incrontab for this directory (see script/initincrontab)
     // if you modify this value, change the script accordingly 
     $this->upspool = $this->TopAppDir."/spool";
-   
-    // CloudSX meet.jit.si companion  URL
-    // it's possible to associate a meet.jit.si webconf (https://meet.jit.si/)
-    // to an briefcase
-    // if you wich so, define the URL here, otherwise , let it undefined (or empty).
-    $this->MeetJitSiUrl = "http://meet.jit.si";
-   
-    // CloudSX framadate companion  URL
-    // it's possible to embed an external framadate (https://framadate.org/)
-    // website into cloudSX.
-    // if you wich so, define the URL here, otherwise , let it undefined (or empty).
-    $this->FramaDateUrl = "http://demo.framadate.net";
    
     // clousdSX from mail
     // for mail emitted by cloudSX

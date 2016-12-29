@@ -48,7 +48,8 @@
 		"edge|pptx" => "PdfConvert",
 		"edge|xlsx" => "PdfConvert",
 		"txt" => "Text",
-		"html" => "Html"
+		"html" => "Html",
+		"xapp" => "ExternApp"
 		);
    return $cdp;
  }

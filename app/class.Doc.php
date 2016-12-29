@@ -49,7 +49,9 @@ class Doc {
 				    "GetData" => TRUE,
 				    "Download" => TRUE,
 				    "ExternUrl" => TRUE,
-				    "GetQR" => TRUE
+				    "GetQR" => TRUE,
+				    "AddXapp1" => TRUE,
+				    "AddXapp2" => TRUE
 				    );
     $this->gconf = $conf;
     $this->lng = $lng;
@@ -199,15 +201,18 @@ class Doc {
       $tpl->assign("PAGE", $vars['PAGE']);
     }
 
-    if ( isset($this->gconf->MeetJitSiUrl) && $this->gconf->MeetJitSiUrl != "" ) {
-      $tpl->assign("MJITSI", 1);
-    } else {
-      $tpl->assign("MJITSI", 0);
-    }
-    if ( isset($this->gconf->FramaDateUrl) && $this->gconf->FramaDateUrl != "" ) {
-      $tpl->assign("FRMDAT", 1);
-    } else {
-      $tpl->assign("FRMDAT", 0);
+    $xap = $this->data->GetXappList();
+    $tpl->assign("XAPPLIST", $xap);
+    $utyp = $this->data->CurrentUserStatus();
+    switch($utyp) {
+    case 'none':
+    case 'std':
+        $tpl->assign("ALLOWXAPP", 0);
+        break;
+    case 'premium':
+    case 'admin':
+        $tpl->assign("ALLOWXAPP", 1);
+        break;
     }
 
     $tpl->display("tpl_doc/pagedoc.html");
@@ -230,7 +235,7 @@ class Doc {
     $classplug = "./plugins/".$plugnam."/class.".$plugnam.".php";
     if ( file_exists($classplug) ) {
 
-      $pluglib = new PluginLib($dosinf, $file, $this->gconf, $messages);
+      $pluglib = new PluginLib($dosinf, $file, $this->gconf, $this->lng, $messages);
 
       include_once $classplug;
       $obj = new $plugnam($pluglib);
@@ -803,6 +808,46 @@ class Doc {
     $tpl2->assign("MSG", sprintf($messages['mel_sendok'],$cntmel));
     $tpl2->display("tpl_doc/part_error1.html");
 
+  }
+
+  function AddXapp1($vars) {
+
+      //$this->debug->Debug2("AddXapp1",$vars);
+      
+      $tpl = new Savant3();
+
+      $dosinf = $this->data->FetchDosInfo($vars['DID']);
+      $ra = $this->AuthenticateInner($dosinf);
+      
+      $urls = URL::GetURLByDID($this->gconf, $vars['DID'] );
+      $tpl->assign("URL", $urls);
+      $tpl->assign("DID", $vars['DID']);
+      $tpl->assign("XCLASS", $vars['XCLASS']);
+      $messages = $this->data->GetMessages($this->lng);
+      $tpl->assign("LNG", $this->lng);
+      $tpl->setMessages($messages);
+
+      $xappo = $this->data->GetXapp($vars['XCLASS']);
+      $tpl->assign("XAPPO", $xappo);
+      
+      $tpl->display("tpl_doc/part_add_xapp.html");
+      
+  }
+
+  function AddXapp2($vars) {
+      //$this->debug->Debug1("AddXapp2");
+
+      $dosinf = $this->data->FetchDosInfo($vars['DID']);
+      $ra = $this->AuthenticateInner($dosinf);
+      
+      $xappo = $this->data->GetXapp($vars['XCLASS']);
+      $xappo->Create($vars['XAPPNAM'], $dosinf);
+
+      $this->data->SpoolUploaded($dosinf['did']);
+      
+      $urls = URL::GetURLByInfo($this->gconf, $dosinf);
+      $url = $urls->GetDosMethod('Display');
+      header("Location: ".$url);
   }
 
   //===============================================

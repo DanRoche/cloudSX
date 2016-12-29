@@ -17,6 +17,7 @@
      'menu_vidconf' => "Vidéo-conférence",
      'menu_docs' => "Documents",
      'menu_add' => "Ajouter",
+     'menu_add1' => "Des documents",
      'menu_ren' => "Renommer",
      'menu_del' => "Supprimer",
      'menu_getzip' => "Télécharger",
@@ -177,6 +178,7 @@
      'ml2_passwd' => "mot de passe :",
      'cont_orig' => "Original",
      'cont_dl' => "Télécharger",
+     'cont_newtab' => "Visualiser dans un onglet séparé",
      'plug1_unknown' => "Votre navigateur ne sait pas afficher ce contenu !",
      'plug1_view' => "le visualiser malgré tout",
      'plug1_dl' => "le télécharger",
@@ -285,4 +287,8 @@
      'adm_udelmsg' => "L'utilisateur <span class='label label-default' id='mud_tit_unam'></span><br>sera supprimé !",
      'adm_srh_u4d' => "liste des utilisateurs associés au porte-document :",
      'adm_srh_d4u' => "liste des porte-documents associés à l'utilisateur :",
-);		 
+     'xapp_title' => "Ajout d'une application : ",
+     'xapp_nam1' => "nom",
+     'xapp_nam2' => "Nom de votre application",
+     'xapp_confirm' => "Valider",
+   );		 

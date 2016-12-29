@@ -59,7 +59,7 @@ if (@isset($_SERVER['PATH_INFO'])) {
 //echo "class = ".$class.".\n";
 //echo "method = ".$method.".\n";
 //echo "arg1 = ".$arg1.".\n";
-//echo "arg2 = ".$arg1.".\n";
+//echo "arg2 = ".$arg2.".\n";
 //print_r($_SERVER);
 //echo "</pre>\n";
 //exit;
@@ -97,6 +97,16 @@ if ( $class == "Doc" and $method == "DispPlugin" and $arg2 != "" ) {
 // for method Doc/Download assume arg2 if present is FILENAM
 if ( $class == "Doc" and $method == "Download" and $arg2 != "" ) {
   $GPCVARS["FILENAM"] = $arg2;
+}
+
+// for method Doc/AddXapp1 : specific case arg1 = external class , arg2 id DID, so override..
+if ( $class == "Doc" and $method == "AddXapp1" ) {
+    if (  $arg1 != "" ) {
+        $GPCVARS["XCLASS"] = $arg1;
+    }
+    if (  $arg2 != "" ) {
+        $GPCVARS["DID"] = $arg2;
+    }
 }
 
 // for method Mgmt/View , assume arg1 if present is DID
