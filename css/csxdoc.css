@@ -252,7 +252,7 @@ html, body {
  position: fixed;
  left: 0px;
  bottom: 0px;
- height: 45px;
+ height: 75px;
  width: 260px;
  overflow: hidden;
  white-space: nowrap;
@@ -261,7 +261,7 @@ html, body {
 #filaction {
  position: absolute;
  left: 0px;
- bottom: 0px;
+ top: 0px;
 }
 
 #floatactions a {
@@ -271,3 +271,4 @@ html, body {
 #floatactions input {
  margin-left: 30px
 }
+

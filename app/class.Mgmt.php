@@ -299,34 +299,23 @@ class Mgmt {
       $this->data->DosAttach($dosinf2['did'], $vars['RUSERI'], 'writer');
     }
 
-    if ( isset($vars['RUSERI']) and isset($vars['RUSERM']) ) {
-      // created by registered user -> redisplay list 
+    // after created -> display new doc
 
-      $urls = URL::GetURLSimple($this->gconf);
-      $gourl = $urls->GetMgmtMethod('DosList');      
-
-      //echo $gourl."\n";
-      header("Location: ".$gourl);
-
-    } else {
-      // created standalone -> display new doc
-
-      // set auth before redirecting to the doc
-      $this->data->UpdateAuth($dosinf2['did'], $dosinf2['passwd']); 
-
-      // fetch full dosinfo to see if files present
-      $dosinffull = $this->data->FetchDosInfo($dosinf2['did'],1);
-
-      $urls = URL::GetURLByInfo($this->gconf, $dosinf2);
-      if ( count($dosinffull['filelist']) > 0 ) {
-	$gourl = $urls->GetDosMethod('Display','PAGE=DispShare');
-      } else {
-	$gourl = $urls->GetDosMethod('Display');
-      }
+    // set auth before redirecting to the doc
+    $this->data->UpdateAuth($dosinf2['did'], $dosinf2['passwd']); 
+    
+    // fetch full dosinfo to see if files present
+    $dosinffull = $this->data->FetchDosInfo($dosinf2['did'],1);
       
-      //echo $gourl."\n";
-      header("Location: ".$gourl);
+    $urls = URL::GetURLByInfo($this->gconf, $dosinf2);
+    if ( count($dosinffull['filelist']) > 0 ) {
+        $gourl = $urls->GetDosMethod('Display','PAGE=DispShare');
+    } else {
+        $gourl = $urls->GetDosMethod('Display');
     }
+    
+    //echo $gourl."\n";
+    header("Location: ".$gourl);
 
   }
 

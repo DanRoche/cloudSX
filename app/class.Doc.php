@@ -376,7 +376,6 @@ class Doc {
     $tpl->display("tpl_doc/part_dav.html");
   }
 
-
   function AddFile1($vars) {
 
     $tpl = new Savant3();

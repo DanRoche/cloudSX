@@ -184,6 +184,19 @@ class URL {
     return($theu);
   }
   
+  function GetVndSunStar($file) {
+
+    $tmp1 = $this->gconf->TopAppUrl;
+    $tmp1 .= $this->gconf->DataDir;
+    $tmp1 .= "/".$this->dosinfo['rdir'];
+
+    $tmp2 = $_SERVER['SERVER_NAME'].$tmp1;
+
+    $theu = "vnd.sun.star.webdav://".$tmp2."/".$file;
+
+    return($theu);
+  }
+  
   //===============================================
   // cloudSX inner content URL
   //===============================================
