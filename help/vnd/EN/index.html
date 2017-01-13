@@ -17,12 +17,89 @@
 
 <div class="jumbotron" style="margin-top: 50px">
   <h2>Technical prerequisites for online edition of office documents</h2>
-  <p>
-    The documentation will soon be available!
-  </p>
-  <p><a href="http://faq.adullact.org/technique/78-comment-ouvrir-un-fichier-odt-dans-mon-application-web" role="button">Meanwhile, you may consult this</a> <em>(In french, sorry !)</em>
+  <!-- <p><a href="http://faq.adullact.org/technique/78-comment-ouvrir-un-fichier-odt-dans-mon-application-web" role="button">adullact documentation</a> <em>(In french, sorry !)</em> -->
   </p>
 </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">For <strong>firefox</strong></div>
+  <div class="panel-body">
+    <ol>
+      <li>copy the following :<br>
+	<pre>network.protocol-handler.expose.vnd.sun.star.webdav</pre></li>
+      <li>in firefox address bar, enter : <strong>about:config</strong></li>
+      <li>in the config page, do <strong>contextual-menu/New/Boolean-value</strong></li>
+      <li>paste in the option name</li>
+      <li>set the value at <strong>false</strong></li>
+    </ol>
+    <p>
+      After this operation, when you will click the first time on the button <span class="label label-default">Edit directly online</span>,
+      firefox will ask you which software you want to use.<br>
+      You may choose LibreOffice, and memorize this choice, the question will no longer be asked for the following operations.
+    </p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">For <strong>Chrome or Edge with windows 7/8/10 and LibreOffice</strong></div>
+  <div class="panel-body">
+    <ol>
+      <li>download and save the following file : <a href="../wd-lo5-7-8-10.reg">wd-lo5-7-8-10.reg</a></li>
+      <li>double-click the file in question, this will launch the regedit utility,
+	accept the installation of the registry key</li>
+    </ol>
+    <p>
+      Following this operation, when you click on the button <span class="label label-default">Edit directly online</span>,
+      the browser will open LibreOffice for document edition.
+    </p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">For <strong>Windows 7/8/10 and MS-Office</strong></div>
+  <div class="panel-body">
+    <div class="alert alert-warning" role="alert">BE CARREFUL : not tested</div>
+    <ol>
+      <li>download and save the following file matching your office version :
+	<a href="../wd-ms-office2013.reg">wd-ms-office2013.reg</a>&nbsp;
+	<a href="../wd-ms-office2010.reg">wd-ms-office2010.reg</a></li>
+      <li>double-click the file in question, this will launch the regedit utility,
+	accept the installation of the registry key</li>
+    </ol>
+    <p>
+      Following this operation, when you click on the button <span class="label label-default">Edit directly online</span>,
+      the browser will open MS-Office for document edition.
+    </p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">For <strong>Chrome/Chromium on ubuntu and LibreOffice</strong></div>
+  <div class="panel-body">
+    <ol>
+      <li>download the following file : <a href="../vnd-sun-star-webdav.desktop">vnd-sun-star-webdav.desktop</a></li>
+      <li>save the file on <strong>/usr/share/applications/</strong></li>
+      <li>execute <strong>sudo update-desktop-database</strong></li>
+    </ol>
+    <p>
+      Following this operation, when you click on the button <span class="label label-default">Edit directly online</span>,
+      the browser will open LibreOffice for document edition.
+    </p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">For <strong>MacOS-X</strong></div>
+  <div class="panel-body">
+    <p>
+      Sorry, no functional solution at the moment,
+      we continue to investigate ...
+    </p>
+  </div>
+</div>
+
+
+
 
 </div>
 

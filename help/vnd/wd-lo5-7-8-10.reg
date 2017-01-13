@@ -1,0 +1,23 @@
+Windows Registry Editor Version 5.00
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\vnd.sun.star.webdav]
+    @="URL:OpenOffice WebDAV Protocol"
+    "URL Protocol"=""
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\vnd.sun.star.webdav\shell]
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\vnd.sun.star.webdav\shell\open]
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\vnd.sun.star.webdav\shell\open\command]
+    @="\"C:\\Program Files (x86)\\LibreOffice 5\\program\\soffice.exe\" \"%l\""
+
+    [HKEY_CLASSES_ROOT\vnd.sun.star.webdavs]
+    @="URL:loffice Protocol"
+    "URL Protocol"=""
+    [HKEY_CLASSES_ROOT\vnd.sun.star.webdavs\DefaultIcon]
+    @="soffice.exe,1"
+    [HKEY_CLASSES_ROOT\vnd.sun.star.webdavs\shell]
+    [HKEY_CLASSES_ROOT\vnd.sun.star.webdavs\shell\open]
+    [HKEY_CLASSES_ROOT\vnd.sun.star.webdavs\shell\open\command]
+    @="\"C:\\Program Files (x86)\\LibreOffice 5\\program\\soffice.exe\" \"%1\""
+

@@ -17,12 +17,88 @@
 
 <div class="jumbotron" style="margin-top: 50px">
   <h2>Prérequis technique pour édition des documents bureautique en ligne</h2>
-  <p>
-    La documentation sera bientôt disponible !
-  </p>
-  <p><a href="http://faq.adullact.org/technique/78-comment-ouvrir-un-fichier-odt-dans-mon-application-web" role="button">En attendant pour pouvez consulter ceci</a>
+  <!-- <p><a href="http://faq.adullact.org/technique/78-comment-ouvrir-un-fichier-odt-dans-mon-application-web" role="button">doc adullact</a> -->
   </p>
 </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Pour <strong>firefox</strong></div>
+  <div class="panel-body">
+    <ol>
+      <li>copiez ce qui suit :<br>
+	<pre>network.protocol-handler.expose.vnd.sun.star.webdav</pre></li>
+      <li>dans la barre d'adresse de firefox, tapez : <strong>about:config</strong></li>
+      <li>dans la page de config, faire <strong>menu-contextuel/Nouvelle/Valeur-booléenne</strong></li>
+      <li>collez le nom de l'option</li>
+      <li>mettez la valeur <strong>false</strong></li>
+    </ol>
+    <p>
+      Suite à cette opération, lorsque vous cliquerez la 1er fois sur le bouton <span class="label label-default">Editer directement en ligne</span>,
+      firefox vous demandera avec quel logiciel vous voulez procéder.<br>
+      vous pouvez choisir LibreOffice, et memoriser ce choix, la question ne vous sera plus posée pour les opérations suivantes.
+    </p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Pour <strong>Chrome ou Edge sous windows 7/8/10 et LibreOffice</strong></div>
+  <div class="panel-body">
+    <ol>
+      <li>télécharger et enregistrer le fichier suivant : <a href="../wd-lo5-7-8-10.reg">wd-lo5-7-8-10.reg</a></li>
+      <li>double-cliquez sur le fichier en question, cela va lancer l'utilitaire regedit, acceptez l'installation de
+	la clef de registre</li>
+    </ol>
+    <p>
+      Suite à cette opération, lorsque vous cliquerez sur le bouton <span class="label label-default">Editer directement en ligne</span>,
+      le navigateur ouvrira LibreOffice pour edition du document.
+    </p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Pour <strong>Windows 7/8/10 et MS-Office</strong></div>
+  <div class="panel-body">
+    <div class="alert alert-warning" role="alert">ATTENTION : non testé</div>
+    <ol>
+      <li>télécharger et enregistrer le fichier suivant correspondant à votre version d'office:
+	<a href="../wd-ms-office2013.reg">wd-ms-office2013.reg</a>&nbsp;
+	<a href="../wd-ms-office2010.reg">wd-ms-office2010.reg</a></li>
+      <li>double-cliquez sur le fichier en question, cela va lancer l'utilitaire regedit, acceptez l'installation de
+	la clef de registre</li>
+    </ol>
+    <p>
+      Suite à cette opération, lorsque vous cliquerez sur le bouton <span class="label label-default">Editer directement en ligne</span>,
+      le navigateur ouvrira MS-Office pour edition du document.
+    </p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Pour <strong>Chrome/Chromium sous ubuntu et LibreOffice</strong></div>
+  <div class="panel-body">
+    <ol>
+      <li>télécharger le fichier suivant : <a href="../vnd-sun-star-webdav.desktop">vnd-sun-star-webdav.desktop</a></li>
+      <li>enregistrez le fichier sous <strong>/usr/share/applications/</strong></li>
+      <li>executez <strong>sudo update-desktop-database</strong></li>
+    </ol>
+    <p>
+      Suite à cette opération, lorsque vous cliquerez sur le bouton <span class="label label-default">Editer directement en ligne</span>,
+      le navigateur ouvrira LibreOffice pour edition du document.
+    </p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Pour <strong>MacOS-X</strong></div>
+  <div class="panel-body">
+    <p>
+      Désolé, pas de solution fonctionnelle pour le moment,
+      nous continuons à investiguer...
+    </p>
+  </div>
+</div>
+
+
 
 </div>
 
