@@ -20,9 +20,9 @@ class Mgmt {
 				    "Index" => TRUE,
 				    "Create1" => TRUE,
 				    "Create2" => TRUE,
-                                    "DosCreate" => TRUE,
-                                    "MgtCreate" => TRUE,
-                                    "CreateJQFU" => TRUE,
+                    "DosCreate" => TRUE,
+                    "MgtCreate" => TRUE,
+                    "CreateJQFU" => TRUE,
 				    "FinishCreate" => TRUE,
 				    "UnCreate" => TRUE,
 				    "UnCreateMgt" => TRUE,
@@ -38,6 +38,7 @@ class Mgmt {
 				    "DispLogo" => TRUE,
 				    "LostPassword" => TRUE,
 				    "ResetPassword" => TRUE,
+                    "FilterSave" => TRUE,
 				    "Attach" => TRUE,
 				    "AttachURL" => TRUE,
 				    "AttachURLPass" => TRUE,
@@ -381,7 +382,8 @@ class Mgmt {
     $tpl->assign("RUSERI", $uinfo['id']);
     $tpl->assign("RUSERM", $uinfo['mail']);
     $tpl->assign("UINFO", $uinfo);
- 
+    $tpl->assign('SFILTR', $this->GetSavedFilters() );
+
     $utyp = $this->data->CurrentUserStatus();
     $datinf = $this->data->GetDateInfo($utyp);
 
@@ -898,6 +900,39 @@ class Mgmt {
       system($launch);
     }
  
+
+  }
+
+  //===============================================
+  // filter stuff
+  //===============================================
+
+  function FilterSave($vars) {
+
+      //$this->debug->DebugToFile("/tmp/deb.txt", $vars);
+
+      session_start();
+      $_SESSION['FILTR_D']=$vars['FD'];
+      $_SESSION['FILTR_M']=$vars['FM'];
+      $_SESSION['FILTR_E']=$vars['FE'];
+      
+      return;
+  }
+
+  function GetSavedFilters() {
+    session_start();
+    $sfiltr = Array();
+    
+    if ( isset($_SESSION['FILTR_D']) and $_SESSION['FILTR_D']!= "" ) {
+      $sfiltr['FD']=$_SESSION['FILTR_D'];
+    }
+    if ( isset($_SESSION['FILTR_M']) and $_SESSION['FILTR_M']!= "" ) {
+      $sfiltr['FM']=$_SESSION['FILTR_M'];
+    }
+    if ( isset($_SESSION['FILTR_E']) and $_SESSION['FILTR_E']!= "" ) {
+      $sfiltr['FE']=$_SESSION['FILTR_E'];
+    }
+    return($sfiltr);
 
   }
 

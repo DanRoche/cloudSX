@@ -13,6 +13,20 @@ function GlobalFilter() {
 	filt_eol = ""
     }
 
+    if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    } else {
+        // code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    var xurl = "FilterSave?FD="+filt_doc+"&FM="+filt_mod+"&FE="+filt_eol;
+    xmlhttp.open("GET",xurl,true);
+    xmlhttp.send();
+
+    var cnt1sel = 0;
+    var cnt1tot = 0;
+
     $('#dostable').find('.datarow').each(function(){
 	var thetr = $(this);
  
@@ -31,13 +45,21 @@ function GlobalFilter() {
 	    score = score + 1;
 	}
 
+	cnt1tot += 1;
 	if ( score == 3 ) {
 	    thetr.show();
+	    cnt1sel += 1;
 	} else {
 	    thetr.hide();
 	}
 
     })
+
+    if (  cnt1sel == cnt1tot ) {
+	$("#DosCnt").text(cnt1sel);
+    } else {
+	$("#DosCnt").text(cnt1sel+"/"+cnt1tot);
+    }
 
 }
 
@@ -59,6 +81,20 @@ function GlobalUzFilter() {
     if (typeof filt_pay == 'undefined') {
 	filt_pay = ""
     }
+
+    if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    } else {
+        // code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    var xurl = "FilturSave?F1="+filt_mel+"&F2="+filt_nam+"&F3="+filt_cre+"&F4="+filt_pay;
+    xmlhttp.open("GET",xurl,true);
+    xmlhttp.send();
+
+    var cnt2sel = 0;
+    var cnt2tot = 0;
 
     $('#uzrtable').find('.datarow').each(function(){
 	var thetr = $(this);
@@ -82,13 +118,21 @@ function GlobalUzFilter() {
 	    score = score + 1;
 	}
 
+	cnt2tot += 1;
 	if ( score == 4 ) {
 	    thetr.show();
+	    cnt2sel += 1;
 	} else {
 	    thetr.hide();
 	}
 
     })
+
+    if (  cnt2sel == cnt2tot ) {
+	$("#UzrCnt").text(cnt2sel);
+    } else {
+	$("#UzrCnt").text(cnt2sel+"/"+cnt2tot);
+    }
 
 }
 

@@ -27,6 +27,8 @@ class Admin {
 				    "D4U" => TRUE,
 				    "U4D" => TRUE,
 				    "CloseRes" => TRUE,
+                    "FilterSave" => TRUE,
+                    "FilturSave" => TRUE,
 				    "Debug" => TRUE
 				    );
     $this->gconf = $conf;
@@ -64,6 +66,7 @@ class Admin {
    
     $tpl->assign("DFLIST", $dflist);
     $tpl->assign("MYSELF", "DosList");
+    $tpl->assign('SFILTA', $this->GetSavedFilters() );
     @session_start();
     $tpl->assign("RTABS", @$_SESSION['RESTAB']);
 
@@ -129,6 +132,7 @@ class Admin {
     $tpl->assign("UFLIST", $uflist);
     $tpl->assign("MYSELF", "UserList");
     $tpl->assign("STATUSES", $this->data->GetUserStatuses());
+    $tpl->assign('SFILTU', $this->GetSavedFilturs() );
     @session_start();
     $tpl->assign("RTABS", $_SESSION['RESTAB']);
 
@@ -327,6 +331,72 @@ class Admin {
 	unset($_SESSION['RESTAB'][$ind]);
       }
     }
+  }
+
+  //===============================================
+  // filter stuff
+  //===============================================
+
+  function FilterSave($vars) {
+
+      //$this->debug->DebugToFile("/tmp/deb.txt", $vars);
+
+      session_start();
+      $_SESSION['FILTA_D']=$vars['FD'];
+      $_SESSION['FILTA_M']=$vars['FM'];
+      $_SESSION['FILTA_E']=$vars['FE'];
+      
+      return;
+  }
+
+  function FilturSave($vars) {
+
+      //$this->debug->DebugToFile("/tmp/deb.txt", $vars);
+
+      session_start();
+      $_SESSION['FILTU_M']=$vars['F1'];
+      $_SESSION['FILTU_N']=$vars['F2'];
+      $_SESSION['FILTU_C']=$vars['F3'];
+      $_SESSION['FILTU_P']=$vars['F4'];
+      
+      return;
+  }
+
+  function GetSavedFilters() {
+    session_start();
+    $sfiltr = Array();
+    
+    if ( isset($_SESSION['FILTA_D']) and $_SESSION['FILTA_D']!= "" ) {
+      $sfiltr['FD']=$_SESSION['FILTA_D'];
+    }
+    if ( isset($_SESSION['FILTA_M']) and $_SESSION['FILTA_M']!= "" ) {
+      $sfiltr['FM']=$_SESSION['FILTA_M'];
+    }
+    if ( isset($_SESSION['FILTA_E']) and $_SESSION['FILTA_E']!= "" ) {
+      $sfiltr['FE']=$_SESSION['FILTA_E'];
+    }
+    return($sfiltr);
+
+  }
+
+  function GetSavedFilturs() {
+    session_start();
+    $sfiltr = Array();
+    
+    if ( isset($_SESSION['FILTU_M']) and $_SESSION['FILTU_M']!= "" ) {
+      $sfiltr['F1']=$_SESSION['FILTU_M'];
+    }
+    if ( isset($_SESSION['FILTU_N']) and $_SESSION['FILTU_N']!= "" ) {
+      $sfiltr['F2']=$_SESSION['FILTU_N'];
+    }
+    if ( isset($_SESSION['FILTU_C']) and $_SESSION['FILTU_C']!= "" ) {
+      $sfiltr['F3']=$_SESSION['FILTU_C'];
+    }
+    if ( isset($_SESSION['FILTU_P']) and $_SESSION['FILTU_P']!= "" ) {
+      $sfiltr['F4']=$_SESSION['FILTU_P'];
+    }
+    return($sfiltr);
+
   }
 
   //===============================================

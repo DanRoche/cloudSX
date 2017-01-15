@@ -21,31 +21,31 @@
         </a>
       <!-- </h4> -->
     </div>
-    <div id="collapseOne" class="panel-collapse collapse">
+    <div id="collapseOne" class="panel-collapse collapse <?php echo (sizeof($this->SFILTU)>0)?"in":""; ?>">
       <div class="panel-body">
         <div class="row">
 	 <div class="col-xs-3"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-search"></span>
-           <input type="text" id="searchMel" class="form-control" placeholder="<?php $this->M('adm_su1'); ?>" onkeyup="GlobalUzFilter()">
+           <input type="text" id="searchMel" class="form-control" placeholder="<?php $this->M('adm_su1'); ?>" onkeyup="GlobalUzFilter()" value="<?php echo $this->SFILTU['F1']; ?>">
           </div>
          </div>
 	 <div class="col-xs-3"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-search"></span>
-           <input type="text" id="searchNam" class="form-control" placeholder="<?php $this->M('adm_su2'); ?>" onkeyup="GlobalUzFilter()">
+           <input type="text" id="searchNam" class="form-control" placeholder="<?php $this->M('adm_su2'); ?>" onkeyup="GlobalUzFilter()" value="<?php echo $this->SFILTU['F2']; ?>">
           </div>
          </div>
 	 <div class="col-xs-3"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-           <input type="text" id="searchCre" class="form-control" placeholder="<?php $this->M('adm_su3'); ?>" onkeyup="GlobalUzFilter()">
+           <input type="text" id="searchCre" class="form-control" placeholder="<?php $this->M('adm_su3'); ?>" onkeyup="GlobalUzFilter()" value="<?php echo $this->SFILTU['F3']; ?>">
           </div>
          </div>
 	 <div class="col-xs-3"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-           <input type="text" id="searchPay" class="form-control" placeholder="<?php $this->M('adm_su4'); ?>" onkeyup="GlobalUzFilter()">
+           <input type="text" id="searchPay" class="form-control" placeholder="<?php $this->M('adm_su4'); ?>" onkeyup="GlobalUzFilter()" value="<?php echo $this->SFILTU['F4']; ?>">
           </div>
          </div>
         </div>
@@ -312,6 +312,7 @@ $('[data-toggle="tooltip"]').tooltip();
 <script language="javascript">
 $(document).ready(function() { 
   $("#uzrtable").tablesorter(); 
+  GlobalUzFilter()
 } 
 ); 
 </script>

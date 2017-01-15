@@ -71,25 +71,25 @@
         </a>
       <!-- </h4> -->
     </div>
-    <div id="collapseOne" class="panel-collapse collapse">
+    <div id="collapseOne" class="panel-collapse collapse <?php echo (sizeof($this->SFILTR)>0)?"in":""; ?>">
       <div class="panel-body">
         <div class="row">
 	 <div class="col-xs-4"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-search"></span>
-           <input type="text" id="searchDoc" class="form-control" placeholder="<?php $this->M('mgt_sr1'); ?>" onkeyup="GlobalFilter()">
+           <input type="text" id="searchDoc" class="form-control" placeholder="<?php $this->M('mgt_sr1'); ?>" onkeyup="GlobalFilter()" value="<?php echo $this->SFILTR['FD']; ?>">
           </div>
          </div>
 	 <div class="col-xs-4"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-           <input type="text" id="searchMod" class="form-control" placeholder="<?php $this->M('mgt_sr2'); ?>" onkeyup="GlobalFilter()">
+           <input type="text" id="searchMod" class="form-control" placeholder="<?php $this->M('mgt_sr2'); ?>" onkeyup="GlobalFilter()" value="<?php echo $this->SFILTR['FM']; ?>">
           </div>
          </div>
 	 <div class="col-xs-4"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-           <input type="text" id="searchEOL" class="form-control" placeholder="<?php $this->M('mgt_sr3'); ?>" onkeyup="GlobalFilter()">
+           <input type="text" id="searchEOL" class="form-control" placeholder="<?php $this->M('mgt_sr3'); ?>" onkeyup="GlobalFilter()" value="<?php echo $this->SFILTR['FE']; ?>">
           </div>
          </div>
         </div>
@@ -443,6 +443,7 @@ foreach ($this->DLIST as $did => $pdata ) {
 <script language="javascript">
 $(document).ready(function() { 
   $("#dostable").tablesorter({headers:{5:{sorter:false}}} ); 
+  GlobalFilter();
 } 
 ); 
 </script>
