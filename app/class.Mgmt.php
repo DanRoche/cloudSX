@@ -911,7 +911,7 @@ class Mgmt {
 
       //$this->debug->DebugToFile("/tmp/deb.txt", $vars);
 
-      session_start();
+      @session_start();
       $_SESSION['FILTR_D']=$vars['FD'];
       $_SESSION['FILTR_M']=$vars['FM'];
       $_SESSION['FILTR_E']=$vars['FE'];
@@ -920,7 +920,7 @@ class Mgmt {
   }
 
   function GetSavedFilters() {
-    session_start();
+    @session_start();
     $sfiltr = Array();
     
     if ( isset($_SESSION['FILTR_D']) and $_SESSION['FILTR_D']!= "" ) {
@@ -942,36 +942,36 @@ class Mgmt {
 
   function AskAuth(){
 
-    $realm = $this->gconf->name;
+      $realm = $this->gconf->name;
     
-    // demande d'identification
-    if ( !isset($_SERVER['PHP_AUTH_USER']) ) {
-      $this->Authenticate($realm);
-    } else {
-      $uok = $this->data->VerifUser($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-      if ( ! $uok ) {
-	$this->Authenticate($realm);
+      // demande d'identification
+      if ( !isset($_SERVER['PHP_AUTH_USER']) ) {
+          $this->Authenticate($realm);
+      } else {
+          $uok = $this->data->VerifUser($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+          if ( ! $uok ) {
+              $this->Authenticate($realm);
+          }
       }
-    }
   }
-
+  
   function Authenticate($realm){
-    Header("status: 401 Unauthorized"); 
-    Header("WWW-Authenticate: Basic realm=\"$realm\" ");
-    Header("HTTP/1.0 401 Unauthorized");
- 
-    // display if authentication canceled
-    $tpl = new Savant3();
-    $urls = URL::GetURLSimple($this->gconf);
-    $tpl->assign("URL", $urls);
-    $tpl->assign("APPNAM", $this->gconf->name);
-    $tpl->assign("FAVICO", $this->gconf->favico);
-    $messages = $this->data->GetMessages($this->lng);
-    $tpl->setMessages($messages);
-    
-    $tpl->display("tpl_mgmt/unauth.html");
-   
-    exit;
+      Header("status: 401 Unauthorized"); 
+      Header("WWW-Authenticate: Basic realm=\"$realm\" ");
+      Header("HTTP/1.0 401 Unauthorized");
+      
+      // display if authentication canceled
+      $tpl = new Savant3();
+      $urls = URL::GetURLSimple($this->gconf);
+      $tpl->assign("URL", $urls);
+      $tpl->assign("APPNAM", $this->gconf->name);
+      $tpl->assign("FAVICO", $this->gconf->favico);
+      $messages = $this->data->GetMessages($this->lng);
+      $tpl->setMessages($messages);
+      
+      $tpl->display("tpl_mgmt/unauth.html");
+      
+      exit;
   }
 
 

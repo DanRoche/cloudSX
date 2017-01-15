@@ -77,19 +77,19 @@
 	 <div class="col-xs-4"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-search"></span>
-           <input type="text" id="searchDoc" class="form-control" placeholder="<?php $this->M('mgt_sr1'); ?>" onkeyup="GlobalFilter()" value="<?php echo $this->SFILTR['FD']; ?>">
+           <input type="text" id="searchDoc" class="form-control" placeholder="<?php $this->M('mgt_sr1'); ?>" onkeyup="GlobalFilter()" value="<?php echo @$this->SFILTR['FD']; ?>">
           </div>
          </div>
 	 <div class="col-xs-4"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-           <input type="text" id="searchMod" class="form-control" placeholder="<?php $this->M('mgt_sr2'); ?>" onkeyup="GlobalFilter()" value="<?php echo $this->SFILTR['FM']; ?>">
+           <input type="text" id="searchMod" class="form-control" placeholder="<?php $this->M('mgt_sr2'); ?>" onkeyup="GlobalFilter()" value="<?php echo @$this->SFILTR['FM']; ?>">
           </div>
          </div>
 	 <div class="col-xs-4"> 
     	  <div class="input-group">
            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-           <input type="text" id="searchEOL" class="form-control" placeholder="<?php $this->M('mgt_sr3'); ?>" onkeyup="GlobalFilter()" value="<?php echo $this->SFILTR['FE']; ?>">
+           <input type="text" id="searchEOL" class="form-control" placeholder="<?php $this->M('mgt_sr3'); ?>" onkeyup="GlobalFilter()" value="<?php echo @$this->SFILTR['FE']; ?>">
           </div>
          </div>
         </div>

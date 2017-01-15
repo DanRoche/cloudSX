@@ -68,8 +68,13 @@ class Admin {
     $tpl->assign("MYSELF", "DosList");
     $tpl->assign('SFILTA', $this->GetSavedFilters() );
     @session_start();
-    $tpl->assign("RTABS", @$_SESSION['RESTAB']);
-
+    if ( is_null(@$_SESSION['RESTAB']) ) {
+        $tpl->assign("RTABS", Array());
+    } else {
+        $tpl->assign("RTABS", @$_SESSION['RESTAB']);
+    }  
+    $tpl->assign("CURTAB", "");
+    
     $tpl->display("tpl_adm/doslist.html");
 
   }
@@ -103,7 +108,11 @@ class Admin {
     $tpl->assign("DPLIST", $dplist);
     $tpl->assign("MYSELF", "D4U");
     @session_start();
-    $tpl->assign("RTABS", $_SESSION['RESTAB']);
+    if ( is_null(@$_SESSION['RESTAB']) ) {
+        $tpl->assign("RTABS", Array());
+    } else {
+        $tpl->assign("RTABS", @$_SESSION['RESTAB']);
+    }
     $tpl->assign("CURTAB", $curtag);
 
     $tpl->display("tpl_adm/res_d4u.html");
@@ -134,7 +143,12 @@ class Admin {
     $tpl->assign("STATUSES", $this->data->GetUserStatuses());
     $tpl->assign('SFILTU', $this->GetSavedFilturs() );
     @session_start();
-    $tpl->assign("RTABS", $_SESSION['RESTAB']);
+    if ( is_null(@$_SESSION['RESTAB']) ) {
+        $tpl->assign("RTABS", Array());
+    } else {
+        $tpl->assign("RTABS", @$_SESSION['RESTAB']);
+    }
+    $tpl->assign("CURTAB", "");
 
     $tpl->display("tpl_adm/uzrlist.html");
 
@@ -169,7 +183,11 @@ class Admin {
     $tpl->assign("UPLIST", $uplist);
     $tpl->assign("MYSELF", "U4D");
     @session_start();
-    $tpl->assign("RTABS", $_SESSION['RESTAB']);
+    if ( is_null(@$_SESSION['RESTAB']) ) {
+        $tpl->assign("RTABS", Array());
+    } else {
+        $tpl->assign("RTABS", @$_SESSION['RESTAB']);
+    }
     $tpl->assign("CURTAB", $curtag);
 
     $tpl->display("tpl_adm/res_u4d.html");
@@ -316,20 +334,20 @@ class Admin {
 
   function ResultTab($tag) {
     @session_start();
-    if ( ! is_array($_SESSION['RESTAB']) ) {
+    if ( ! is_array(@$_SESSION['RESTAB']) ) {
       $_SESSION['RESTAB'] = array();
     }
-    if ( ! in_array($tag, $_SESSION['RESTAB']) ) {
+    if ( ! in_array($tag, @$_SESSION['RESTAB']) ) {
       $_SESSION['RESTAB'][] = $tag; 
     }
   }
 
   function ResultDel($tag) {
     @session_start();
-    foreach ($_SESSION['RESTAB'] as $ind => $val) {
-      if ( $val == $tag ) {
-	unset($_SESSION['RESTAB'][$ind]);
-      }
+    foreach (@$_SESSION['RESTAB'] as $ind => $val) {
+        if ( $val == $tag ) {
+            unset($_SESSION['RESTAB'][$ind]);
+        }
     }
   }
 
@@ -341,7 +359,7 @@ class Admin {
 
       //$this->debug->DebugToFile("/tmp/deb.txt", $vars);
 
-      session_start();
+      @session_start();
       $_SESSION['FILTA_D']=$vars['FD'];
       $_SESSION['FILTA_M']=$vars['FM'];
       $_SESSION['FILTA_E']=$vars['FE'];
@@ -353,7 +371,7 @@ class Admin {
 
       //$this->debug->DebugToFile("/tmp/deb.txt", $vars);
 
-      session_start();
+      @session_start();
       $_SESSION['FILTU_M']=$vars['F1'];
       $_SESSION['FILTU_N']=$vars['F2'];
       $_SESSION['FILTU_C']=$vars['F3'];
@@ -363,7 +381,7 @@ class Admin {
   }
 
   function GetSavedFilters() {
-    session_start();
+    @session_start();
     $sfiltr = Array();
     
     if ( isset($_SESSION['FILTA_D']) and $_SESSION['FILTA_D']!= "" ) {
@@ -380,7 +398,7 @@ class Admin {
   }
 
   function GetSavedFilturs() {
-    session_start();
+    @session_start();
     $sfiltr = Array();
     
     if ( isset($_SESSION['FILTU_M']) and $_SESSION['FILTU_M']!= "" ) {
@@ -447,9 +465,8 @@ class Admin {
     //$this->debug->Debug1("Debug");
     //exit(0);
 
-      
-      $this->debug->Debug1("Debug");
-      exit(0);
+    @session_start();
+    $this->debug->Debug1("SESSION");
     
     //@session_start();
     //$tabs = $_SESSION['RESTAB'];
