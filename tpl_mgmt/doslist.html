@@ -442,7 +442,7 @@ foreach ($this->DLIST as $did => $pdata ) {
 
 <script language="javascript">
 $(document).ready(function() { 
-  $("#dostable").tablesorter({headers:{5:{sorter:false}}} ); 
+  $("#dostable").tablesorter({headers:{5:{sorter:false}},sortList: [[0,0]]} ); 
   GlobalFilter();
 } 
 ); 
