@@ -19,20 +19,24 @@
 </div>
 
 <div class="row">
- <!-- The global progress bar -->
- <div id="progress" class="progress">
-  <div class="progress-bar progress-bar-success"></div>
+ <div class="col-md-1">
+  <div id="uploadend" style="display: none">
+   <a href="<?php echo $this->URL->GetDosMethod('Display'); ?>" target="_top" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-ok"></span>&nbsp;OK</a>
+ </div></div>
+
+ <div class="col-md-11">
+  <!-- The global progress bar -->
+  <div id="progress" class="progress">
+   <div class="progress-bar progress-bar-success"></div>
+  </div>
  </div>
 </div>
 
+<hr>
 <div class="row">
  <!-- The container for the uploaded files -->
  <div id="files" class="files"></div>
  <br>
-</div>
-
-<div class="row" id="uploadend" style="display: none">
-<a href="<?php echo $this->URL->GetDosMethod('Display'); ?>" target="_top" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-ok"></span>&nbsp;OK</a>
 </div>
 
 </div>
