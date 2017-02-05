@@ -1,24 +1,18 @@
-<script language="javascript">
-function HideProm() {
- $('#selfprom').css("display", "none")
-}
-function GoAttach() {
- HideProm();
- changeContent("<?php echo $this->URL->GetDosMethod('DispAttach'); ?>")
-}
-</script>
-
-<div id="selfprom" class="well well-lg">
- <a href="javascript:HideProm()"><h2><span id="clozprom" class="glyphicon glyphicon-remove" aria-hidden="true"></span></h2></a>
-
-<?php if ( $this->SELFPROMO == "all" ): ?>
-<p>
- <?php $this->M('1stvisit1'); ?> <a href="<?php echo $this->URL->GetMgmtMethod("Index"); ?>"><strong><?php $this->M('1stvisit2'); ?></strong></a> <?php $this->M('1stvisit3'); ?>
+<div class="alert alert-info alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<?php if ( $this->SELFPROMO['1stvisit'] ): ?>
+ <p>
+  <?php $this->M('1stvisit1'); ?> <a href="<?php echo $this->URL->GetMgmtMethod("Index"); ?>" target="indx"><strong><?php $this->M('1stvisit2'); ?></strong></a> <?php $this->M('1stvisit3'); ?>
 </p>
 <?php endif; ?>
-
-<p>
- <?php $this->M('1stdos1'); ?> <a href="<?php echo $this->URL->GetMgmtMethod1Arg('Attach', $this->ATTACHARG); ?>"><strong><?php $this->M('1stdos2'); ?></strong></a>.
-</p>
-
+<?php if ( $this->SELFPROMO['notauth'] ): ?>
+ <p>
+ <?php $this->M('notauth1'); ?> <span class="glyphicon glyphicon-user"></span>&nbsp;<strong><?php $this->M('notauth2'); ?></strong> <?php $this->M('notauth3'); ?>
+ </p>
+<?php endif; ?>
+<?php if ( $this->SELFPROMO['1stdos'] ): ?>
+ <p>
+ <?php $this->M('1stdos1'); ?> <span class="glyphicon glyphicon-paperclip"></span>&nbsp;<strong><?php $this->M('1stdos2'); ?></strong>
+ </p>
+<?php endif; ?>
 </div>

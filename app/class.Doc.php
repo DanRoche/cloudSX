@@ -154,7 +154,6 @@ class Doc {
     $tpl->assign("DID", $vars['DID']);
     $tpl->assign("APPNAM", $this->gconf->name);
     $tpl->assign("FAVICO", $this->gconf->favico);
-    $tpl->assign("SELFPROMO", $this->SelfPromoteCookie($dosinf));
 
     $urls = URL::GetURLByInfo($this->gconf, $dosinf);
     // for menu we need content display parameters and the lang
@@ -270,6 +269,7 @@ class Doc {
     $tpl->assign("DOSINFO", $dosinf);
     $messages = $this->data->GetMessages($this->lng);
     $tpl->setMessages($messages);
+    $tpl->assign("SELFPROMO", $this->SelfPromote($dosinf));
 
     $tpl->display("tpl_doc/part_thumbs.html");
   }
@@ -709,7 +709,8 @@ class Doc {
     $tpl->assign("URL", $urls);
     $tpl->assign("DOSINFO", $dosinf);
     $tpl->assign("BLOGDATA", $blogdata);
- 
+    $tpl->assign("SELFPROMO", $this->SelfPromote($dosinf));
+
     $messages = $this->data->GetMessages($this->lng);
     $tpl->setMessages($messages);
 
@@ -989,30 +990,32 @@ class Doc {
 
   }    
 
-  function SelfPromoteCookie($dosinfo) {
-    
-    if ( @$this->gconf->SelfPromote != "on" ) {
-      // none if not configured
-      return('none');
-    }
+  function SelfPromote($dosinfo) {
 
-    if ( @$_COOKIE[$this->gconf->name."_Visited"] != 1 ) {
-      setcookie($this->gconf->name."_Visited", 1, time()+315360000, "/");
-      return('all');
-    }
+      $retv = Array();
 
-    if ( strpos(@$_SERVER['HTTP_REFERER'], "DosList") ) {
-      // if coming from mgmt
-      setcookie($this->gconf->name."_Visited_".$dosinfo['did'], 1, time()+315360000, "/");
-      return('none');
-    }
+      if ( @$this->gconf->SelfPromote != "on" ) {
+          // empty if not configured
+          return($retv);
+      }
 
-    if ( @$_COOKIE[$this->gconf->name."_Visited_".$dosinfo['did']] != 1 ) {
-      setcookie($this->gconf->name."_Visited_".$dosinfo['did'], 1, time()+315360000, "/");
-      return('doc');
-    }
+      if ( @$_COOKIE[$this->gconf->name."_Visited"] != 1 ) {
+          $retv['1stvisit'] = 1;
+          setcookie($this->gconf->name."_Visited", 1, time()+315360000, "/");
+      }
 
-    return('none');
+      @session_start();
+      if ( ! isset($_SESSION['AUTHENTICATED']) ) {
+          $retv['notauth'] = 1;
+      } else {
+          $fl1 = $this->data->VerifyDosAttach($dosinfo['did'], $_SESSION['AUTHENTICATED']);
+          if ( $fl1 == 0 ) {
+              $retv['1stdos'] = 1;
+          }
+      }
+      
+
+      return($retv);
 
   }
 

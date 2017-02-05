@@ -952,6 +952,8 @@ class Mgmt {
           if ( ! $uok ) {
               $this->Authenticate($realm);
           }
+          @session_start();
+          $_SESSION['AUTHENTICATED']=$_SERVER['PHP_AUTH_USER'];
       }
   }
   
