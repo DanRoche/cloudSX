@@ -705,6 +705,17 @@ class Mgmt {
     }
   }
 
+  function LogOff(){
+      
+      @session_start();
+      $_SESSION['LOGOFF']=$_SERVER['PHP_AUTH_USER'];
+
+      $urls = URL::GetURLSimple($this->gconf);
+      $gourl = $urls->GetMgmtMethod('Index');
+      
+      header("Location: ".$gourl);
+  }
+  
   //===============================================
   // account creation stuff
   //===============================================
@@ -943,16 +954,21 @@ class Mgmt {
   function AskAuth(){
 
       $realm = $this->gconf->name;
-    
+   
       // demande d'identification
       if ( !isset($_SERVER['PHP_AUTH_USER']) ) {
           $this->Authenticate($realm);
       } else {
+          @session_start();
+          if ( $_SERVER['PHP_AUTH_USER'] == @$_SESSION['LOGOFF'] ) {
+              unset($_SESSION['AUTHENTICATED']);
+              unset($_SESSION['LOGOFF']);
+              $this->Authenticate($realm);
+          }
           $uok = $this->data->VerifUser($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
           if ( ! $uok ) {
               $this->Authenticate($realm);
           }
-          @session_start();
           $_SESSION['AUTHENTICATED']=$_SERVER['PHP_AUTH_USER'];
       }
   }
