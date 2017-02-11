@@ -42,6 +42,7 @@ class Mgmt {
 				    "Attach" => TRUE,
 				    "AttachURL" => TRUE,
 				    "AttachURLPass" => TRUE,
+				    "LogOff" => TRUE,
 				    "Debug" => TRUE
 				    );
     $this->gconf = $conf;
