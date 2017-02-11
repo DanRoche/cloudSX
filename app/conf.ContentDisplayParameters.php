@@ -59,7 +59,16 @@
 		"safari|xlsx" => "OfficeNovisu",
 		"txt" => "Text",
 		"html" => "Html",
-		"xapp" => "ExternApp"
+		"xapp" => "ExternApp",
+		"mkv" => "Video",
+		"mp4" => "Video",
+		"avi" => "Video",
+		"flv" => "Video",
+		"mov" => "Video",
+		"mpg" => "Video",
+		"mts" => "Video",
+		"mpeg" => "Video",
+		"webm" => "Video"
 		);
    return $cdp;
  }

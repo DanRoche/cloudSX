@@ -1,0 +1,46 @@
+<style type="text/css">
+#vid_content  {
+  width: 100%;
+  height: 100%;
+  margin-top: 60px;
+}
+#conthead {
+  background: #4e5a60;
+  color: #ffffff;
+  position: fixed; 
+  top: 104px;
+  left: 270px;
+  right: 5px;
+  padding: 6px;
+  border-radius: 5px;
+}
+#conthead a {
+ color: #ffffff;
+}
+#conthead p {
+ margin-bottom: 0px;
+}
+</style>
+<div id="conthead" class="container-fluid">
+ <div class="col-xs-4">
+  <strong><span class="glyphicon glyphicon-film" aria-hidden="true"></span>&nbsp;<?php echo $this->FILENAM; ?></strong>
+ </div>
+ <div class="col-xs-4">
+  <p><?php $this->M('plug1_maynotvid'); ?></p>
+ </div>
+ <div class="col-xs-4">
+     <a class="btn btn-warning btn-xs" href="<?php echo $this->URL1; ?>" role="button"><span class="glyphicon glyphicon-eye-open"> <?php $this->M('plug1_view'); ?></a>&nbsp;&nbsp;
+     <a class="btn btn-success btn-xs" href="<?php echo $this->URL2; ?>" role="button"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"> <?php $this->M('plug1_dl'); ?></a>
+ </div>
+</div>
+<video controls="controls" id="vid_content">
+  <source src="<?php echo  $this->URL1; ?>" type="<?php echo  $this->MIMETYPE; ?>" />
+  <object type="<?php echo  $this->MIMETYPE; ?>" data="<?php echo  $this->URL1; ?>" >
+    <embed src="<?php echo  $this->URL1; ?>" >
+      <p>this Video cannot be displayed !</p>
+    </embed>
+</object>
+</video>
+<script language="javascript">
+  adjustContentLeft();
+</script>

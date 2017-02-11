@@ -188,6 +188,7 @@
      'plug1_unknown' => "Votre navigateur ne sait pas afficher ce contenu !",
      'plug1_view' => "le visualiser malgré tout",
      'plug1_dl' => "le télécharger",
+     'plug1_maynotvid' => "Il est possible que votre navigateur ne puisse pas afficher ce contenu vidéo.",
      'plug2_2big' => "Ce document est trop gros pour être visualisé directement !",
      'plug2_empty' => "Ce document est vide !",
      'acc_title' => "CloudSX - Création de votre compte",
