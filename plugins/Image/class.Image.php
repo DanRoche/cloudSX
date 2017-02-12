@@ -42,6 +42,10 @@ class Image {
     $tpl->assign("FILENAM", $this->pluginlib->filename);
     $tpl->assign("URL", $urls);
 
+    $picsiz = getimagesize($this->pluginlib->GetFilePath());
+    $tpl->assign("IMGW", $picsiz[0]);
+    $tpl->assign("IMGH", $picsiz[1]);
+
     $prevf = $this->pluginlib->GetNearFile("prev");
     if ( $prevf != "" ) {
       $tpl->assign("PREVURL", $urls->GetInnerData($prevf) );

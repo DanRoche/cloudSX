@@ -99,3 +99,25 @@ function contentMailSend() {
     $('#melShareForm').submit();    
 }
 
+function imageFitCalculation(iw, ih) {
+    var ww = $(window).width();
+    var wh = $(window).height();
+    var pl = $('#conthead').css('left');
+    var i1 = pl.indexOf("px");
+    var cn = parseInt(pl.substr(0,i1))
+    var w2w = ww - cn - 5;
+    var w2h = wh - 125;
+    var ri = iw / ih;
+    var rw = w2w / w2h;
+    
+    if ( ri > rw ) {
+	$('#imgfit').width(w2w);
+    } else {
+	$('#imgfit').height(w2h);
+	var i2w = Math.floor(w2h / ih * iw);
+	var m2l = (w2w - i2w) / 2;
+	var m3l = Math.floor(m2l);
+	$('#imgfit').css("margin-left", m3l+"px");
+	
+    }
+}

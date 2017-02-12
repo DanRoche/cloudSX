@@ -64,6 +64,11 @@ class PluginLib {
     return($flist[$newind]);
   }
 
+  function GetFilePath() {
+      $fp = $this->globalconf->AbsDataDir."/".$this->dosinfo['rdir']."/".$this->filename;
+      return($fp);
+  }
+      
   //===============================================
   // end
   //===============================================
