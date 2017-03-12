@@ -25,9 +25,16 @@
    </div>
 
    <div class="row">
-    <!-- The global progress bar -->
-    <div id="progress" class="progress">
-     <div class="progress-bar progress-bar-success"></div>
+     <div class="col-md-1">
+       <div id="uploadend" style="display: none">
+	 <a href="#pagebottom" class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-ok"></span>&nbsp;OK</a>
+     </div></div>
+
+     <div class="col-md-11">
+      <!-- The global progress bar -->
+      <div id="progress" class="progress">
+      <div class="progress-bar progress-bar-success"></div>
+     </div>
     </div>
    </div>
 
@@ -99,7 +106,7 @@
 
  </div></div>
 
- <div class="modal-footer">
+ <div class="modal-footer" id="pagebottom">
   <button type="button" class="btn btn-default" onclick="MgtCreateDismiss('<?php echo $this->URL->GetMgmtMethodWithDID('UnCreateMgt',$this->DID); ?>')"><?php $this->M('gen_cancel'); ?></button>
   <button type="submit" class="btn btn-primary" ><?php $this->M('fcre_cont'); ?></button>
   <span id="mgtuncreate"></span>
@@ -136,7 +143,10 @@ $(function () {
                 'width',
                 progress + '%'
             );
-        }
+        },
+        stop: function (e) {
+			$('#uploadend').show();
+		}
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
 });
