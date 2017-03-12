@@ -31,12 +31,15 @@ class Data {
 
 
     //$h20 = hash("sha256", $name.$now); 
-    $h20 = hash("md5", $name.$now); 
+    //$h20 = hash("md5", $name.$now); 
+    $h20 = substr(base64_encode(hash("md5", $name.$now)),0,32);
+    
     $tmp = $this->GetAbsDirFromDID($h20);
 
     while ( file_exists($tmp) and $cnt < 10 ) {
       $morerand = $this->GetRandomString(6);
-      $h20 = hash("md5", $name.$now.$morerand); 
+      //$h20 = hash("md5", $name.$now.$morerand); 
+      $h20 = substr(base64_encode(hash("md5", $name.$now.$morerand)),0,32); 
       $tmp = $this->GetAbsDirFromDID($h20);
       $cnt += 1;
     }
