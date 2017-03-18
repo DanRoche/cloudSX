@@ -61,6 +61,9 @@ class Config {
     // cloudSX self promotion
     $this->SelfPromote = "on";
 
+    // cloudSX autoindex file
+    $this->AutoIndex = "autoindex.html";
+
     // ============================
     // LESS CUSTOMIZABLE VARIABLES
     // ============================

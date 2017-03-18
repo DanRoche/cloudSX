@@ -180,24 +180,26 @@ class Doc {
     }
     $tpl->assign("ATTACHARG", $dosinf['did']."/".$ra );
 
+    // guess what page to display
+    // if PAGE arg given , display it
+    // if AutoIndex file is present display it
+    // if no file -> add
+    // if message -> blog
     if ( ! isset($vars['PAGE']) ) {
-      /* 
-       * guess what page to display 
-       * if no file -> add
-       * if message -> blog
-       */
-      $nbfil = count($dosinf['filelist']);
-      if ( $nbfil == 0 ) {
-	$tpl->assign("PAGE", "AddFile1");
-      } else {
-	if ( $dosinf['hasblog'] && $dosinf['blogcnt'] >= 1 ) {
-	  $tpl->assign("PAGE", "DispBlog");
-	} else {
-	  $tpl->assign("PAGE", "DispThumbs");
-	}
-      }
+        $nbfil = count($dosinf['filelist']);
+        if ( $nbfil == 0 ) {
+            $tpl->assign("CONTURL", $urls->GetDosMethod("AddFile1"));
+        } else {
+            if ( in_array($this->gconf->AutoIndex, $dosinf['filelist']) ) {
+                $tpl->assign("CONTURL", $urls->GetDosData($this->gconf->AutoIndex));
+            } elseif ( $dosinf['hasblog'] && $dosinf['blogcnt'] >= 1 ) {
+                $tpl->assign("CONTURL", $urls->GetDosMethod("DispBlog"));
+            } else {
+                $tpl->assign("CONTURL", $urls->GetDosMethod("DispThumbs"));
+            }
+        }
     } else {
-      $tpl->assign("PAGE", $vars['PAGE']);
+        $tpl->assign("CONTURL",  $urls->GetDosMethod($vars['PAGE']));
     }
 
     $xap = $this->data->GetXappList();
