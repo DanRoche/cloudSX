@@ -688,11 +688,25 @@ class Doc {
     //$this->debug->Debug2("getzip", $vars);
     //exit(0);
 
-    $dosinf = $this->data->FetchDosInfo($vars['DID']);
+    $dosinf = $this->data->FetchDosInfo($vars['DID'],1);
     $ra = $this->Authenticate($dosinf);
-    
-    if ( empty($vars['LDL'] )) {
-	$this->data->GenerateAndSendZip($vars['DID']);
+
+    $cnt = count(@$vars['LDL']);
+    if ( $cnt == 0 ) {
+        // all files, but verify if just 1
+        if ( count($dosinf['filelist']) == 1 ) {
+            // force download
+            $pseudovar = Array('FILENAM' => $dosinf['filelist'][0],
+                               'DID' => $dosinf['did'] );
+            $this->Download($pseudovar);
+        } else {
+            $this->data->GenerateAndSendZip($vars['DID']);
+        }
+    } elseif ( $cnt == 1 )  {
+        // force download
+        $pseudovar = Array('FILENAM' => $vars['LDL'][0],
+                           'DID' => $dosinf['did'] );
+        $this->Download($pseudovar);
     } else {
         $f2z = "\"".implode("\" \"", $vars['LDL'])."\"";
         $this->data->GenerateAndSendZip($vars['DID'], $f2z);

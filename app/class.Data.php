@@ -702,7 +702,7 @@ class Data {
       return null;
     }
 
-    $cmd = "cd ".$ddir.";zip -jq - ".$filelist;
+    $cmd = "cd ".$ddir.";zip -jq -x index.html - ".$filelist;
 
     header("Content-type: application/zip");
     header("Content-Disposition: attachment; filename=".$did.".zip");
