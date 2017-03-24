@@ -1007,55 +1007,57 @@ class Data {
   }
 
   function VerifUserPassword($user,$passwd,$passhash) {
-    // return 1 if passwd match, 0 otherwise
+      // return 1 if passwd match, 0 otherwise
 
-    if ( strncmp($passhash,"LDAP:",5) == 0 ) {
-      // ===============================
-      // authenticate user with LDAP
-      // ===============================
-      if ( preg_match('/(.*)@(.*)\.(.*)/', $user, $rm) != 1 ) {
-	// user no match mail
-	return(0);
-      }
+      if ( strncmp($passhash,"LDAP:",5) == 0 ) {
+          // ===============================
+          // authenticate user with LDAP
+          // ===============================
+          if ( preg_match('/(.*)@(.*)\.(.*)/', $user, $rm) != 1 ) {
+              // user no match mail
+              return(0);
+          }
       
-      $login = $rm[1];
-      $domain = $rm[2];
-      $tld = $rm[3];
-
-      if ( preg_match('/LDAP:(.*):(.*):(.*)/', $passhash, $rm) != 1 ) {
-	// no valid LDAP info
-	return(0);
-      }
-
-      $ldpserv = $rm[1];
-      if ( $rm[2] != "" ) {
-	$ldpport = $rm[2];
+          $login = $rm[1];
+          $domain = $rm[2];
+          $tld = $rm[3];
+          
+          if ( preg_match('/LDAP:(.*):(.*):(.*)/', $passhash, $rm) != 1 ) {
+              // no valid LDAP info
+              return(0);
+          }
+          
+          $ldpserv = $rm[1];
+          if ( $rm[2] != "" ) {
+              $ldpport = $rm[2];
+          } else {
+              $ldpport = 389;
+          }
+          $ldpdn = sprintf($rm[3],$login,$domain,$tld);
+          
+          $ldpconn = @ldap_connect($ldpserv, $ldpport);
+          // force LDAPv3 ( for openldap )
+          ldap_set_option($ldpconn, LDAP_OPT_PROTOCOL_VERSION, 3);
+          if ( @ldap_bind ($ldpconn, $ldpdn, $passwd) ) {
+              // connected
+              @ldap_unbind($ldpconn);
+              return(1);
+          } else {
+              // connect failed
+              return(0);
+          }
+          
       } else {
-	$ldpport = 389;
+          // ===============================
+          // local SHA1 user authentication
+          // ===============================
+          $h = sha1($passwd);
+          if ( $h == $passhash ) {
+              return(1);
+          } else {
+              return(0);
+          }
       }
-      $ldpdn = sprintf($rm[3],$login,$domain,$tld);
-
-      $ldpconn = @ldap_connect($ldpserv, $ldpport);
-      if ( @ldap_bind ($ldpconn, $ldpdn, $passwd) ) {
-	// connected
-	@ldap_unbind($ldpconn);
-	return(1);
-      } else {
-	// connect failed
-	return(0);
-      }
-
-    } else {
-      // ===============================
-      // local SHA1 user authentication
-      // ===============================
-      $h = sha1($passwd);
-      if ( $h == $passhash ) {
-	return(1);
-      } else {
-	return(0);
-      }
-    }
   }
 
   function UserInfo($user ) {
