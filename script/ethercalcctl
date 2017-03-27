@@ -1,0 +1,97 @@
+#!/bin/bash
+#
+##########################################################
+# CLOUDSX launch ethercalc daemon
+# 
+# dan.y.roche@gmail.com Mar 2017
+#
+# 1st version 20170327
+#             
+##########################################################
+
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/opt/miscbin:/opt/java/bin:.
+export PATH
+
+##########################################################
+# specific config
+##########################################################
+
+DUSER=www-data
+ECALC=/usr/local/bin/ethercalc
+
+##########################################################
+# function
+##########################################################
+
+function isrunning() {
+    EPID=$(ps -aux | fgrep ${ECALC} | fgrep -v grep | awk '{print $2}')
+    if [ "${EPID}" != "" ]
+    then
+	return 1
+    else
+	return 0
+    fi
+}
+
+function start() {
+    WU=$(id -u)
+    if [ ${WU} -eq 0 ]
+    then
+	su -l ${DUSER} -c "nice -20 nohup node ${ECALC} &"
+    else
+	nice -20 nohup ${ECALC} &
+    fi
+}
+
+function stop() {
+    EPID=$(ps -aux | fgrep ${ECALC} | fgrep -v grep | awk '{print $2}')
+    kill ${EPID}
+}
+
+##########################################################
+# go
+##########################################################
+
+ACTION=$1
+
+case ${ACTION} in
+    "start")
+	isrunning
+	if [ $? -eq 1 ]
+	then
+	    echo "daemon ethercalc already running (${PID})"
+	    exit 0
+	fi
+	start
+	;;
+  
+    "stop")
+	isrunning
+	if [ $? -eq 1 ]
+	then
+	    stop
+	else
+	    echo "cannot find ethercalc daemon - do not stop"
+	fi
+	;;
+
+    "restart")
+	stop
+	start
+	;;
+	
+    "status")
+	isrunning
+	if [ $? -eq 1 ]
+	then
+	    echo "daemon ethercalc is running (${PID})"
+	else
+	    echo "daemon ethercalc is down"
+	fi
+	;;
+
+    *)
+	echo "usage : $0 start|stop|status|restart"
+	;;
+esac
+
