@@ -30,21 +30,17 @@ class Data {
     $cnt = 0;
 
 
-    //$h20 = hash("sha256", $name.$now); 
-    //$h20 = hash("md5", $name.$now); 
-    $h20 = substr(base64_encode(hash("md5", $name.$now)),0,32);
-    
+    $h20 = $this->GetRandomString(32);
     $tmp = $this->GetAbsDirFromDID($h20);
 
     while ( file_exists($tmp) and $cnt < 10 ) {
-      $morerand = $this->GetRandomString(6);
-      //$h20 = hash("md5", $name.$now.$morerand); 
-      $h20 = substr(base64_encode(hash("md5", $name.$now.$morerand)),0,32); 
-      $tmp = $this->GetAbsDirFromDID($h20);
-      $cnt += 1;
+
+        $h20 = $this->GetRandomString(32);
+        $tmp = $this->GetAbsDirFromDID($h20);
+        $cnt += 1;
     }
     if ( $cnt >= 10 ) {
-      echo "Ya comme un soucis\n";
+      echo "Random generator exhausted ! aborting....\n";
       exit(1);
     }
 
