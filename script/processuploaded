@@ -63,8 +63,17 @@ THUMBNZ=${CSXDIR}/script/thumbnizedir
 # get the uploaded file from incrontab parameters
 SPOOF=$1
 
-DIR=$(cat ${SPOOF})
-rm ${SPOOF}
+# take only 1st line ( all the same )
+DIR=$(head -n 1 ${SPOOF})
 
-${THUMBNZ} ${DIR}
+# apply niced directory processing 
+nice -n 19 ${THUMBNZ} ${DIR}
+
+# apply directory processing twice after a pause 
+# to let time for files to be uploaded !
+sleep 20
+nice -n 19 ${THUMBNZ} ${DIR}
+
+# effacement du  fichier spool APRES traitement
+rm ${SPOOF}
 
