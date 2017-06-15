@@ -459,7 +459,7 @@ class Data {
 
   function FetchDosInfoFromUrl($ustr) {
 
-    $pattern = "|.*/([0-9a-f]{32})$|";
+    $pattern = "|.*/([0-9a-zA-Z]{32})$|";
     $ret = preg_match($pattern, $ustr, $ra);
 
     if ( $ret != 1 ) {
