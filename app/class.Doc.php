@@ -216,6 +216,14 @@ class Doc {
         break;
     }
 
+    // bak(icon) url
+    @session_start();
+    if ( isset($_SESSION['AUTHENTICATED']) ) {
+        $tpl->assign("BAKICOURL", $urls->GetMgmtMethod('DosList') );
+    } else {
+        $tpl->assign("BAKICOURL", $urls->GetMgmtMethod('Index') );
+    }
+    
     $tpl->display("tpl_doc/pagedoc.html");
     
   }
