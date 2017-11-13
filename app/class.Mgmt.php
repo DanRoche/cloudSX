@@ -294,7 +294,9 @@ class Mgmt {
 
     $dosinf = $this->data->FetchDosInfo($vars['DID']);
 
-    $dosinf2 = $this->data->PostCreateDosStruct($dosinf['did'], $vars);
+    $uinfo = $this->data->UserInfo($_SERVER['PHP_AUTH_USER']);
+
+    $dosinf2 = $this->data->PostCreateDosStruct($dosinf['did'], $vars, $uinfo);
 
     if ( isset($vars['RUSERI']) and isset($vars['RUSERM']) ) {
       // created by registered user -> attach it writer mode

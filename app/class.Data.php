@@ -197,9 +197,13 @@ class Data {
   }
 
   // called by new step 2 dos create
-  function PostCreateDosStruct($did,$vars) {
+  function PostCreateDosStruct($did,$vars,$uinfo) {
     
     $partial = $this->DosStructCreateExtended($did,$vars);
+    if ( isset($uinfo['llogo']) ) {
+        $ddir = $this->GetAbsDirFromDID($did);
+        $this->GetUserLogo($uinfo['id'], $ddir."/.logo");
+    }
     return($partial);
 
   }
