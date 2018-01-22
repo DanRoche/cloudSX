@@ -22,9 +22,13 @@
 <!--    <LOGO>  ------------------------------------ -->
 <div class="col-xs-2">
 <?php if ( isset($this->UINFO['llogo']) ): ?>
-<a href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="plogol" src="<?php echo $this->URL->GetMgmtMethod('DispLogo', "UID=".$this->RUSERI); ?>" ></a>
+<a class="visible-xs-block" href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="plogol" src="<?php echo $this->URL->GetMgmtMethod('DispLogo', "UID=".$this->RUSERI); ?>" width="60px"></a>
+<a class="visible-sm-block" href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="plogol" src="<?php echo $this->URL->GetMgmtMethod('DispLogo', "UID=".$this->RUSERI); ?>" width="100px"></a>
+<a class="visible-md-block visible-lg-block" href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="plogol" src="<?php echo $this->URL->GetMgmtMethod('DispLogo', "UID=".$this->RUSERI); ?>" ></a>
 <?php else: ?>
-<a href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="slogol" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
+<a class="visible-xs-block" href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="slogol" src="<?php echo $this->URL->GetDefLogo('small'); ?>" width="60px"></a>
+<a class="visible-sm-block" href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="slogol" src="<?php echo $this->URL->GetDefLogo('small'); ?>" width="100px"></a>
+<a class="visible-md-block visible-lg-block" href="<?php echo $this->URL->GetAbsMgmtMethod('Index'); ?>" target="_top"><img id="slogol" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
 <?php endif; ?>
 </div>
 <!--    </LOGO>  ------------------------------------ -->
@@ -280,7 +284,6 @@ foreach ($this->DLIST as $did => $pdata ) {
      <?php if ( $this->UINFO['status'] == "premium" || $this->UINFO['status'] == "admin" ): ?>
      <div class="well">
 
-     <div class="row"><p class="text-center"><?php $this->M1('act_prem1',$this->UINFO['paydate']); ?>&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-warning" onclick="PayModal()" ><?php $this->M('act_renew'); ?></button></p><hr></div>
      <div class="row">
       <div class="col-xs-4">
        <?php if ( isset($this->UINFO['llogo']) ): ?>
@@ -300,21 +303,14 @@ foreach ($this->DLIST as $did => $pdata ) {
       </div>
       </div>
     </div>
-    <?php else: ?>
-     <div class="well">
-       <div class="alert alert-info" role="alert">
-          <p class="text-center"><strong><?php $this->M('act_noprem1'); ?></strong></p>
-          <p><?php $this->M('act_noprem2'); ?></p>
-       </div>
-       <p class="text-center">
-       <button type="button" class="btn btn-warning" onclick="PayModal()" ><?php $this->M('act_pay'); ?></button>
-       </p>
-    </div>
     <?php endif; ?>
 
     </div>
 
      <div class="modal-footer">
+       <?php if ( $this->UINFO['status'] == "std" ): ?>
+       <button type="button" class="btn btn-warning" ><?php $this->M('act_pay'); ?></button>
+       <?php endif; ?>
        <button type="button" class="btn btn-default" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
        <button type="submit" class="btn btn-primary" ><?php $this->M('gen_valid'); ?></button>
      </div>
@@ -326,56 +322,6 @@ foreach ($this->DLIST as $did => $pdata ) {
 </div>
 
 <!-- end  modal account -->
-
-<!-- -----------------modal pay ---------------------- -->
-
-<div class="modal fade" id="ModalPay" >
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-     <div class="modal-header">
-	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-piggy-bank"></span> <?php $this->M('act_pay'); ?></h4>
-     </div>
-
-     <div class="modal-body">
-    
-       <div class="alert alert-info" role="alert">
-          <?php $this->M1('act_paychoose',  $this->UINFO['mail']); ?>
-       </div>
-
-       <!-- <div class="alert alert-danger" role="alert">
-          <?php $this->M('act_sandbox'); ?>
-       </div>-->
-
-       <div id="PPCont">
-	 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-	   <input type="hidden" name="cmd" value="*********">
-	   <input type="hidden" name="hosted_button_id" value="*************">
-	   <table>
-	     <tr><td><input type="hidden" name="on0" value="Subscription duration">Subscription duration</td></tr><tr><td><select name="os0">
-		   <option value="1 month">1 month €9,99 EUR</option>
-		   <option value="12 months">12 months €95,00 EUR</option>
-	     </select> </td></tr>
-	     <tr style="display: none"><td><input type="hidden" name="on1" value="CLOUDSX-ACCOUNT">CLOUDSX-ACCOUNT</td></tr><tr style="display: none"><td><input type="text" name="os1" maxlength="200" value="<?php echo $this->UINFO['mail']; ?>" readonly></td></tr><tr><td>&nbsp;</td></tr>
-	   </table>
-	   <input type="hidden" name="currency_code" value="EUR">
-	   <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-	   <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-	 </form>
-      </div>
-
-    </div>
-
-     <div class="modal-footer">
-       <button type="button" class="btn btn-default" data-dismiss="modal"><?php $this->M('gen_cancel'); ?></button>
-     </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- end  modal pay -->
 
 <!-- -----------------modal attach---------------------- -->
 

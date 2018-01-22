@@ -1,7 +1,16 @@
 <div class="bs-example"> 
  <nav id="navbar-example" class="navbar navbar-default navbar-static"> 
   <div class=container-fluid> 
-   <div class="collapse navbar-collapse bs-example-js-navbar-collapse"> 
+   <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#csx-navbar-collapse-2" aria-expanded="false">
+     <span class="sr-only">Toggle navigation</span>
+     <span class="icon-bar"></span>
+     <span class="icon-bar"></span>
+     <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand visible-xs-inline-block" href="#"><span class="glyphicon glyphicon-option-horizontal"></span><span class="glyphicon glyphicon-option-horizontal"></span></a>
+   </div>
+   <div class="collapse navbar-collapse bs-example-js-navbar-collapse" id="csx-navbar-collapse-2"> 
     <ul class="nav navbar-nav"> 
      <p class="navbar-text"><strong><?php $this->M('mgt_mbrief'); ?></strong></p>
      <li><a href="javascript:MgtCreateModal('<?php echo $this->URL->GetMgmtMethod('MgtCreate'); ?>')" ><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;<?php $this->M('mgt_new'); ?></a></li>
@@ -9,7 +18,7 @@
     </ul>
 
     <ul class="nav navbar-nav navbar-right"> 
-     <li><a href="#ModalAccount" data-toggle="modal"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php $this->M('mgt_account'); ?></a></li>
+     <li><a href="#ModalAccount" data-toggle="modal"><span class="glyphicon glyphicon-user"></span>&nbsp;<span class="visible-md-inline-block visible-lg-inline-block"><?php $this->M('mgt_account'); ?></span></a></li>
     </ul>
    </div> 
   </div> 

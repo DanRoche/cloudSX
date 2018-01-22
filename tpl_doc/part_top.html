@@ -3,9 +3,13 @@
 <!--    <LOGO>  ------------------------------------ -->
 <div class="col-xs-2">
 <?php if (isset($this->DOSINFO['ownlogo'])): ?>
-<a href="<?php echo $this->BAKICOURL; ?>" target="_top"><img id="plogod" src="<?php echo $this->URL->GetRawDosData('.logo'); ?>" ></a>
+<a class="visible-md-block visible-lg-block" href="<?php echo $this->BAKICOURL; ?>" target="_top"><img id="plogod" src="<?php echo $this->URL->GetRawDosData('.logo'); ?>" ></a>
+<a class="visible-sm-block" href="<?php echo $this->BAKICOURL; ?>" target="_top"><img id="plogod" src="<?php echo $this->URL->GetRawDosData('.logo'); ?>" width="120px"></a>
+<a class="visible-xs-block" href="<?php echo $this->BAKICOURL; ?>" target="_top"><img id="plogod" src="<?php echo $this->URL->GetRawDosData('.logo'); ?>"  width="60px"></a>
 <?php else: ?>
-<a href="<?php echo $this->BAKICOURL; ?>" target="_top"><img id="slogod" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
+<a class="visible-md-block visible-lg-block" href="<?php echo $this->BAKICOURL; ?>" target="_top"><img id="slogod" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
+<a class="visible-sm-block" href="<?php echo $this->BAKICOURL; ?>" target="_top"><img id="slogod" src="<?php echo $this->URL->GetDefLogo('small'); ?>"width="120px" ></a>
+<a class="visible-xs-block" href="<?php echo $this->BAKICOURL; ?>" target="_top"><img id="slogod" src="<?php echo $this->URL->GetDefLogo('small'); ?>"width="60px" ></a>
 <?php endif; ?>
 <form><input type="hidden" id="did" value="<?php echo $this->DOSINFO['did']; ?>"></form>
 </div>
