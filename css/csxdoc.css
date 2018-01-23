@@ -245,6 +245,19 @@ html, body {
  right: 10px;
 }
 
+/* ===== customize thumbnail ==== */
+
+.thumbnail:hover {
+    /*  opacity: 0.85; */
+    filter: brightness(95%);
+}
+.thumbnail .caption h6 {
+    color: #337ab7;
+}
+.thumbnail .caption h6:hover {
+    color: #23527c; 
+}
+
 /* ========== floating actions  ============== */
 
 #floatactions {

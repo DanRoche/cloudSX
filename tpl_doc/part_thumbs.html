@@ -7,10 +7,10 @@
    $furl = $this->URL->GetInnerData($value);
    $turl = $this->URL->GetDosThumb($value);
 ?>
- <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"><div class="thumbnail">
-  <a href="<?php echo $furl; ?>"><img src="<?php echo $turl; ?>"></a>
-  <div class="caption"><h6 class="text-center"><a href="<?php echo $furl; ?>"><?php echo $value; ?></a></h6></div>
- </div></div>
+ <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"><a href="<?php echo $furl; ?>"><div class="thumbnail">
+  <img src="<?php echo $turl; ?>">
+  <div class="caption"><h6 class="text-center"><?php echo $value; ?></h6></div>
+ </div></a></div>
 <?php endwhile; ?>
 
 </div>
