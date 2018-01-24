@@ -6,10 +6,16 @@
   while (list($ind, $value) = each($this->DOSINFO['filelist']) ):
    $furl = $this->URL->GetInnerData($value);
    $turl = $this->URL->GetDosThumb($value);
+   if ( strncmp($furl,"http",4) == 0 ) {
+     $lnk = 1;
+     $lnkinf = $this->URL->GetLinkInfo($value);
+   } else {
+     $lnk = 0;
+   }
 ?>
- <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"><a href="<?php echo $furl; ?>"><div class="thumbnail">
+ <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"><a href="<?php echo $furl; ?>"><div class="thumbnail" <?php echo ($lnk)?"style='background: ".$lnkinf['Color']."'":"";?> >
   <img src="<?php echo $turl; ?>">
-  <div class="caption"><h6 class="text-center"><?php echo $value; ?></h6></div>
+  <div class="caption"><h6 class="text-center<?php echo ($lnk)?" revtxt":"";?>"><?php echo $value; ?></h6></div>
  </div></a></div>
 <?php endwhile; ?>
 

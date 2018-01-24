@@ -64,6 +64,7 @@ ICO_GEN=${ICODIR}/file.png
 ICO_VID=${ICODIR}/video.png
 ICO_AUD=${ICODIR}/audio.png
 ICO_APP=${ICODIR}/xapp.png
+ICO_LNK=${ICODIR}/foldr.png
 MAXSIZ=33554432
 
 ############################################
@@ -143,6 +144,10 @@ GenerateThumb() {
 
  xapp )
   cp ${ICO_APP} "${THEDIR}/.thumbs/${FIL}.${TSUF}"
+  ;;
+
+ xlnk )
+  cp ${ICO_LNK} "${THEDIR}/.thumbs/${FIL}.${TSUF}"
   ;;
 
  * )

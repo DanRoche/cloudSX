@@ -257,6 +257,14 @@ html, body {
 .thumbnail .caption h6:hover {
     color: #23527c; 
 }
+.thumbnail .caption .revtxt {
+    color: #FFFFFF;
+}
+.thumbnail .caption .revtxt:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
 
 /* ========== floating actions  ============== */
 

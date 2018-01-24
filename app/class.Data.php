@@ -1923,6 +1923,35 @@ class Data {
       }
   }
   
+  //===============================================
+  // External Link
+  //===============================================
+
+  function CreateXlnk($dosinfo, $lname, $lurl, $lcolor) {
+
+      if ( empty($lname) || empty($dosinfo) || empty($lurl) ) {
+          trigger_error("BAD arguments, abort ExternLink Creation");
+          return(null);
+      }
+
+      // this one is also simple , juste add a prefix and the DID to the base url !
+
+      $appfile = $this->gconf->AbsDataDir."/".$dosinfo['rdir']."/".$lname.".xlnk";
+
+      // force http:// if not present
+      if ( strncmp($lurl,"http://",7) != 0 and strncmp($lurl,"https://",8) != 0 ) {
+          $url2 = "http://".$lurl;
+      } else {
+          $url2 = $lurl;
+      }
+      
+      $fp = fopen($appfile, 'w');
+      fwrite($fp, "URL = \"".$url2."\"\n");
+      fwrite($fp, "Color = \"".$lcolor."\"\n");
+      fclose($fp);
+      
+      return(null);
+  }
   
   //===============================================
   // utilities

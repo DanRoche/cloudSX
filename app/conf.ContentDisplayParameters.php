@@ -60,6 +60,7 @@
 		"txt" => "Text",
 		"html" => "Html",
 		"xapp" => "ExternApp",
+		"xlnk" => "ExternLink",
 		"mkv" => "Video",
 		"mp4" => "Video",
 		"avi" => "Video",

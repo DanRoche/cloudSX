@@ -22,6 +22,8 @@
        <?php foreach($this->XAPPLIST as $xclass => $xobj): ?>
        <li<?php echo ($this->ALLOWXAPP==1)?'':' class="disabled"'; ?>><a href="<?php echo $this->URL->GetInnerMethod('AddXapp1/'.$xclass); ?>"><span class="glyphicon glyphicon-cog"></span>&nbsp;<?php echo $xobj->title[$this->LNG]; ?></a></li>
        <?php endforeach; ?>
+       <li role="separator" class="divider"></li> 
+       <li<?php echo ($this->ALLOWXLNK==1)?'':' class="disabled"'; ?>><a href="<?php echo $this->URL->GetInnerMethod('AddXlnk1'); ?>"><span class="glyphicon glyphicon-link"></span>&nbsp;<?php $this->M('menu_addlnk'); ?></a></li>     
      </ul>
 
      <li id="attchbtn"><a href="<?php echo $this->URL->GetAbsMgmtMethod1Arg('Attach', $this->ATTACHARG); ?>"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;<?php $this->M('menu_attach'); ?></a></li>

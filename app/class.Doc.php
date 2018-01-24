@@ -51,7 +51,9 @@ class Doc {
 				    "ExternUrl" => TRUE,
 				    "GetQR" => TRUE,
 				    "AddXapp1" => TRUE,
-				    "AddXapp2" => TRUE
+				    "AddXapp2" => TRUE,
+				    "AddXlnk1" => TRUE,
+				    "AddXlnk2" => TRUE
 				    );
     $this->gconf = $conf;
     $this->lng = $lng;
@@ -209,10 +211,12 @@ class Doc {
     case 'none':
     case 'std':
         $tpl->assign("ALLOWXAPP", 0);
+        $tpl->assign("ALLOWXLNK", 0);
         break;
     case 'premium':
     case 'admin':
         $tpl->assign("ALLOWXAPP", 1);
+        $tpl->assign("ALLOWXLNK", 1);
         break;
     }
 
@@ -873,6 +877,40 @@ class Doc {
       $url = $urls->GetDosMethod('Display');
       header("Location: ".$url);
   }
+
+  function AddXlnk1($vars) {
+
+      //$this->debug->Debug2("AddXlnk1",$vars);
+      
+      $tpl = new Savant3();
+
+      $dosinf = $this->data->FetchDosInfo($vars['DID']);
+      $ra = $this->AuthenticateInner($dosinf);
+      
+      $urls = URL::GetURLByDID($this->gconf, $vars['DID'] );
+      $tpl->assign("URL", $urls);
+      $tpl->assign("DID", $vars['DID']);
+      $messages = $this->data->GetMessages($this->lng);
+      $tpl->assign("LNG", $this->lng);
+      $tpl->setMessages($messages);
+
+      $tpl->display("tpl_doc/part_add_xlnk.html");
+      
+  }
+
+  function AddXlnk2($vars) {
+      //$this->debug->Debug1("AddXlnk2");
+
+      $dosinf = $this->data->FetchDosInfo($vars['DID']);
+      $ra = $this->AuthenticateInner($dosinf);
+      
+      $this->data->CreateXlnk($dosinf,$vars['XLNKNAM'],$vars['XLNKURL'],$vars['XLNKCOL']);
+      $this->data->SpoolUploaded($dosinf['did']);
+      
+      $urls = URL::GetURLByInfo($this->gconf, $dosinf);
+      $url = $urls->GetDosMethod('Display');
+      header("Location: ".$url);
+ }
 
   //===============================================
   // display files and external url

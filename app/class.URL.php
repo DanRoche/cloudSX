@@ -83,8 +83,14 @@ class URL {
     }
     
     $dsplug = $this->GetContentDisplayParameters($file);
-    
-    $theu = $this->GetPluginDosData($dsplug,$file);
+    if ( $dsplug == "ExternLink" ) {
+        $li = $this->GetLinkInfo($file);
+        // awful klugde !
+        // mark the url with XLINK to process by the calling function (GetInnerData ) 
+        $theu = "XLINK|".$li['URL'];
+    } else {
+        $theu = $this->GetPluginDosData($dsplug,$file);
+    }
     return($theu);
   }
   
@@ -196,6 +202,23 @@ class URL {
 
     return($theu);
   }
+
+  function GetLinkInfo($file) {
+    if ( $this->dosinfo == null ) {
+      return("no_dosinfo");
+    }
+    
+    $xlfil = $this->gconf->AbsDataDir."/".$this->dosinfo['rdir'];
+    $xlfil .= "/".$file;
+    
+    if ( file_exists($xlfil) ) {
+        $linfo = parse_ini_file($xlfil);
+        return($linfo);
+    } else {
+        return(NULL);
+    }
+  }
+  
   
   //===============================================
   // cloudSX inner content URL
@@ -218,7 +241,12 @@ class URL {
   
   function GetInnerData($file) {
     $ur1 = $this->GetDosData($file);
-    return $this->AddChangeContent($ur1);
+    if ( strncmp($ur1, "XLINK|", 6) == 0 ) {
+        return substr($ur1, 6);
+    } else  {
+        return $this->AddChangeContent($ur1);
+    }
+    
   }
    
    
