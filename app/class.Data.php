@@ -1936,17 +1936,19 @@ class Data {
 
       // this one is also simple , juste add a prefix and the DID to the base url !
 
-      $appfile = $this->gconf->AbsDataDir."/".$dosinfo['rdir']."/".$lname.".xlnk";
+      $url2 = trim($lurl);
+      $nam2 = $this->NormalizeName($lname);
+      $appfile = $this->gconf->AbsDataDir."/".$dosinfo['rdir']."/".$nam2.".xlnk";
 
       // force http:// if not present
-      if ( strncmp($lurl,"http://",7) != 0 and strncmp($lurl,"https://",8) != 0 ) {
-          $url2 = "http://".$lurl;
+      if ( strncmp($url2,"http://",7) != 0 and strncmp($url2,"https://",8) != 0 ) {
+          $url3 = "http://".$url2;
       } else {
-          $url2 = $lurl;
+          $url3 = $url2;
       }
       
       $fp = fopen($appfile, 'w');
-      fwrite($fp, "URL = \"".$url2."\"\n");
+      fwrite($fp, "URL = \"".$url3."\"\n");
       fwrite($fp, "Color = \"".$lcolor."\"\n");
       fclose($fp);
       
@@ -1970,6 +1972,12 @@ class Data {
     }
   }
 
+  function NormalizeName($str) {
+      $badchars = array("/","\\","&","*");
+      return str_replace($badchars,"_",$str);
+  }
+
+  
   //===============================================
   // end
   //===============================================
