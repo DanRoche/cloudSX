@@ -219,7 +219,12 @@ class Doc {
         $tpl->assign("ALLOWXLNK", 1);
         break;
     }
-
+    // if locked doc, force XAPP and XLNK to 0
+    if ( $ra == ACCES_RO ) {
+        $tpl->assign("ALLOWXAPP", 0);
+        $tpl->assign("ALLOWXLNK", 0);
+    }
+    
     // bak(icon) url
     @session_start();
     if ( isset($_SESSION['AUTHENTICATED']) ) {

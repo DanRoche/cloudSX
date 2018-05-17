@@ -17,13 +17,13 @@
      
      <li class="dropdown<?php echo ($this->MODACC=='RO')? ' disabled':''; ?>"><a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;<?php $this->M('menu_add'); ?> <span class="caret"></span> </a>
       <ul class="dropdown-menu" aria-labelledby="drop1"> 
-       <li><a href="<?php echo $this->URL->GetInnerMethod('AddFile1'); ?>"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;<?php $this->M('menu_add1'); ?></a></li>
+       <li<?php echo ($this->MODACC=='RO')? ' class="disabled"':''; ?>><a <?php if ($this->MODACC!='RO'): ?>href="<?php echo $this->URL->GetInnerMethod('AddFile1'); ?>"<?php endif; ?>><span class="glyphicon glyphicon-folder-open"></span>&nbsp;<?php $this->M('menu_add1'); ?></a></li>
        <li role="separator" class="divider"></li> 
        <?php foreach($this->XAPPLIST as $xclass => $xobj): ?>
-       <li<?php echo ($this->ALLOWXAPP==1)?'':' class="disabled"'; ?>><a href="<?php echo $this->URL->GetInnerMethod('AddXapp1/'.$xclass); ?>"><span class="glyphicon glyphicon-cog"></span>&nbsp;<?php echo $xobj->title[$this->LNG]; ?></a></li>
+       <li<?php echo ($this->ALLOWXAPP==1)?'':' class="disabled"'; ?>><a <?php if ($this->ALLOWXAPP==1): ?>href="<?php echo $this->URL->GetInnerMethod('AddXapp1/'.$xclass); ?>"<?php endif; ?>><span class="glyphicon glyphicon-cog"></span>&nbsp;<?php echo $xobj->title[$this->LNG]; ?></a></li>
        <?php endforeach; ?>
        <li role="separator" class="divider"></li> 
-       <li<?php echo ($this->ALLOWXLNK==1)?'':' class="disabled"'; ?>><a href="<?php echo $this->URL->GetInnerMethod('AddXlnk1'); ?>"><span class="glyphicon glyphicon-link"></span>&nbsp;<?php $this->M('menu_addlnk'); ?></a></li>     
+       <li<?php echo ($this->ALLOWXLNK==1)?'':' class="disabled"'; ?>><a <?php if ($this->ALLOWXLNK==1): ?>href="<?php echo $this->URL->GetInnerMethod('AddXlnk1'); ?>"<?php endif; ?>><span class="glyphicon glyphicon-link"></span>&nbsp;<?php $this->M('menu_addlnk'); ?></a></li>     
      </ul>
 
      <li id="attchbtn"><a href="<?php echo $this->URL->GetAbsMgmtMethod1Arg('Attach', $this->ATTACHARG); ?>"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;<?php $this->M('menu_attach'); ?></a></li>
