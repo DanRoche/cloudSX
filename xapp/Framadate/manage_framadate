@@ -152,9 +152,10 @@ case ${ACTION} in
   # INIT
 
   NOW=$(date "+%s")
-  # 20 years in the future, we dont care about the partner framadate !
+  # 5 years in the future, we dont care about the partner framadate !
+  # be carefull not to override 2038 !!!
   # it will be destroyed with the cloudsx
-  END0=$((NOW + 630720000))
+  END0=$((NOW + 157680000))
   END1=$(date "+%Y-%m-%d %H:%M:%S" -d @${END0})
 
   # dev/urandom bloque ????
