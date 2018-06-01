@@ -17,6 +17,7 @@
 		"jpg" => "Image",
 		"jpeg" => "Image",
 		"png" => "Image",
+		"svg" => "Image",
 		"firefox|odt" => "OfficeVisu",
 		"firefox|ods" => "OfficeNovisu",
 		"firefox|odg" => "OfficeVisu",

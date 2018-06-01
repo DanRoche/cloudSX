@@ -95,7 +95,7 @@ GenerateThumb() {
  EXT=$(echo -n ${EXT0} | tr "[A-Z]" "[a-z]") 
 
  case ${EXT} in 
- gif | jpg | jpeg | png | bmp | webp )
+ gif | jpg | jpeg | png | bmp | webp | svg )
   convert -resize ${TSIZE} "${THEDIR}/${FIL}" "${THEDIR}/.thumbs/${FIL}.${TSUF}"
   ;;
 
