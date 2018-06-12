@@ -65,7 +65,8 @@ ICO_VID=${ICODIR}/video.png
 ICO_AUD=${ICODIR}/audio.png
 ICO_APP=${ICODIR}/xapp.png
 ICO_LNK=${ICODIR}/foldr.png
-MAXSIZ=33554432
+#MAXSIZ=33554432
+MAXSIZ=8388608
 
 ############################################
 # args
