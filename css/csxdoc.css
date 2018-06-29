@@ -293,3 +293,11 @@ html, body {
  margin-left: 30px
 }
 
+/* ========== invalid error  ============== */
+
+#invtit {
+    margin-top: 15px
+}
+#invexpl {
+    margin-top: 140px
+}

@@ -140,13 +140,12 @@ class Doc {
     $dosinf = $this->data->FetchDosInfo($vars['DID'], 1);
 
     if ( $dosinf == null ) {
-      $tpl->assign("MSG", "Identifiant de porte-documents non valide !");
       $urls = URL::GetURLSimple($this->gconf);
       $tpl->assign("URL", $urls);
       $tpl->assign("RURL", $urls->GetMgmtMethod('Index'));
       $messages = $this->data->GetMessages($this->lng);
       $tpl->setMessages($messages);
-      $tpl->display("tpl_doc/error2.html");
+      $tpl->display("tpl_doc/invalid.html");
       return;
 
      } 

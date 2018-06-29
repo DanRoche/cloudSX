@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <title><?php echo $this->APPNAM; ?></title>
+ <link rel="icon" type="image/ico" href="<?php echo $this->FAVICO; ?>" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+ <!-- Le styles -->
+ <link href="<?php echo $this->URL->GetMedia('/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+ <link href="<?php echo $this->URL->GetMedia('/css/csxdoc.css'); ?>" rel="stylesheet">
+</head>
+
+<body id="onepage">
+
+<div class="row" id="pgtop">
+
+<!--    <LOGO>  ------------------------------------ -->
+<div class="col-xs-2">
+<a class="visible-md-block visible-lg-block" href="/" target="_top"><img id="slogod" src="<?php echo $this->URL->GetDefLogo('small'); ?>" ></a>
+<a class="visible-sm-block" href="/" target="_top"><img id="slogod" src="<?php echo $this->URL->GetDefLogo('small'); ?>"width="120px" ></a>
+<a class="visible-xs-block" href="/" target="_top"><img id="slogod" src="<?php echo $this->URL->GetDefLogo('small'); ?>"width="60px" ></a>
+</div>
+<!--    </LOGO>  ------------------------------------ -->
+
+<div class="col-xs-10">
+ <p  class="lead text-center" id="invtit"><strong><?php $this->M('inv_tit'); ?></strong></p>
+</div>
+
+</div>
+
+<div class="container">
+<div class="well" id="invexpl">
+ <p><?php $this->M('inv_msg1'); ?></p>
+ <p><?php $this->M('inv_msg2'); ?></p>
+</div>
+</div>
+
+</body>
+</html>
+
+
+
+
