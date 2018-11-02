@@ -45,7 +45,7 @@ if ( isset($GPCVARS['PHP_AUTH_USER']) || isset($GPCVARS['PHP_AUTH_PW']) ) {
 
 if (@isset($_SERVER['PATH_INFO'])) {
   $liact = explode('/',$_SERVER['PATH_INFO']);
-  @list($dumb,$class,$method,$arg1,$arg2) = $liact;
+  @list($dumb,$class,$method,$arg[0],$arg[1]) = $liact;
 } elseif (@isset($GPCVARS['WBA']))  {
   $liact = explode('.',$GPCVARS['WBA']);
   list($class,$method) = $liact;
@@ -58,103 +58,49 @@ if (@isset($_SERVER['PATH_INFO'])) {
 //echo "dumb = ".$dumb.".\n";
 //echo "class = ".$class.".\n";
 //echo "method = ".$method.".\n";
-//echo "arg1 = ".$arg1.".\n";
-//echo "arg2 = ".$arg2.".\n";
+//echo "arg1 = ".$arg[0].".\n";
+//echo "arg2 = ".$arg[1].".\n";
 //print_r($_SERVER);
 //echo "</pre>\n";
 //exit;
 
 
-//***************************************
-// Webbox : cloudsx specific
-//***************************************
+//********************************************
+// Webbox : arguments mapping for class/method
+//********************************************
 
-// for class Doc, assume arg1 if present is DID
-if ( $class == "Doc" and $arg1 != "" ) {
-  $GPCVARS["DID"] = $arg1;
+$argsmapper = array(
+    "Doc" => array("DID"),
+    "Doc/GetData" => array("DID", "FILENAM"),
+    "Doc/DispSplittedContent" => array("DID", "FILENAM"),
+    "Doc/DispSplittedHeader" => array("DID", "FILENAM"),
+    "Doc/DispPlugin" => array("DID", "FILENAM"),
+    "Doc/Download" => array("DID", "FILENAM"),
+    "Doc/AddXapp1" => array("XCLASS", "DID"),
+    "Doc/Sign1Step2" => array("DID", "SIGNTEL"),
+    "Mgmt/View" => array("DID"),
+    "Mgmt/CreAcc3" => array("UCODE"),
+    "Mgmt/Attach" => array("DID", "MODE"),
+    "Mgmt/UnCreate" => array("DID"),
+    "Mgmt/UnCreateMgt" => array("DID"),
+    "Mgmt/GetPubSign" => array("SIGNENGINE"),
+    "Admin/View " => array("DID"),
+    "Admin/D4U" => array("UID"),
+    "Admin/U4D" => array("DID"),
+    "Admin/CloseRes" => array("TAG1", "TAG2")
+);
+
+if ( isset($argsmapper[$class."/".$method]) ) {
+    $argtab = $argsmapper[$class."/".$method];
+} else if ( isset($argsmapper[$class]) ) {
+    $argtab = $argsmapper[$class];
+} else {
+    $argtab = array();
 }
 
-// for method Doc/GetData, assume arg2 if present is FILENAM
-if ( $class == "Doc" and $method == "GetData" and $arg2 != "" ) {
-  $GPCVARS["FILENAM"] = $arg2;
+foreach ($argtab as $ind => $argi) {
+   $GPCVARS[$argi] = $arg[$ind]; 
 }
-
-// for method Doc/DispSplittedContent, assume arg2 if present is FILENAM
-if ( $class == "Doc" and $method == "DispSplittedContent" and $arg2 != "" ) {
-  $GPCVARS["FILENAM"] = $arg2;
-}
-
-// for method Doc/DispSplittedHeader, assume arg2 if present is FILENAM
-if ( $class == "Doc" and $method == "DispSplittedHeader" and $arg2 != "" ) {
-  $GPCVARS["FILENAM"] = $arg2;
-}
-
-// for method Doc/DispPlugin, assume arg2 if present is FILENAM
-if ( $class == "Doc" and $method == "DispPlugin" and $arg2 != "" ) {
-  $GPCVARS["FILENAM"] = $arg2;
-}
-
-// for method Doc/Download assume arg2 if present is FILENAM
-if ( $class == "Doc" and $method == "Download" and $arg2 != "" ) {
-  $GPCVARS["FILENAM"] = $arg2;
-}
-
-// for method Doc/AddXapp1 : specific case arg1 = external class , arg2 id DID, so override..
-if ( $class == "Doc" and $method == "AddXapp1" ) {
-    if (  $arg1 != "" ) {
-        $GPCVARS["XCLASS"] = $arg1;
-    }
-    if (  $arg2 != "" ) {
-        $GPCVARS["DID"] = $arg2;
-    }
-}
-
-// for method Mgmt/View , assume arg1 if present is DID
-if ( $class == "Mgmt" and $method == "View" and $arg1 != "" ) {
-  $GPCVARS["DID"] = $arg1;
-}
-
-// for method Mgmt/CreAcc3 , assume arg1 if present is UCODE
-if ( $class == "Mgmt" and $method == "CreAcc3" and $arg1 != "" ) {
-  $GPCVARS["UCODE"] = $arg1;
-}
-
-// for method Mgmt/Attach, assume arg1 = DID , arg2 = MODE
-if ( $class == "Mgmt" and $method == "Attach" and $arg1 != "" and $arg2 != "" ) {
-  $GPCVARS["DID"] = $arg1;
-  $GPCVARS["MODE"] = $arg2;
-}
-
-// for method Mgmt/UnCreate , assume arg1 if present is UCODE
-if ( $class == "Mgmt" and $method == "UnCreate" and $arg1 != "" ) {
-  $GPCVARS["DID"] = $arg1;
-}
-
-// for method Mgmt/UnCreateMgt , assume arg1 if present is UCODE
-if ( $class == "Mgmt" and $method == "UnCreateMgt" and $arg1 != "" ) {
-  $GPCVARS["DID"] = $arg1;
-}
-
-// for method Admin/View , assume arg1 if present is DID
-if ( $class == "Admin" and $method == "View" and $arg1 != "" ) {
-  $GPCVARS["DID"] = $arg1;
-}
-
-// for method Admin/D4U , assume arg1 if present is UID
-if ( $class == "Admin" and $method == "D4U" and $arg1 != "" ) {
-  $GPCVARS["UID"] = $arg1;
-}
-
-// for method Admin/U4D , assume arg1 if present is DID
-if ( $class == "Admin" and $method == "U4D" and $arg1 != "" ) {
-  $GPCVARS["DID"] = $arg1;
-}
-
-// for method Admin/CloseRes , assume arg1/arg2 if present is TAG
-if ( $class == "Admin" and $method == "CloseRes" and $arg1 != "" and $arg2 != "" ) {
-  $GPCVARS["TAG"] = $arg1."/".$arg2;
-}
-
 
 //***************************************
 // Webbox : global config
@@ -186,9 +132,6 @@ if ( isset($_COOKIE['CSXLNG']) ) {
     $lng = $_SESSION['CSXLNG'];
   }
 }
-
-#echo "prout";
-#exit(0);
 
 //***************************************
 // Webbox : require class and call Action

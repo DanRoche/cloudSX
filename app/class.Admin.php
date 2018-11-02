@@ -319,7 +319,7 @@ class Admin {
 
     $this->AskAuth();
  
-    $this->ResultDel($vars['TAG']);
+    $this->ResultDel($vars['TAG1']."/".$vars['TAG2']);
 
     $urls = URL::GetURLSimple($this->gconf);
     $gourl = $urls->GetAdmMethod('UserList');
