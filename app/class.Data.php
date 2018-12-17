@@ -453,7 +453,7 @@ class Data {
 	  }	
 	}
 	closedir($dh);
-	natsort($flist);
+	sort($flist,SORT_NATURAL);
       }
       $info['filelist'] = $flist;
     }
