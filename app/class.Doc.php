@@ -126,7 +126,7 @@ class Doc {
   function Display($vars) {
     $tpl = new Savant3();
 
-    if ( ! isset($vars['DID']) ) {
+    if ( empty($vars['DID']) ) {
       $tpl->assign("MSG", "Veuillez fournir un identifiant de porte-documents !");
       $urls = URL::GetURLSimple($this->gconf);
       $tpl->assign("URL", $urls);
